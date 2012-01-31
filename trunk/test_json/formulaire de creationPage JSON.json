@@ -1,0 +1,70 @@
+﻿{"titre":"Ajout de contenu",
+	"contenu":{"action":"\/site_perso_yungi\/fr\/Admin\/",
+				"enctype":"application\/x-www-form-urlencoded",
+				"method":"POST",
+				"id":"ajout_type_page",
+				"fields":[{"display_name":"titre html",
+							"template":"input",
+							"type":"text",
+							"class":"",
+							"id":"titre_html",
+							"name":"titre_html",
+							"value":""
+						},
+						{
+							"display_name":"keywords html",
+							"template":"input",
+							"type":"text",
+							"class":"",
+							"id":"keywords",
+							"name":"keywords",
+							"value":""
+						},
+						{
+							"display_name":"titre de la bannière",
+							"template":"input",
+							"type":"text",
+							"class":"",
+							"id":"titre_banner",
+							"name":"titre_banner",
+							"value":""
+						},
+						{
+							"display_name":"sous-titre de la bannière",
+							"template":"textarea",
+							"class":"",
+							"rows":"6",
+							"cols":"20",
+							"id":"sous_titre_banner",
+							"name":"sous_titre_banner",
+							"value":""
+						},
+						{
+							"display_name":"Corps du block",
+							"template":"textarea",
+							"class":"",
+							"rows":"6",
+							"cols":"20",
+							"id":"block_content",
+							"name":"block_content",
+							"value":""						
+						},
+						{
+							"display_name":"Fichier a proposer",
+							"template":"input",
+							"type":"file",
+							"class":"",
+							"id":"file_content",
+							"name":"file_content",
+							"value":""							
+						},
+						{
+							"type":"submit",
+							"template":"input",
+							"class":"",
+							"id":"submit",
+							"name":"submit",
+							"value":"envoyer donnees"
+						}]
+			}
+}

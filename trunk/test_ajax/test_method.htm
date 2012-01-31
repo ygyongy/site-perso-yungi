@@ -1,0 +1,44 @@
+<html>
+	<head>
+		<title>Test d'appel de m&eacute;thode JS avec param&egrave;tres</title>
+	</head>
+	
+	<body>
+		Hello voici un test de m&eacute;thode avec appel de m&eacute;thodes compos&eacute;e de param&egrave;tres:
+
+		<script type="text/javascript">
+			var objetLitteral = {
+                            create : function ()
+                                    {
+                                            element = document.createElement('div');
+                                            return element; //important pour la récupération de l'élément
+                                    },
+                            insert : function (el, txt)
+                                    {
+                                        h3 = document.createElement('h3');
+
+                                        if(txt !== '' && txt !== null)
+                                            {
+                                                content = document.createTextNode(txt); // il faut le récupérer de cette manière pour pouvoir utiliser appendChild
+                                                el.setAttribute('style', 'border: 5px solid green; padding: 10px;');
+                                            }else{
+                                                content = document.createTextNode("Bien essaye vilain petit tricheur!"); 
+                                                el.setAttribute('style', 'border: 5px solid red; padding: 10px;');
+                                            }
+
+                                        el.appendChild(h3);
+                                        el.lastChild.appendChild(content);	
+                                    }
+			};
+                        
+                        //Je créé le DIV
+			el = objetLitteral.create();
+			//j'ajoute le DIV
+                        document.body.appendChild(el);
+                        //je fais appel a la méthode d'insertion
+			objetLitteral.insert(el, prompt('Qu\'as-tu a me dire?'));
+		</script>
+		
+	</body>
+</html>
+

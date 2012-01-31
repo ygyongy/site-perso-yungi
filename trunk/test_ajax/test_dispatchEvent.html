@@ -1,0 +1,37 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript">
+            function applyEvent(id)
+            {
+                element = document.getElementById(id);
+                element.onclick = printOwner;
+                
+                fakeEvent = document.createEvent('MouseEvents');
+                fakeEvent.initMouseEvent('click', false, false, window, 1, 0, 0, -1000, -1000, false, false, false, false, 0, null);
+                element.dispatchEvent(fakeEvent);
+            }
+            
+            function printOwner(e)
+            {
+                document.getElementById('resultOwner').innerHTML = e.target.id+" - "+e.clientX;
+            }
+        </script>
+    </head>
+    <body>
+        <div>
+            <ul>
+                <li id="onglet_1" onclick="applyEvent(this.id);">tab_1</li>
+                <li id="onglet_2" onclick="applyEvent(this.id);">tab_2</li>
+                <li id="onglet_3" onclick="applyEvent(this.id);">tab_3</li>
+            </ul>
+        </div>
+        <div id="resultOwner"></div>
+    </body>
+</html>

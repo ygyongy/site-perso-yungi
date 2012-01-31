@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : liste_categories.xml
+    Created on : 2. mars 2011, 15:53
+    Author     : yungiii
+    Description: Purpose of the document follows.
+-->
+
+<root>
+    <categorie name="Accueil" />
+    <categorie name="Entreprise" />
+    <categorie name="Catalogue" />
+    <categorie name="Liens" />
+    <categorie name="Contact" />
+    <categorie name="Administration" />
+</root>

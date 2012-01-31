@@ -1,0 +1,258 @@
+<h1>jQuery: dansez maintenant !</h1>
+		<h2>Méthodes de jQuery</h2>
+		<ul>
+			<li>
+				<span>
+					L'objet jQuery, comme tout autre objet propose des méthodes.
+				</span>
+			</li>
+			<li>
+				<span>
+					jQuery dispose, par exemple, de la méthode <span class="important">fadeOut()</span>, afin de masquer les éléments englobés dans notre objet avec un effet de fondu!
+					<br />
+					- Exemple:
+					<br />
+					<pre>
+						<div>
+&lt;p class="outi"&gt;Lalalala, je me balade dans la forêt...&lt;/p&gt;
+						</div>
+					</pre>
+					Maintenant je sélectionne la paragraphe et lui attribuerai un effet de fondu lorsqu'il disparaitra
+					<pre>
+						<div>
+//JE SELECTIONNE L'ELEMENT <u>AUQUEL</u> J'APPLIQUE LA METHODE!!!
+$('p.outi').fadeOut();
+
+fadeOut(string) =&gt; 'slow', 'normal', 'fast'
+ou
+fadeOut(int) =&gt; en milisecondes <i>[300]</i>
+						</div>
+					</pre>					
+				</span>
+			</li>
+			<li>
+				<span>
+					Attention concept de <span class="important">CALLBACK</span>
+					<br />
+					Il est également possible de passer un deuxième paramètre, appelé callback. Il s'agit d'une fonction qui va être appelée lorsque l'effet sera terminé.
+					<br />
+					- Exemple:
+					<br />
+					<pre>
+						<div>
+// Au chargement du DOM...
+$(function(){
+	// On sélectionne notre paragraphe
+	$("p.outi")
+	// On lui applique l'effet fadeOut()
+	.fadeOut(
+		// Avec "slow" en premier paramétre
+		"slow",
+		// Et une fonction de "callback"
+		// en deuxième paramètre
+		function(){$(this).fadeIn("slow");}
+	);
+});
+						</div>
+					</pre>
+					<span class="important">EN PLUS LISIBLE</span>
+					<pre>
+						<div>
+$(function(){
+	$('p.outi').fadeOut('slow', function(){$(this).fadeIn('slow')}) // on passe deux paramètres!
+});
+						</div>
+					</pre>					
+				</span>
+			</li>
+			<li>
+				<span>
+                                <a name="script"></a>
+				Effet jQuery en action <a href="#script" id="link_effect">effet jQuery</a>
+                                <div class="fadeOutIn">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at purus quam. Nullam et risus ac elit sagittis blandit imperdiet non massa. Vestibulum faucibus scelerisque nisl, sit amet varius nulla aliquet eget. Sed quam felis, sodales imperdiet sagittis at, iaculis eget velit. Morbi et neque dolor, non iaculis ipsum. Vivamus in lorem mauris, nec semper massa. Aliquam tempor iaculis blandit. Fusce condimentum purus nec justo tincidunt laoreet. Curabitur at massa vitae dui cursus rhoncus ut quis libero. Aliquam suscipit tellus ac eros facilisis pharetra. Nullam aliquet libero nisi, at bibendum metus. Nam feugiat ligula nec ligula fringilla vitae cursus lectus egestas. Mauris venenatis massa sollicitudin odio tristique in posuere tellus adipiscing.
+                                </div>
+				</span>
+			</li>
+			<li>
+				<span>
+				On peut làutiliser en stockant la fonction dans une variable pour la passer ensuite à jQuery :
+				<br />
+
+				<pre>
+					<div>
+var ma_fonction = function test(parametre_1)
+{
+	//Tout ce qui sera exécuté au chargement du DOM / your code here
+}
+
+$(ma_fonction);
+					</div>
+				</pre>
+							Ou plus directement || simplement
+				<pre>
+					<div>
+$(function test()
+	{
+		//Tout ce qui sera exécuté au chargement du DOM
+	}
+);
+					</div>
+				</pre>
+				</span>
+			</li>
+		</ul>
+		
+		<h2>Un élément ou tableau d'éléments du DOM</h2>
+		<ul>
+			<li>
+			<span>
+				jQuery n'et pas qu'un super loader!
+				<br />
+				En lui passant des éléments du DOM, la fonction <span style="background-color: #a9a099; color: #d5edf9; padding: 2px;">$()</span> va nous renvoyer un objet jQuery qui va contenir les éléments qui lui ont été passés, et sur lesquels nous pourrons abuser de la puissance de <span class="important">jQuery</span> !!!
+			</span>
+			</li>
+			<li>
+			<span>
+				Bien sure vous pourrez passer un élément ou un tableau d'éléments à jQuery.
+			</span>
+			</li>
+			<li>
+			<span>
+				Il va sans dire que nous devrons placé ces éléments dans le <span class="important">loader jQuery</span>.
+				<br />
+				Exemple:
+				<pre>
+				<div>
+var myHtmlElement = document.getElementById('test');
+
+var myjQueryObject = $(myHtmlElement);
+				</div>
+				</pre>
+			</span>
+			</li>		
+		</ul>
+		<h2>Une chaîne de charactères</h2>
+		<ul>
+			<li>
+			<span>
+				En passant une chaine de charactères à la fonction <span style="background-color: #a9a099; color: #d5edf9; padding: 2px;">$();</span>, nous allons lui demander de nous retourner un objet jQuery rempli d'éléments sans méme avoir à sélectionner préalablement un élément du DOM.
+			</span>
+			</li>
+			<li>
+			<span>
+				Plusieurs possibilités vous permettront de sélectionner les éléments désirés : les sélecteurs CSS de niveaux 1 à 3, XPath, ainsi que quelques sélecteurs jQuery.
+			</span>
+			</li>
+			<h3>Sélecteur CSS</h3>
+			<ul>
+				<li>
+					<span>
+						Prenons cette structure HTML:
+						<br />
+						exemple:
+						<pre>
+						<div>
+&lt;div id="fixe"&gt;
+	&lt;h2&gt;Je suis un titre, j'ai de l'importance.&lt;/h2&gt;
+	&lt;p class="ique"&gt;Ca va les chevilles là-haut ?&lt;/p&gt;
+	&lt;p&gt;Lorem ipsum sont des mots qui vont très bien ensemble,
+	très bien ensemble.&lt;/p&gt;
+&lt;/div&gt;
+						</div>
+						</pre>						
+					</span>
+				</li>
+				<li>
+					<span>
+						Nous voulons sélectionner le premier élément &lt;p&gt;.
+						<br />
+						Voici différentes possibilités :
+					</span>
+				</li>
+				<li>
+					<span>
+						<pre>
+							<div>
+// Sélection des éléments ayant pour classe "ique", dans l'élément ayant pour id "fixe"
+var mon_objet_jQuery = $("#fixe .ique");      
+
+// Sélection du premier élément &lt;p&gt; de l'élément &lt;div&gt;.
+var mon_objet_jQuery = $("div p:first-child");      
+
+// Sélection des éléments &lt;p&gt;, enfants directs d'un élement &lt;div&gt; et ayant pour classe "ique".
+// Sélection des éléments &lt;p&gt;, enfants directs d'un élement &lt;div&gt; et ayant pour classe "ique".
+var mon_objet_jQuery = $("div > p.ique");
+							</div>
+						</pre>
+					</span>
+				</li>
+				<li>
+					<span>
+						Imaginez le cas suivant: vous souhaitez sélectionner tous les éléments p ayant pour classe "ique".
+						<br />
+						On peut alors utiliser la méthode:
+						<span class="important">getElementsByTagName("p")</span>,
+						<br />
+						qui va nous retourner un tableau d'éléments p. Nous pourrons ensuite trier ce tableau à l'aide d'une boucle, pour ne garder que ceux ayant pour classe 'ique'. On imagine sans peine les quelques lignes nécessaires é une sélection pourtant triviale.
+					</span>
+				</li>
+				<li>
+					<span>
+						Avec <span class="important">jQuery</span>, une ligne suffit: <span class="important">$("p.ique");</span>.
+						C'est beau, c'est simple, et cette phrase a un parfum de slogan minable.
+					</span>
+				</li>
+				<li>
+					<span>
+						Il est bien sûr possible, comme en CSS, d'utiliser plusieurs sélecteurs à la fois :
+							<pre>
+								<div>
+var mon_objet_jQuery = $("#fixe .ique, #fixe :last-child");
+								</div>
+							</pre>
+					</span>
+				</li>
+			</ul>
+		</ul>
+		<h2>Les sélecteurs jQuery</h2>
+		<ul>
+			<li>
+				<span>
+					Il existe également une série de sélecteurs n'ayant aucun équivalent CSS ou XPath;
+					<br />
+					ces derniers peuvent se révéler très pratiques comme dans les exemples suivants :
+					<ol>
+						<li>
+							Sélection des éléments impairs
+							<pre>
+								<div>
+$("div p:odd");								
+								</div>
+							</pre>
+						</li>
+						<li>
+							Sélection des éléments inférieurs à (less than) 4 :
+							<pre>
+								<div>
+$("div p:lt(4)");							
+								</div>
+							</pre>						
+						</li>
+						<li>
+							Ou encore la sélection des éléments d'un formulaire (input, select, textarea, button) :
+							<pre>
+								<div>
+$("div p:input");							
+								</div>
+							</pre>							
+						</li>
+						<li>
+							<a href="http://docs.jQuery.com/DOM/Traversing/Selectors#Custom_Selectors" lang="en">Documentation des sélecteurs propres à jQuery</a>
+						</li>						
+					
+					</ol>
+				</span>
+			</li>
+		</ul>
+	</div>

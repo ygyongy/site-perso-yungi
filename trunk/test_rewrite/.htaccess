@@ -1,0 +1,24 @@
+# SEARCH ENGINE FRIENDLY URLS FOR OR 2.0
+<IfModule mod_php4.c>
+php_value session.use_trans_sid 0
+</IfModule>
+
+#--------------------------------------------------
+# Répertoire : /articles/
+#--------------------------------------------------
+
+# Le serveur doit suivre les liens symboliques :
+Options +FollowSymlinks
+
+# Activation du module de réécriture d'URL :
+RewriteEngine on
+
+#--------------------------------------------------
+# Règles de réécriture d'URL :
+#--------------------------------------------------
+
+# Premier test
+# Modifier la règle de rewrite pour la mise en PROD => pas besoin du chemin complet [test_rewrite/test.html => suffit] !!!
+RewriteRule ^inconnus\.html$   /test_rewrite/test.html [L]
+
+RewriteRule ^([a-z]{2})/([a-zA-Z]+)/$  /test_rewrite/index.php?page=$2 [L]

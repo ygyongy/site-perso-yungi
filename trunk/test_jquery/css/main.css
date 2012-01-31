@@ -1,0 +1,79 @@
+/* 
+    Document   : main
+    Created on : 25 nov. 2010, 19:38:04
+    Author     : yungiii
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+
+body
+{
+        font-family: Arial;
+        font-size: 12px;
+        line-height: 1.2em;
+}
+
+h1
+{
+        border-bottom: deepskyblue 1px solid;
+        padding-bottom: 5px;
+}
+
+        h2
+        {
+                font-style: italic;
+                color: deepskyblue;
+                border-bottom: darkgrey 1px dotted;
+                padding-bottom: 5px;
+                margin-left: 5px;
+                font-family: Georgia;
+        }
+
+        ul
+        {
+                line-height: 1.4em;
+                padding: 5px;
+                margin-left: 20px;
+                list-style: square;
+                list-style-position: outside;
+                color: deepskyblue;
+        }
+
+                li
+                {
+                        padding-bottom: 10px;
+                }
+                li span
+                {
+                        color: #777;
+                }
+
+                li pre
+                {
+                        background-color: #ddd;
+                        color: deepskyblue;
+                }
+
+                        li pre div
+                        {
+                                overflow: auto;
+                                width: 720px;
+                                margin-left: 10px;
+                        }
+
+.important
+{
+        font-size: 16px;
+        color: deepskyblue;
+        padding: 3px;
+}
+

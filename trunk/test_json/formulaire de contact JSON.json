@@ -1,0 +1,29 @@
+{"titre":"Saisie des informations de Contact",
+	"contenu":{"action":"",
+				"enctype":"application\/x-www-form-urlencoded",
+				"method":"POST",
+				"id":"create_user",
+				"evenement_form":"onsubmit=\"return requestCreateContact(<?php echo AJAX_PATH; ?>,this, printData)\"",
+				"fields":[{"display_name":"E-mail",
+							"template":"input",
+							"type":"text",
+							"class":"",
+							"id":"contact_0",
+							"name":"contact_0"
+						},						
+						{
+							"type":"reset",
+							"template":"input",
+							"class":"fleft",
+							"id":"reset_createContact_form",
+							"name":"reset_createContact_form",
+							"value":"effacer"
+						},
+						{
+							"type":"submit",
+							"template":"input",
+							"class":"fleft",
+							"id":"submit_createContact_form",
+							"name":"submit_createContact_form",
+							"value":"Enregistrer"
+						}]}}
