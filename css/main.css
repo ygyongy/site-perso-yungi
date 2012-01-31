@@ -1,0 +1,61 @@
+/* 
+    Document   : main
+    Created on : 25 sept. 2010, 22:55:22
+    Author     : yungiii
+    Description: Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+
+*
+{
+    margin: 0px;
+    padding: 0px;
+    border: none;
+}
+
+body
+{
+    background: #f1f1f1;
+    font-family: 'Trebuchet MS', sans-serif;
+    color: dodgerblue;
+    font-size: 10px;
+    line-height: 10px;
+}
+
+h1 h2 h3 h4
+{
+    padding: 0px;
+    margin: 0px;
+    line-height: 0px;
+}
+
+.wrapper
+{
+    width: 100%;
+    min-height: 10px;
+    padding: 5px;
+    margin-bottom: 0px;
+}
+
+.fleft
+{
+    float: left;
+    margin-bottom: 0px;
+}
+
+.clear
+{
+    clear: both;
+    height: 1px;
+    margin: 0px;
+    padding: 0px;
+}
+

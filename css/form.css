@@ -1,0 +1,81 @@
+/* 
+    Document   : form
+    Created on : 21 juin 2011, 19:52:32
+    Author     : yungiii
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+
+fieldset
+{
+    border: 1px deepskyblue dotted ;
+    padding: 5px;
+}
+
+legend
+{
+    position: relative;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: #E7E6E6;
+}
+
+label
+{
+    display: block;
+    font-size: 0.7em;
+    font-variant: small-caps;
+    height: 1.5em;
+}
+
+#sidebar_right legend
+{
+    font-size: 0.8em;
+}
+
+#sidebar_right label
+{
+    display: block;
+}
+
+#sidebar_right input[type=submit], #sidebar_right input[type=reset]
+{
+    width: 90px;
+    margin-right: 3px;
+    border: none;
+}
+
+.field_wrapper
+{
+    float: left;
+    margin-bottom: 3px;
+    line-height: 1.2em;
+}
+
+.label_wrapper
+{
+    margin-bottom: 3px;
+}
+
+.error
+{
+    background-image: url(../images/classique/theme/error_icon.png);
+    background-position: 98%;
+    background-repeat: no-repeat;
+    font-variant: small-caps;
+    display: none;
+    margin-bottom: 0px;
+    min-height: 30px;
+    width: 30px;
+    float: right;
+}
+
