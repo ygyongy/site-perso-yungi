@@ -984,7 +984,7 @@ function insertAfter(new, afterElement)
 			</script>
             
             <a name="part_28"></a>
-            <h1>C'est l'heure des TP</h1>
+            <h1>C'est l'heure des TP<span><a href="#">top</a></span></h1>
             <h2>Exercice 1</h2>
             <p>
             Pour ce premier exercice, nous vous proposons de recréer "du texte" mélangé à divers éléments tels des <strong>&lt;a&gt;</strong> et des <strong>&lt;strong&gt;</strong>. C'est assez simple, mais pensez bien à ne pas vous emmêlez les pinceaux avec tous les noeuds textuels!
@@ -1287,3 +1287,5 @@ function insertAfter(new, afterElement)
                    
                }
            </script>
+           
+           <h3>Voilà c'est la fin de la deuxième et dernière partie abordant la manipulation du HTML</h3>

@@ -14,7 +14,7 @@
                 Le DOM est donc une <strong>API</strong> qui s'utilise avec les documents XML et HTML, et qui va nous permettre, via JS, d'accéder au code XML et/ou HTML d'un document. C'est grâce au DOM que nous allons pouvoir modifier les <em>éléments HTML</em> [afficher ou masquer un DIV par exemple], en ajouter, en déplacer ou même en supprimer.
             </p>
             <p>
-            	Petite note de vacabulaire: dans un cours sur le HTML, on parlera de balises HTML. Ici nous parlerons <em>éléments HTML</em>, pour la simple et bonne raison que chaque paire de balises est vue comme un objet.
+            	Petite note de vocabulaire: dans un cours sur le HTML, on parlera de balises HTML. Ici nous parlerons <em>éléments HTML</em>, pour la simple et bonne raison que chaque paire de balises est vue comme un objet.
             </p>
             <p>
             	Un document HTML est représenté sous la forme d'un arbre, ou d'une structure hiérarchique. Ainsi l'élément <strong>&lt;html&gt;</strong> contient DEUX éléments <strong>&lt;head&gt;, &lt;body&gt;</strong>, qui eux alors tour contiennent des éléments HTML.
