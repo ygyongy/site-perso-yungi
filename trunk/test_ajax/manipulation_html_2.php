@@ -37,16 +37,16 @@ var blockquote = paragraph.parentNode;
             	<input type="button" id="parentNodeShow" value="afficher mon papa" />
             </blockquote>
             <script type="text/javascript">
-				var myButton = document.getElementById('parentNodeShow');
-				var myBlockquote = myButton.parentNode;
-				
-				myButton.addEventListener('click', showParent, false);
-				
-				function showParent()
-				{
-					alert(myBlockquote);
-				}
-			</script>
+                var myButton = document.getElementById('parentNodeShow');
+                var myBlockquote = myButton.parentNode;
+
+                myButton.addEventListener('click', showParent, false);
+
+                function showParent()
+                {
+                    alert(myBlockquote);
+                }
+            </script>
             <cite>
             	Comme vu dans le test, cette propriété permet d'accéder un <strong>objet</strong> parent de type <strong>objectHTMLBlockquoteElement</strong>
             </cite>
