@@ -67,7 +67,7 @@
                 padding:3px;
                 border:1px solid #bbb;
                 cursor:pointer;
-		font-size: 14px;
+		font-size: 12px;
         }
         .onglet_0
         {
