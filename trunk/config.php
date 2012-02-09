@@ -12,7 +12,7 @@ ini_set('display_errors', 1);
 !isset($_SESSION['template']) ? $template = 'classique' : $template = $_SESSION['template'];
 !isset($_GET['langue']) ? $langue = '' : $langue = $_GET['langue'];
 !isset($_GET['page']) ? $page = '' : $page = $_GET['page'];
-!isset($site) ? $site = "/google_code/trunk/" : $site = "/google_code/trunk/";
+!isset($site) ? $site = "/google_code_2/trunk/" : $site = "/google_code_2/trunk/";
 
 //Definitions des constantes du site
 define('SUB_DOMAIN', $site);
