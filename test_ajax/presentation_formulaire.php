@@ -79,6 +79,22 @@
 &lt;label&gt;&lt;input type="radio" name="check" value="2" /&gt; Case n° 2&lt;/label&gt;
 &lt;label&gt;&lt;input type="radio" name="check" value="3" /&gt; Case n° 3&lt;/label&gt;
 &lt;label&gt;&lt;input type="radio" name="check" value="4" /&gt; Case n° 4&lt;/label&gt;
+
+&lt;script&gt;
+    function check()
+    {
+        var inputs = document.getElementsByTagName('input');
+            inputsLength = inputs.length;
+
+            for(var i = 0; i < inputsLength; i++)
+            {
+                if(inputs[i].type === 'radio' && inputs[i].checked)
+                {
+                    alert('La case cochée est la N° ' + inputs[i].value);
+                }
+            }
+    }
+&lt;/script&gt;
             </pre>
             <cite>
             	Puisqu'il n'est pas nécessaire de mentionner l'objet <strong>window</strong>, on ne le fait généralement pas sauf si cela est nécessaire, par exemple dans la manipulation des <em>frames</em>.
