@@ -96,6 +96,34 @@
     }
 &lt;/script&gt;
             </pre>
+            
+            <h3>&dArr; Alors testons &dArr;</h3>
+            <div>
+                <label><input type="radio" name="check" value="1" /> Case n° 1</label>
+                <label><input type="radio" name="check" value="2" /> Case n° 2</label>
+                <label><input type="radio" name="check" value="3" /> Case n° 3</label>
+                <label><input type="radio" name="check" value="4" /> Case n° 4</label>
+                <br /><br />
+                <input type="button" value="Vérifier la valeur" onclick="check()" />
+                
+                <script type="text/javascript">
+                    function check()
+                    {
+                        var inputs = document.getElementsByTagName('input');
+                        var inputsLength = inputs.length;
+                        
+                        for (var i = 0; i < inputsLength; i++)
+                        {
+                            if (inputs[i].type === 'radio' && inputs[i].checked)
+                            {
+                                alert('La case cochée est la N° ' + inputs[i].value);
+                            }
+                        }
+                        
+                    }
+                </script>
+            </div>
+            
             <cite>
             	Puisqu'il n'est pas nécessaire de mentionner l'objet <strong>window</strong>, on ne le fait généralement pas sauf si cela est nécessaire, par exemple dans la manipulation des <em>frames</em>.
             </cite>
