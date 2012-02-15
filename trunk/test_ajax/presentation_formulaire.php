@@ -124,39 +124,80 @@
                 </script>
             </div>
             
-            <cite>
-            	Puisqu'il n'est pas nécessaire de mentionner l'objet <strong>window</strong>, on ne le fait généralement pas sauf si cela est nécessaire, par exemple dans la manipulation des <em>frames</em>.
-            </cite>
+            <h2>Les listes déroulantes avec: <strong>selectedIndex</strong> et <strong>options</strong></h2>
+            <p>
+                Les listes déroulantes possèdent elle aussi leurs propres attributs. Nous allons en retenir seulement deux parmi tous ceux qui existent: <strong>selectedIndex</strong>, qui nous donne l'index (l'identifiant) de la valeur sélectionné, et <strong>options</strong> qui liste dans un tableau les éléments <strong style="color: orange;">&lt;option&gt;</strong> de notre liste déroulante. Leur principe de fonctionnement est on ne peut plus classique:
+            </p>
+            <pre>
+&lt;select id="list"&gt;
+    &lt;option&gt;Sélectionnez votre sexe&lt;/option&gt;
+    &lt;option&gt;Homme&lt;/option&gt;
+    &lt;option&gt;Femme&lt;/option&gt;
+&lt;/select&gt;
 
+&lt;script type="text/javascript"&gt;
+    var list = document.getElementById('list');
+
+    list.addEventListener('change', function(){
+        <span style="color: hotpink;">//On affiche le contenu de l'élément &lt;option&gt; ciblé par la propriété selectedIndex
+        //On passe par la collection "OPTIONS" en lui spécifiant un index de tableau</span>
+        alert(list.options[list.selectedIndex].value);
+    }, true);
+
+&lt;/script&gt;
+            </pre>
+            <h3>&dArr; Allez on vérifie &dArr;</h3>
+            <div>
+                <br />
+                <select id="list_test">
+                    <option>Sélectionnez votre pays</option>
+                    <option>Homme</option>
+                    <option>Femme</option>
+                </select>
+
+                <script type="text/javascript">
+                    var list = document.getElementById('list_test');
+                    var message = document.createElement('span');
+                        message.setAttribute('style', 'border: green 2px solid; padding-left: 5px; padding-right: 5px; -webkit-border-radius: 5px; margin-left: 1px; margin-top: 7px;');
+                    var txt_content = document.createTextNode();
+                    var txt_strong = document.createElement('strong');
+                    
+                    list.addEventListener('change', function(){
+                        //On affiche le contenu de l'élément <option> ciblé par la propriété selectedIndex
+                        //On passe par la collection "OPTIONS" en lui spécifiant un index de tableau
+                        txt_content.data = list.options[list.selectedIndex].value + ' ';
+                        
+                        list.parentNode.appendChild(message).appendChild(txt_strong).appendChild(txt_content);
+                    }, true);
+
+                </script>            
+            </div>
 
 
 <a name="part_30"></a>
-        <h1>Le Document Object Model <span><a href="#">top</a></span></h1>
+        <h1>Les méthodes et un retour sur quelques évènements <span><a href="#">top</a></span></h1>
             <p>
-                le DOM est une interface de programmation pour les documents XML et HTML.
-            </p>
-            <cite>
-                Une interface de programmation, qu'on appelle aussi une API (Appllication Programming Interface), est un ensemble d'outils qui permettent de faire communiquer entre eux plusieurs programmes ou, dans le cas présent, différents langages. Le terme API reviendra souvent, quel que soit le langage de programmation que vous apprendrez.
-            </cite>
-            <p>
-                Le DOM est donc une <strong>API</strong> qui s'utilise avec les documents XML et HTML, et qui va nous permettre, via JS, d'accéder au code XML et/ou HTML d'un document. C'est grâce au DOM que nous allons pouvoir modifier les <em>éléments HTML</em> [afficher ou masquer un DIV par exemple], en ajouter, en déplacer ou même en supprimer.
-            </p>
-            <p>
-            	Petite note de vocabulaire: dans un cours sur le HTML, on parlera de balises HTML. Ici nous parlerons <em>éléments HTML</em>, pour la simple et bonne raison que chaque paire de balises est vue comme un objet.
-            </p>
-            <p>
-            	Un document HTML est représenté sous la forme d'un arbre, ou d'une structure hiérarchique. Ainsi l'élément <strong>&lt;html&gt;</strong> contient DEUX éléments <strong>&lt;head&gt;, &lt;body&gt;</strong>, qui eux alors tour contiennent des éléments HTML.
-            </p>
-            <p>
-            	Puis le DOM 2 est arrivé, la grande nouveauté de cette nouvelle version est l'arrivée de la méthode <strong>getElementById()</strong> qui permet de récupérer soit du XML soit du HTML.
+                Les formulaires ne possèdent pas que des attributs mais aussi des méthodes dont certaines sont bien pratiques! Tout en abordant leur utilisations, nous en profiterons pour revenir sur certains évènements étudiés au chapitre précédent.
             </p>
             
-            <h2>L'objet <strong>Window</strong></h2>
-<p>
-            	Avant de véritablement parler du <strong>document</strong>, c-à-d la page Web, nous allons parler de l'objet <strong>window</strong>. Cet objet est ce que l'on appel un objet global qui représente <u>la fenêtre du navigateur</u>. C'est depuis l'objet <strong>window</strong> que le JavaScript est exécuté.<br />
-				<br/>
-                Contrairement à ce qui a été dit dans ce cours, <strong>alert()</strong> n'est pas vraiment une fonction. Il s'agit en réalité d'une méthode appartenant à l'objet <strong>window</strong>. Mais l'objet <strong>window</strong> est dit implicite, c-à-d qu'il n'y a généralment pas besoin de l'appeler.
-</p>
-            <cite>
-            	Puisqu'il n'est pas nécessaire de mentionner l'objet <strong>window</strong>, on ne le fait généralement pas sauf si cela est nécessaire, par exemple dans la manipulation des <em>frames</em>.
-            </cite>
+            <h2>Les méthodes spécifiques à l'élément <strong>&lt;form&gt;</strong></h2>
+            <p>
+                Un formulaire, ou plus exactement l'élément <strong>form</strong>, possède deux méthodes intéressantes. La première, <strong>submit()</strong>, permet d'effectuer l'envoi du formulaire sans l'intervention de l'utilisateur. La deuxième, <strong>reset()</strong>, permet de réinitialiser tous les champs d'un formulaire.
+            </p>
+            <p>
+                Si vous êtes un habitué des formulaire HTML, vous aurez deviné que ce deux méthodes ont le même rôle que les éléments <strong>input</strong> de type <strong>submit</strong> ou <strong>reset</strong>.
+            </p>
+            <p>
+                L'utilisation de ces deux méthodes es simple comme bonjour, il vous suffit juste de les appeler sans aucun paramètre (elles n'en ont pas) et c'est fini:
+            </p>
+            
+            <pre>
+var element = document.getElementById('un_id_formulaire');
+
+    element.submit(); //Le formulaire est expédié
+    element.reset(); //Le formulaire est réinitialisé
+            </pre>
+            
+            <p>
+                Maintenant revenons sur deux évènements: <strong>submit</strong> et <strong>reset</strong>, encore les mêmes noms! Je suppose qu'il n'y a pas besoin de vous expliquer quand est-ce que l'un et l'autre se déclenchent, cela paraît évident. Cependant, il eset important de préciser une chose: envoyer un formulaire avec <u>la méthode <strong>submit()</strong> de JavaScript ne déclenchera jamais l'évènement <strong>submit</strong></u>! Mais, dans le doute, voici un exemple complet dans le cas où vous n'auriez pas tout compris:
+            </p>
