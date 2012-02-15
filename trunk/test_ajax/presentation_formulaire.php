@@ -150,7 +150,7 @@
             <div>
                 <br />
                 <select id="list_test">
-                    <option>Sélectionnez votre pays</option>
+                    <option>Sélectionnez votre sexe</option>
                     <option>Homme</option>
                     <option>Femme</option>
                 </select>
