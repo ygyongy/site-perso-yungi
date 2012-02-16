@@ -201,3 +201,25 @@ var element = document.getElementById('un_id_formulaire');
             <p>
                 Maintenant revenons sur deux évènements: <strong>submit</strong> et <strong>reset</strong>, encore les mêmes noms! Je suppose qu'il n'y a pas besoin de vous expliquer quand est-ce que l'un et l'autre se déclenchent, cela paraît évident. Cependant, il eset important de préciser une chose: envoyer un formulaire avec <u>la méthode <strong>submit()</strong> de JavaScript ne déclenchera jamais l'évènement <strong>submit</strong></u>! Mais, dans le doute, voici un exemple complet dans le cas où vous n'auriez pas tout compris:
             </p>
+            
+            <pre>
+&lt;form id="myForm"&gt;
+    &lt;input type="text" value="Entrez un texte..." /&gt;
+    &lt;br/&gt;&lt;br/&gt;
+    &lt;input type="submit" value="Submit!"/&gt;
+    &lt;input type="reset" value="Reset !"/&gt;
+&lt;/form&gt;
+
+&lt;script type="text/javascript"&gt;
+    var myForm = document.getElementById('myForm');
+    
+    myForm.addEventListener('submit', function(e){
+        alert('Vous avez envoyé le formulaire!\n\nMais celui-ci a été bloqué pour que vous ne changiez pas de page.');
+        e.preventDefault();
+    }, true);
+    
+    myForm = document.addEventListener('reset', function(e){
+        alert('Vous avez réinitialisé le formulaire!');
+    }, true);
+&lt;/script&gt;    
+            </pre>
