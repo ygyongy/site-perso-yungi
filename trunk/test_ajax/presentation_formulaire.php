@@ -159,7 +159,7 @@
                     var list = document.getElementById('list_test');
                     var message = document.createElement('span');
                         message.setAttribute('style', 'border: green 2px solid; padding-left: 5px; padding-right: 5px; -webkit-border-radius: 5px; margin-left: 1px; margin-top: 7px;');
-                    var txt_content = document.createTextNode();
+                    var txt_content = document.createTextNode('');
                     var txt_strong = document.createElement('strong');
                     
                     list.addEventListener('change', function(){
@@ -223,3 +223,77 @@ var element = document.getElementById('un_id_formulaire');
     }, true);
 &lt;/script&gt;    
             </pre>
+            
+            <h3>&dArr; Essayons &dArr;</h3>
+            <div>
+                <form id="myForm" style="margin-top: 10px; margin-left: 15px;">
+                    <input type="text" value="Entrez un texte..." />
+                    <br/><br/>
+                    <input type="submit" value="Submit!"/>
+                    <input type="reset" value="Reset !"/>
+                </form>
+
+                <script type="text/javascript">
+                    var myForm = document.getElementById('myForm');
+
+                    myForm.addEventListener('submit', function(e){
+                        alert('Vous avez envoyé le formulaire!\n\nMais celui-ci a été bloqué pour que vous ne changiez pas de page.');
+                        e.preventDefault();
+                    }, true);
+
+                    myForm = document.addEventListener('reset', function(e){
+                        alert('Vous avez réinitialisé le formulaire!');
+                    }, true);
+                </script>                   
+            </div>
+            
+            <h2>La gestion du focus et de la sélection</h2>
+            <p>
+                Vous vous souvenez des évènements pour détecter l'activation ou la désactivation du focus sur un élément? Eh bien il existe aussi deux méthodes, <strong>focus()</strong> et <strong>blur()</strong>, permettant respectivement de donner et retirer le focus à un élément. Leur utilisation est très simple:
+            </p>
+            <pre>
+&lt;input id="text_focus" type="text" value="Entrez un texte" /&gt;
+
+&lt;input type="button" value="Donner le focus" onclick="document.getElementById('text_focus').focus()" /&gt;
+&lt;input type="button" value="Retirer le focus" onclick="document.getElementById('text_focus').blur()" /&gt;
+            </pre>
+            
+            <h3>&dArr; Le test... :-) &dArr;</h3>
+            <div>
+                <form id="myForm" style="margin-top: 10px; margin-left: 15px;">
+                    <input id="text_focus" type="text" value="Entrez un texte..." />
+                    <br/><br/>
+                    <input type="button" value="Donnez le focus!" onclick="document.getElementById('text_focus').focus()"/>
+                    <input type="button" value="Retirez le focus!" onclick="document.getElementById('text_focus').blur()"/>
+                </form>                  
+            </div>
+            
+            <cite>
+                Dans le même genre, il existe la méthode <strong>select()</strong> qui, en plus de donner le focus à l'élément, sélectionne le texte de celui-ci si cela est possible:
+            </cite>
+            
+            <pre>
+&lt;input type="text" id="text_focus_2" value="Entrez un texte" /&gt;
+
+&lt;input type="button" value="Sélectionner le texte" onclick="document.getElementById('text_focus_2').select()" /&gt;
+            </pre>
+            
+            <h3>&dArr; Testons gaiement... &dArr;</h3>
+            <div>
+                <form id="myForm" style="margin-top: 10px; margin-left: 15px;">
+                    <input id="text_focus_2" type="text" value="Entrez un texte..." />
+                    <br/><br/>
+                    <input type="button" value="Sélectionnez le texte" onclick="document.getElementById('text_focus_2').select()"/>
+                </form>                  
+            </div>
+            <cite>
+                Bien sûr cette méthode ne fonctionne QUE sur des champs de texte comme un <strong>input</strong> de type <strong>texte</strong> ou bien en <strong>textarea</strong>!
+            </cite>
+            
+            <h2>Explication sur l'évènement <strong>&laquo; change &raquo;</strong></h2>
+            <p>
+                Je pense qu'il est important de revenir sur cet événement afin de clarifier quelques petits problèmes que vous pourrez rencontrer en l'utilisant.
+                Tout d'abord, il est bon de savoir que cet événement attend que l'élément auquel il est rattaché perde le <strong>focus</strong> avant de se déclencher (si il a eu modification du contenu de l'élément). Donc, si vous souhaitez vérifier l'état d'un input à chacune de ses modifications sans attendre la perte de <strong>focus</strong>, il vous faudra plutôt utiliser d'autres événements du style <strong>keyup</strong> (et ses variantes) ou <strong>click</strong>, cela dépend du type d'élément vérifié.
+                <br/>
+                Et, deuxième et dernier point, cet événement est bien entendu utilisable sur n'importe quel <strong>input</strong> dont l'état peut changer, par exemple une <strong>checkbox</strong> ou un <strong>input file</strong>, n'allez surtout pas croire que cet événement est réservé seulement aux champs texte!
+            </p>
