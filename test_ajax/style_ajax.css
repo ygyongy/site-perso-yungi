@@ -13,7 +13,7 @@ Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 
 body
 {
-    width: 1000px;
+    width: 1150px;
     font-family: Arial;
     font-size: 12px;
     color: #838383;
@@ -62,14 +62,14 @@ h4
 
     p
     {
-        width: 915px;
+        width: 1065px;
         text-align: justify;
         padding-left: 15px;
     }
 
     pre
     {
-        width: 865px;
+        width: 1015px;
         border: 1px dodgerblue solid;
         background-color: silver;
         color: darkslategrey;
@@ -87,7 +87,7 @@ h4
 
     cite
     {
-        width: 865px;
+        width: 1015px;
         display: block;
         margin-top: 20px;
         font-size: 12px;
