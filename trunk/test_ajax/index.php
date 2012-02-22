@@ -112,6 +112,7 @@
                 <span class="onglet_0 onglet" id="manipulation_html_2" onclick="printContenu('manipulation_html_2');">Manipulation HTML 2</span>
                 <span class="onglet_0 onglet" id="gestion_evenement" onclick="printContenu('gestion_evenement');">Gestion des événements</span>
                 <span class="onglet_0 onglet" id="presentation_formulaire" onclick="printContenu('presentation_formulaire');">Présentation des formulaires</span>
+                <span class="onglet_0 onglet" id="manipulation_css" onclick="printContenu('manipulation_css');">manipuler_les_css</span>
             </div>
         <div class="contenu_onglets">
             <div class="contenu_onglet" id="contenu_intro_ajax">
@@ -134,13 +135,16 @@
             </div>
             <div class="contenu_onglet" id="contenu_presentation_formulaire">
 		<?php require_once('presentation_formulaire.php');?>
-            </div>            
+            </div>
+            <div class="contenu_onglet" id="contenu_manipulation_css">
+		<?php require_once('manipuler_les_css.php');?>
+            </div>                
         </div>
     </div>
     <script type="text/javascript">
         //<!--
             //n'est chargé qu'une seule fois, lors du chargement de la page
-            var old_onglet = 'presentation_formulaire';
+            var old_onglet = 'manipulation_css';
             printContenu(old_onglet);
         //-->
     </script>

@@ -98,7 +98,7 @@
             </pre>
             
             <h3>&dArr; Alors testons &dArr;</h3>
-            <div>
+            <div id="radioButton">
                 <label><input type="radio" name="check" value="1" /> Case n° 1</label>
                 <label><input type="radio" name="check" value="2" /> Case n° 2</label>
                 <label><input type="radio" name="check" value="3" /> Case n° 3</label>
@@ -109,9 +109,9 @@
                 <script type="text/javascript">
                     function check()
                     {
-                        var inputs = document.getElementsByTagName('input');
+                        var inputs = document.getElementById('radioButton').getElementsByTagName('input');
                         var inputsLength = inputs.length;
-                        
+ 
                         for (var i = 0; i < inputsLength; i++)
                         {
                             if (inputs[i].type === 'radio' && inputs[i].checked)

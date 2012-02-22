@@ -9,7 +9,7 @@
                 La Théorie
             </h2>
             <h3>
-            	Liste des événemnts
+            	Liste des événements
             </h3>
             <p>
            	Il existe de nombreux événements, tous plus ou moins utiles, pour autant que l'on sache les différencier. Voici une liste exhaustive de ceux-ci ainsi que les actions nécessaires à leurs déclenchements:</p>
@@ -489,7 +489,7 @@ el.addEventListener('click', function(e){alert(e.type);}, false);
 
 <h2>&dArr; Rien ne vaut la pratique &dArr;</h2>
 <p style="color: orange; font-style: italic;">Survolez les différents textes ci-dessous afin de voir comment le système réagit</p>
-<p id="result">&nbsp;</p>
+<p id="result3">&nbsp;</p>
 <div id="parent" style="width: 150px; height: 150px; background-color: dodgerblue; border: 1px #666 solid; color: whitesmoke;">
     Parent
     <div id="child1" style="width: 73px; height: 73px; background-color: green; border: 1px whitesmoke solid; color: whitesmoke; float: right;">Enfant N°1</div>
@@ -500,11 +500,11 @@ el.addEventListener('click', function(e){alert(e.type);}, false);
 
 <script type="text/javascript">
     var parent = document.getElementById('parent');
-    var result = document.getElementById('result');
+    var result = document.getElementById('result3');
 
     parent.addEventListener('mouseover', function(e)
                                                 {
-                                                    result.innerHTML = 'L\'élément déclencheur de l\'événement \"mouseover\" possède l\'ID:\n<span style="color: orange; font-weight: bold;>">'+e.target.id+"</span>";
+                                                   result.innerHTML = 'L\'élément déclencheur de l\'événement \"mouseover\" possède l\'ID:\n<span style="color: orange; font-weight: bold;>">'+ e.target.id +"</span>";
                                                 }, false);
                                                 
     parent.addEventListener('mouseout', function(){
@@ -596,21 +596,36 @@ Pas très compliqué n'est-ce pas? Bon, là je peux comprendre que vous trouviez
 
 <div id="position2"></div>
 
-<div id="surface" style="width: 300px; height: 300px; background-color: dodgerblue; border: 1px #333 solid;"></div>
+<div id="surface" style="width: 300px; height: 300px;  border: 1px #333 solid; overflow: hidden;"></div>
 
 <script type="text/javascript">
     var position2 = document.getElementById('position2');
-
-    document.getElementById('surface').addEventListener('mousemove', function(e)
+    var surface = document.getElementById('surface');
+        
+        surface.addEventListener('mousemove', function(e)
                                                     {
-                                                        position2.innerHTML = 'Position X: ' + e.clientX + 
-														'Position Y: ' + e.clientY;
+                                                        //position2.innerHTML = 'Position X: ' + e.clientX + 
+														//'Position Y: ' + e.clientY;
+                                                        
+                                                        var parent = surface.offsetParent;
+                                                        var top = surface.offsetTop + parent.offsetTop;
+                                                        var left = surface.offsetLeft + parent.offsetLeft;
+                                                        //alert(top + "et" + left);
+                                                        var test = document.createElement('div');
+                                                            test.style.top = (e.clientY)+'px';
+                                                            test.style.left = (e.clientX)+'px';
+                                                            test.style.backgroundColor = 'black';
+                                                            test.style.width = '2px';
+                                                            test.style.height = '2px';
+                                                            test.style.position = 'fixed';
+
+                                                            document.getElementById('surface').appendChild(test);
                                                     }, false);
 </script>
 
 <h3>Récupérer un événement avec la souris</h3>
 <p>
-Cette fois nous allons étudier un attribut un peu plus "exotique" qui est assez peu utilisé mais peut pourtant se révèler très utile! Il s'agit de <strong>relatedTarget</strong> et il ne s'utilise qu'avec les événements <strong>mouseout</strong> et <strong>mouseover</strong>.
+Cette fois nous allons étudier un attribut un peu plus "exotique" qui est assez peu utilisé mais peut pourtant se révéler très utile! Il s'agit de <strong>relatedTarget</strong> et il ne s'utilise qu'avec les événements <strong>mouseout</strong> et <strong>mouseover</strong>.
 </p>
 <p>
 Cet attribut remplit deux fonctions différentes selon l'événement utilisé. Avec l'événement <strong>mouseout</strong>, il vous fournira l'objet de l'élément sur lequel votre curseur <em><strong>vient d'entrer</strong></em>; avec l'événement <strong>mouseover</strong>, il vous donnera l'objet de l'élément dont le curseur <strong><em>vient de sortir</em></strong>.
@@ -773,7 +788,7 @@ Tout comme la postion du curseur, il est possible de récupérer les touches fra
 
 <h3>Bloquer l'action par défaut de certains événements</h3>
 <p>
-    Eh oui, on y revient! Nous avns vu qu'il est possible de bloquer l'action par défaut de certains événements, comme la redirection d'un lien vers une page web. Sans le DOM-2, cette opération était très simple vu qu'il suffisait de jouer avec le <strong>return</strong>. Avec l'objet <strong>Event</strong>, c'est tout aussi simple vu qu'il suffit juste d'appeler la méthode <strong>preventDefault()</strong>!
+    Eh oui, on y revient! Nous avons vu qu'il est possible de bloquer l'action par défaut de certains événements, comme la redirection d'un lien vers une page web. Sans le DOM-2, cette opération était très simple vu qu'il suffisait de jouer avec le <strong>return</strong>. Avec l'objet <strong>Event</strong>, c'est tout aussi simple vu qu'il suffit juste d'appeler la méthode <strong>preventDefault()</strong>!
 </p>
 <p>
     Reprenons l'exemple que nous avions utilisé pour les événements sans le DOM et utilisons cette méthode
