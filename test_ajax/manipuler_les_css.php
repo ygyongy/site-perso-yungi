@@ -667,7 +667,7 @@ el.style.backgroundColor = 'red';//Ce code fonctionne parfaitement!
 &lt;/style&gt;            
             </pre>
             
-            <h3>&dArr; La résultat... &dArr;</h3>
+            <h3>&dArr; La résultat... avec un positionnement &laquo; Absolu &raquo; &dArr;</h3>
             
                 <style type="text/css">
                     .draggableBox
@@ -716,6 +716,8 @@ el.style.backgroundColor = 'red';//Ce code fonctionne parfaitement!
                     }
                 }
                 
+                
+                
                 function init()
                 {
                     var els = document.getElementById('surfaceDragNDrop').getElementsByTagName('div');
@@ -728,7 +730,7 @@ el.style.backgroundColor = 'red';//Ce code fonctionne parfaitement!
                                     //début des évènements
                                     addEvent(els[i],'mousedown', function(e){
                                         var s = storage;//permet de la réinitialisation de la variable lors de l'appel de l'événement
-                                        s['target'] = e.target;
+                                        s['target'] = e.target || e.srcElement;
                                         s['offsetLeft'] = e.clientX-s.target.offsetLeft;
                                         s['offsetTop'] = e.clientY-s.target.offsetTop;
                                     }, true);
@@ -751,4 +753,109 @@ el.style.backgroundColor = 'red';//Ce code fonctionne parfaitement!
                 }
                 
                 init();
+            </script>
+            
+            
+            <h3>&dArr; La résultat... avec un positionnement &laquo; Relatif &raquo; &dArr; <span style="color: red; font-style: italic;">pas fonctionnel!</span></h3>
+            
+                <style type="text/css">
+                    .draggableBox2
+                    {
+                        width: 160px;
+                        height: 50px;
+                        padding-top: 5px;
+                        text-align: center;
+                        font-size: 40px;
+                        background-color: #222;
+                        -webkit-border-radius: 10px;
+                        border: 3px lightsteelblue solid;
+                        cursor: pointer;
+                        top: 0px;
+                        
+                    }
+                    
+                    #surfaceDragNDrop2
+                    {
+                        background-color: lightgray;
+                        border: 1px dodgerblue solid;
+                        height: 350px;
+                        -webkit-border-radius: 10px;
+                        margin-right: 30px;
+                        margin-top: 10px;
+                        position: relative;
+                    }
+
+                </style>            
+            
+            <div id="surfaceDragNDrop2">
+                <div class="draggableBox2" id="box1">1</div>
+                <div class="draggableBox2" id="box2">2</div>
+                <div class="draggableBox2" id="box3">3</div>                
+            </div>
+                    
+            <script type="text/javascript">
+                var storage2 = {}; //initialise un tableau de gestion des déplacements
+                var wrapperDrag = document.getElementById('surfaceDragNDrop2');
+                
+                //ajout de la fonction gestion IE
+                function addEvent2(el, event, fonction)
+                {
+                    if(el.attachEvent)
+                    {
+                        el.attachEvent('on'+event, fonction);
+                    }else{
+                        el.addEventListener(event, fonction, true);
+                    }
+                }
+                
+                
+                function init2()
+                {
+                    var els = document.getElementById('surfaceDragNDrop2').getElementsByTagName('div');
+                    var elsLength = els.length;
+                    
+
+                    for(i = 0; i < elsLength; i++)
+                        {
+                            if(els[i].className === 'draggableBox2')
+                                {
+                                    //début des évènements
+                                    addEvent2(els[i],'mousedown', function(e){
+                                        var s = storage2;//permet de la réinitialisation de la variable lors de l'appel de l'événement                                        
+                                        
+                                        s['target'] = e.target || e.srcElement;
+                                        s['offsetX'] = e.clientX - s.target.offsetLeft;
+                                        s['offsetY'] = e.clientY - s.target.offsetTop;
+
+                                        s.target.style.fontSize = '12px';
+                                    }, true);
+                                    
+                                    addEvent2(els[i],'mouseup', function(){
+                                         storage2 = {};
+                                    }, true);
+                                }
+                        }
+
+                            addEvent2(document,'mousemove', function(e){
+                                var target = storage2.target
+                                
+                                if(target) //permet de vérifier que l'élément target existe
+                                    {
+                                        var top = 0;
+                                        var left = 0;
+                                        target.style.position = 'absolute';
+                                        left = e.clientX - storage2['offsetX'] + "px";
+                                        top = e.clientY - storage2['offsetY'] + 'px';
+                                        target.innerHTML = "X: " + left + "<br/>Y: " + top;
+                                        
+                                        target.style.top = top;
+                                        target.style.left = left;                                        
+                                    }
+                        }, true); 
+                        
+                }
+                
+                //Appel de la fonction d'initialisation du Drag N Drop
+                init2();
+                
             </script>
