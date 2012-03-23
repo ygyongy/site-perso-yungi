@@ -62,7 +62,7 @@
     <style type="text/css">
         .onglets
         {
-            margin-bottom: -7px;
+            margin-bottom: -8px;
             margin-left: 5px;
             border-bottom: 1px #bbb solid;
         }
