@@ -58,7 +58,15 @@
 
         //-->
     </script>
+    
     <style type="text/css">
+        .onglets
+        {
+            margin-bottom: -7px;
+            margin-left: 5px;
+            border-bottom: 1px #bbb solid;
+        }
+        
         .onglet
         {
                 display:inline-block;
@@ -67,8 +75,11 @@
                 padding:3px;
                 border:1px solid #bbb;
                 cursor:pointer;
-		font-size: 12px;
+		font-size: 11px;
+                color: #8f8f73;
+                font-family: Georgia;
         }
+        
         .onglet_0
         {
                 background:#ccc;
@@ -78,9 +89,17 @@
         .onglet_1
         {
                 background:#eee;
-                border-bottom:0px solid #bbb;
-                padding-bottom:4px;
-				
+                border-bottom: none;
+                font-size: 12px;
+                font-weight: bold;
+                font-style: italic;
+                padding-top: 14px;
+                padding-bottom: 10px;
+                color: dodgerblue;
+                -moz-border-radius: 5px;
+                -webkit-border-radius: 5px;
+                text-decoration: underline;
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ccc), color-stop(80%,#eee))            
         }
 		
         .contenu_onglet
@@ -104,16 +123,9 @@
 </head>
 <body>
     <div class="systeme_onglets">
-            <div class="onglets">
-                <span class="onglet_0 onglet" id="intro_ajax" onclick="printContenu('intro_ajax');">Intro Ajax</span>
-                <span class="onglet_0 onglet" id="iframe_loading" onclick="printContenu('iframe_loading');">iFrame Loading</span>
-                <span class="onglet_0 onglet" id="array_object" onclick="printContenu('array_object');">Les tableaux &amp; les objets</span>
-                <span class="onglet_0 onglet" id="manipulation_html" onclick="printContenu('manipulation_html');">Manipulation HTML 1</span>
-                <span class="onglet_0 onglet" id="manipulation_html_2" onclick="printContenu('manipulation_html_2');">Manipulation HTML 2</span>
-                <span class="onglet_0 onglet" id="gestion_evenement" onclick="printContenu('gestion_evenement');">Gestion des événements</span>
-                <span class="onglet_0 onglet" id="presentation_formulaire" onclick="printContenu('presentation_formulaire');">Présentation des formulaires</span>
-                <span class="onglet_0 onglet" id="manipulation_css" onclick="printContenu('manipulation_css');">manipuler_les_css</span>
-            </div>
+        <div class="onglets">
+            <span class="onglet_0 onglet" id="intro_ajax" onclick="printContenu('intro_ajax');">Intro Ajax</span><span class="onglet_0 onglet" id="iframe_loading" onclick="printContenu('iframe_loading');">iFrame Loading</span><span class="onglet_0 onglet" id="array_object" onclick="printContenu('array_object');">Tableaux &amp; Objets</span><span class="onglet_0 onglet" id="manipulation_html" onclick="printContenu('manipulation_html');">Manipulation HTML 1</span><span class="onglet_0 onglet" id="manipulation_html_2" onclick="printContenu('manipulation_html_2');">Manipulation HTML 2</span><span class="onglet_0 onglet" id="gestion_evenement" onclick="printContenu('gestion_evenement');">Gestion Événements</span><span class="onglet_0 onglet" id="presentation_formulaire" onclick="printContenu('presentation_formulaire');">Présentation Formulaires</span><span class="onglet_0 onglet" id="manipulation_css" onclick="printContenu('manipulation_css');">Manipuler les CSS</span><span class="onglet_0 onglet" id="form_interactif" onclick="printContenu('form_interactif');">Mon 1er formulaire JS</span>
+        </div>
         <div class="contenu_onglets">
             <div class="contenu_onglet" id="contenu_intro_ajax">
                 <?php require_once('intro_ajax.php');?>
@@ -138,13 +150,16 @@
             </div>
             <div class="contenu_onglet" id="contenu_manipulation_css">
 		<?php require_once('manipuler_les_css.php');?>
-            </div>                
+            </div>
+            <div class="contenu_onglet" id="contenu_form_interactif">
+		<?php require_once('form_interactif.php');?>
+            </div> 
         </div>
     </div>
     <script type="text/javascript">
         //<!--
             //n'est chargé qu'une seule fois, lors du chargement de la page
-            var old_onglet = 'manipulation_css';
+            var old_onglet = 'form_interactif';
             printContenu(old_onglet);
         //-->
     </script>
