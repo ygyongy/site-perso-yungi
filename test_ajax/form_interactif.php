@@ -46,14 +46,43 @@
                     display: inline-block;
                     margin-right: 15px;
                     width: 190px;
+                    padding: 2px;
                 }
                 
                 #TP_form form fieldset div input, select
                 {
-                    display: inline-block;
                     margin-right: 15px;
                     width: 190px;
+                    outline: none;
+                    padding: 2px;
+                    border: 1px #abadb3 solid;
                 }
+                
+                #TP_form form fieldset div input:focus, select:focus
+                {
+                    border: 1px dodgerblue solid;
+                    background-color: #D7D7D7;
+                }
+                
+                .correct
+                {
+                    border: 1px #4f8700 solid;
+                    background-color: #e5ffce;
+                }
+                
+                .incorrect
+                {
+                    background-color: pink;
+                    border: 1px #DC143C solid;
+                    outline: none;
+                    font-weight: bold;
+                    color: darkred;
+                }
+                
+                .incorrect:focus
+                {
+                    border: 1px dodgerblue solid;                    
+                }                
             </style>
             
             <div id="TP_form">
