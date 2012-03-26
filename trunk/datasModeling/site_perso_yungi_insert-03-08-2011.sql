@@ -45,9 +45,9 @@ INSERT INTO `groupes` (`id_groupe`, `nom_groupe`, `droit_groupe`) VALUES
 (5, 'anonymous', NULL);
 
 
-INSERT INTO `utilisateurs` (`id_utilisateur`, `nom_utilisateur`, `prenom_utilisateur`, `login_utilisateur`, `pwd_utilisateur`, `inscription_utilisateur`, `langues_id_langue`, `groupes_id_groupe`) VALUES
-(1, 'Gyongy', 'Yann', 'ygyongy', '227a8126f3672f8f779a826d018b8421', '2011-08-02 10:19:26', 1, 1),
-(2, 'Anonymous', 'Anonymous', 'anonymous', '6f8bf449c80d8fa3efa750d1c880452f', '2011-08-02 22:53:12', 1, 5);
+INSERT INTO `utilisateurs` (`id_utilisateur`, `nom_utilisateur`, `prenom_utilisateur`, `login_utilisateur`, `pwd_utilisateur`, `vernam_utilisateur`, `inscription_utilisateur`, `langues_id_langue`, `groupes_id_groupe`) VALUES
+(1, 'Gyongy', 'Yann', 'ygyongy', '227a8126f3672f8f779a826d018b8421', 'testDeClef', '2011-08-02 10:19:26', 1, 1),
+(2, 'Anonymous', 'Anonymous', 'anonymous', '6f8bf449c80d8fa3efa750d1c880452f', 'TestDuVernam', '2011-08-02 22:53:12', 1, 5);
 
 
 INSERT INTO `contacts` (`id_contact`, `type_contact`, `valeur_contact`, `position_contact`, `actif_contact`, `utilisateurs_id_utilisateur`) VALUES
