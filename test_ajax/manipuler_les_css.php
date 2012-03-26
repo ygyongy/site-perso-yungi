@@ -504,8 +504,8 @@ el.style.backgroundColor = 'red';//Ce code fonctionne parfaitement!
                     #parentExemple
                     {
                         position: absolute;
-                        top: 5430px;
-                        left: 405px;
+                        top: 5450px;
+                        left: 285px;
                     }
 
                     #parentExemple
@@ -534,7 +534,7 @@ el.style.backgroundColor = 'red';//Ce code fonctionne parfaitement!
                         <a href="#" onclick="getRealPosition(this.parentNode); return false;">Avec calcul</a>
                     </div>
                 </div>
-                <div style="float: Right; font-size: 200px; margin-top: -20px; font-family: Georgia; color: grey;">
+                <div style="float: Right; font-size: 200px; margin-top: -10px; font-family: Georgia; color: grey;">
                     }<div style="font-size: 30px; float: right; width: 550px; padding-right: 260px; padding-top: 65px; font-family: Georgia; font-style: italic; color: dodgerblue;">Attention positionnement en ABSOLU... donc pas directement incorporé dans le FLUX!!!</div>
                 </div>
                 <div style="clear: right;">&nbsp;</div>
@@ -756,7 +756,7 @@ el.style.backgroundColor = 'red';//Ce code fonctionne parfaitement!
             </script>
             
             
-            <h3>&dArr; La résultat... avec un positionnement &laquo; Relatif &raquo; &dArr; <span style="color: red; font-style: italic;">pas fonctionnel!</span></h3>
+            <h3>&dArr; La résultat... avec un positionnement &laquo; Relatif &raquo; &dArr; </h3>
             
                 <style type="text/css">
                     .draggableBox2
