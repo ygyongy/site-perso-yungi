@@ -25,7 +25,9 @@ session_start();
             $error = 'Input error!';
         }
         echo $error;
-        $filenames = json_encode($_SESSION['filename']);     
+        $filenames = json_encode($_SESSION['filename']);
+		echo "<br />";
+		echo $filenames;
 ?>
 
 <script type="text/javascript">
