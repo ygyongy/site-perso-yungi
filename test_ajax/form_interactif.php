@@ -315,7 +315,7 @@
                                      
                                      for(j in check) // le fameux foreach en JS
                                          {
-                                             result = check[j] && result;
+                                             result = check[j]() && result;
                                          }
                                          
                                      if (result){
@@ -323,13 +323,26 @@
                                      }
                                      
                                      return false;
-                                 }
-                            })();
-                        
+                                 };
+                                 
+                                 myForm.onreset = function(){
+                                     var wrapper = document.getElementById('secret_question');//On récupére juste le span dans lequel on affiche la question
+                                     
+                                     for(k = 0; k < inputsLength; k++)
+                                         {
+                                             if(inputs[k].type === 'text' || inputs[k].type === 'password' || inputs[k].type === 'select-one')
+                                                 {
+                                                     inputs[k].className = '';
+                                                     wrapper.style.display = 'none';
+                                                     disableTooltips();
+                                                 }
+                                         }
+                                 };
+                                 
+                            })();//fin de la deuxième fonction anonyme
                         
                         disableTooltips();
-                        testss = document.getElementById('answer');
-                        testss.onkeyup = check[testss.id];
-                    })();
+
+                    })();//fin de la première fonction anonyme
                 </script>
             </div>
