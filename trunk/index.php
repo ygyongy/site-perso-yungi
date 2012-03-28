@@ -31,7 +31,7 @@
         $myLanguage->liste_langue = $myLanguage->getLangueList($myDb);
 
         
-// <-- creation des blocks --> 
+// <-creation des blocks --> 
        
         //L'id_categorie 5 => block_sidebar
         $myBlocks = new Vues();
@@ -41,7 +41,7 @@
         $myInfosWebsite = new InfosWebsite();
         $myInfosWebsiteListe = $myInfosWebsite->getInfosWebsite($myDb);
         
-// <-- fin création des blocks -->
+// <-fin création des blocks -->
 
     //Sélection du contenu
         $myCategorie = new Categories();

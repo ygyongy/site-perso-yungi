@@ -28,7 +28,10 @@ function requestAuthentificationUser(oForm, callback)
         
         //on récupère les champs du formulaire
         formValues = getFormValues(oForm);
-
+        for(var i = 0; i < formValues.length; i++)
+            {
+                alert(formValues[i]);
+            }
         //détection de la class        
         for(i = 0, c = formValues.length; i < c; i++)
         {          
@@ -64,34 +67,40 @@ function hex_md5(s)
     return rstr2hex(rstr_md5(str2rstr_utf8(s))); 
 }
 
-function getFormValues(oForm)
+function getFormValues(form)
 {
     //récupération des informations du formulaire
     var tmp_form = new Array();
+    var oFormLength = form.length;
     
-    for(i = 0; i < oForm.elements.length; i++)
+    for(i = 0; i < oFormLength; i++)
     {
-        if(oForm.elements[i].getAttribute('type').toLowerCase() !== 'reset' && oForm.elements[i].getAttribute('type').toLowerCase() !== 'submit')
+        var el = form.elements[i];
+        tmp_form[i] = new Array();
+
+        if(el.type.toLowerCase() !== 'reset' && el.type.toLowerCase() !== 'submit')
         {
             //Je cree pour chaque champ un tableau type
             var tmp_field = new Array();
-            tmp_field["id"] = oForm.elements[i].id;
-            tmp_field["type"] = oForm.elements[i].getAttribute('type');
-            tmp_field["class"] = oForm.elements[i].className;
+            
+            tmp_field['id'] = el.id;
+            tmp_field['type'] = el.type;
+            tmp_field['class'] = el.className;
+            tmp_field['label'] = el.value;
             
             //j'ai un objet PHP serialise dans certain formulaire...
-            if(oForm.elements[i].getAttribute('type').toLowerCase() !== 'hidden')
+            if(el.type.toLowerCase() !== 'hidden')
             {
-                tmp_field["valeur"] = encodeURIComponent(oForm.elements[i].value);
+                tmp_field['value'] = encodeURIComponent(el.value);
             }else{
-                tmp_field["valeur"] = oForm.elements[i].value;
-            }            
-
-            //je pousse mon tableau du champ au tableau formulaire
-            tmp_form.push(tmp_field);
+                tmp_field['value'] = el.value;
+            }
+            
+            //je pousse mon tableau du champ dans tableau formulaire
+            tmp_form[i].push(el);
         }
     }
-
+    
     return tmp_form;    
 }
 
@@ -168,7 +177,7 @@ function sendDatas(aDatas)
             sChaine += "&"+aDatas[i]["id"]+"="+aDatas[i]["valeur"];
         }
     }
-    alert(sChaine);
+
     xhr.open("post", "/site_perso_yungi/ajax/authentification_user.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhr.send(sChaine);
