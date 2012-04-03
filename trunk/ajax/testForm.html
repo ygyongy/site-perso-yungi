@@ -1,0 +1,55 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="../css/form.css"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+                <form id="create_user_form">
+                    <fieldset>
+                        <legend>Formulaire d'authentification</legend>
+                        <div>
+                            <label for="login">Saisissez votre Login: </label>
+                            <input type="text" name="login" id="login" class="required" />
+                            <span class="tooltip">Un pseudo doit-être rempli, unique et supérieur à 1 caractère!</span>
+                        </div>
+                        <div>
+                            <label for="password">Saisissez un Password: </label>
+                            <input type="password" name="password" id="password" class="required" />
+                            <span class="tooltip">Le mot de passe doit faire plus de 6 caractères</span>
+                            <br/>
+                            <label for="password2">Re-saisissez votre Password: </label>
+                            <input type="password" name="password2" id="password2" class="required" />
+                            <span class="tooltip">Les mots de passe doivent correspondre</span>
+                        </div>
+                        <div>
+                            <label for="question">Choisissez une question secrète: </label>
+                            <select name="question" id="question" class="required">
+                                <option value="none">Sélectionnez une question secrète?</option>
+                                <option value="ville">Quelle est votre ville d'origine?</option>
+                                <option value="maman">Quel est le nom de jeune fille de votre maman?</option>
+                                <option value="animal">De quel type était votre premier animal?</option>
+                            </select>
+                            <span class="tooltip">Vous devez au moins sélectionnez une question</span>
+                            <br/>
+                                <span id="secret_question"></span>
+                            <br/>
+                            <label for="answer">Saisissez votre réponse: </label>
+                            <input type="text" name="answer" id="answer" class="required" />
+                            <span class="tooltip">Vous devez répondre à la question avec un minimum de 4 caractères</span>
+                        </div>
+                        <div>
+                            <input type="submit" value="créer le membre" name="create_user" id="create_user" />
+                            <input type="reset" value="effacer le formulaire" name="reset_user" id="reset_user" />
+                        </div>
+                    </fieldset>
+                </form>
+        <script type="text/javascript" src="init_ajax.js"></script>
+        <script type="text/javascript" src="oCheckForm.js"></script>        
+    </body>
+</html>

@@ -18,13 +18,15 @@
                                     {/if}
                                 </div>
                              {/if}
+                             
                                  <!-- Ici choix des champs à afficher en fonction du type du champ -->
-                                 {if $field.type !== 'submit' && $field.type != 'reset'}
-                                    <div class="error" id="error_field_{$field.id}">&nbsp;</div>
-                                 {/if}
-                                 
-                                 <div class="field_wrapper {$field.class}">
-                                    {include file=elements_form/`$field.template`.tpl field=$field}
+                                 <div class="field_wrapper {$field.class}">                                    
+                                     {include file=elements_form/`$field.template`.tpl field=$field}
+                                     
+                                     {if $field.type !== 'submit' && $field.type != 'reset'}
+                                         <!-- Si le champ est différent d'un type 'submit' ou 'reset' on ajout un tooltip pour afficher l'erreur -->
+                                        <span class="tooltip" id="tooltip_field_{$field.id}">{if $field.tooltip !== ''}{$field.tooltip}{/if}</span>
+                                     {/if}                                      
                                  </div>
 
                                 {if $field.type !== 'submit' && $field.type !== 'reset'}
@@ -39,3 +41,5 @@
             </fieldset>
         {/if}
 </div>
+<script type="text/javascript" src="{$ajax_path}init_ajax.js"></script>
+<script type="text/javascript" src="{$ajax_path}oCheckForm.js"></script>
