@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="resume.xsl"?>
+<resume>
+
+	<title>Spy</title>
+
+	<identity>
+		<firstname>John</firstname>
+		<lastname>Doe</lastname>
+		<address>
+			<street>7, Lombard Street</street>
+			<zip>90210</zip>
+			<city>Los Angeles</city>
+		</address>
+	</identity>
+
+	<educations>
+
+		<education from="2003" to="2005">
+			<school>Université UCLA</school>
+			<degree>Diplôme d'ingénieur en informatique</degree>
+		</education>
+
+		<education from="2005" to="2008">
+			<school>Université de Boston</school>
+			<degree>License de marketing</degree>
+		</education>
+
+	</educations>
+
+</resume>

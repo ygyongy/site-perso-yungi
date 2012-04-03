@@ -36,6 +36,14 @@
                 Vous voilà avec toutes les informations nécessaires pour vous lancer dans ce TP. Nous vous laissons concevoir votre propre code HTML mais vous pouvez très bien utiliser celui de la correction si vous le souhaitez.
             </p>
             
+            <h2>Méthodologie:</h2>
+            <ol>
+                <legend>Mise en place d'une stratégie</legend>
+                <li>Créer un objet, par exemple check{}. Il aura des méthodes en fonction des types champs à contrôler (<i>text, password, select-one, button, ...</i>).</li>
+                <legend>Récupérer TOUS les éléments du formulaire et y éxécuter l'objet check.<i>méthode</i>()</legend>
+                <li>Puis effectivement faire un <i>document.getElementsById('myForm').getElementsByTagName('*');</i>. Ensuite de quoi une petite structure conditionnelle classique, afin de ne pas prendre en compte les champs qui ne nous intéressent pas!</li>
+            </ol>
+            
             <h2>
                 Début du TP à proprement parler
             </h2>
@@ -221,9 +229,9 @@
                                         tooltipStyle.display = 'inline-block';
                                         return false;
                                     }else{
-                                        pwd1.className = 'correct';
+                                        pwd1.className += ' correct';
                                         tooltipStyle.display = 'none';
-                                        return false;
+                                        return true;
                                     }
                             };
                             
@@ -291,8 +299,8 @@
                             //Mise en place des événemnts
                             (function(){
                                 //utilisation d'une fonction anonyme afin d'éviter les variables globales
-                                var myForm = document.getElementById('create_user_form');
-                                var inputs = myForm.getElementsByTagName('*');
+                                var formulaire = document.getElementById('create_user_form');
+                                var inputs = formulaire.getElementsByTagName('*');
                                 
                                 var inputsLength = inputs.length;
                                 
@@ -310,7 +318,7 @@
                                             }
                                     }
                                     
-                                 myForm.onsubmit = function(){
+                                 formulaire.onsubmit = function(e){
                                      var result = true;
                                      
                                      for(j in check) // le fameux foreach en JS
@@ -318,24 +326,32 @@
                                              result = check[j]() && result;
                                          }
                                          
-                                     if (result){
-                                         alert('Le Formulaire est bien rempli');
-                                     }
+                                     if (result)
+                                         {
+                                             alert('Le Formulaire est bien rempli');
+                                             return true;
+                                         }
                                      
                                      return false;
                                  };
                                  
-                                 myForm.onreset = function(){
+                                 formulaire.onreset = function(e){
+                                     
                                      var wrapper = document.getElementById('secret_question');//On récupére juste le span dans lequel on affiche la question
                                      
-                                     for(k = 0; k < inputsLength; k++)
+                                     if(confirm('Voulez-vous réellement effacer ce formulaire?'))
                                          {
-                                             if(inputs[k].type === 'text' || inputs[k].type === 'password' || inputs[k].type === 'select-one')
+                                             for(k = 0; k < inputsLength; k++)
                                                  {
-                                                     inputs[k].className = '';
-                                                     wrapper.style.display = 'none';
-                                                     disableTooltips();
-                                                 }
+                                                     if(inputs[k].type === 'text' || inputs[k].type === 'password' || inputs[k].type === 'select-one')
+                                                         {
+                                                             inputs[k].className = '';
+                                                             wrapper.style.display = 'none';
+                                                             disableTooltips();
+                                                         }
+                                                 }                                             
+                                         }else{
+                                             e.preventDefault();//gestion de l'événement est prévient la réinitialisation du formulaire
                                          }
                                  };
                                  

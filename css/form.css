@@ -66,16 +66,61 @@ label
     margin-bottom: 3px;
 }
 
-.error
+.tooltip
 {
+    display: inline-block;
     background-image: url(../images/classique/theme/error_icon.png);
-    background-position: 98%;
     background-repeat: no-repeat;
-    font-variant: small-caps;
-    display: none;
     margin-bottom: 0px;
-    min-height: 30px;
-    width: 30px;
-    float: right;
+    min-height: 16px;
+    min-width: 16px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border: 1px red solid;
+    background-color: pink;
+    background-position: 5px;
+    font-size: 0.5em;
+    line-height: 1em;
+    color: darkred;
+    margin-top: 5px;
+    padding-top: 3px;
+    padding-right: 3px;
+    padding-left: 25px;
 }
 
+input, select
+{
+    border: 1px #838383 solid;
+    background-color: #eee;
+    padding: 2px;
+    outline: none;
+}
+
+input:focus, select:focus
+{
+    border: 1px dodgerblue solid;
+    background-color: #D7D7D7;
+    padding: 2px;
+    outline: none;
+}
+
+.correct
+{
+    border: 1px #4f8700 solid;
+    background-color: #e5ffce;
+}
+
+.incorrect
+{
+    background-color: pink;
+    border: 1px #DC143C solid;
+    outline: none;
+    font-weight: bold;
+    color: darkred;
+}
+
+.incorrect:focus
+{
+    border: 1px dodgerblue solid;
+    padding: 2px;
+}
