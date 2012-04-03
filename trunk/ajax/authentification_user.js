@@ -28,10 +28,7 @@ function requestAuthentificationUser(oForm, callback)
         
         //on récupère les champs du formulaire
         formValues = getFormValues(oForm);
-        for(var i = 0; i < formValues.length; i++)
-            {
-                alert(formValues[i]);
-            }
+
         //détection de la class        
         for(i = 0, c = formValues.length; i < c; i++)
         {          
@@ -70,9 +67,12 @@ function hex_md5(s)
 function getFormValues(form)
 {
     //récupération des informations du formulaire
-    var tmp_form = new Array();
+    var oForm = form;
     var oFormLength = form.length;
-    
+    var el = document.getElementsByTagName('input');
+    el.push(document.getElementsByTagName('select'));
+    alert(el);
+        
     for(i = 0; i < oFormLength; i++)
     {
         var el = form.elements[i];
