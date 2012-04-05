@@ -9,6 +9,12 @@
     require_once 'classes/Categories.class.php';
     require_once 'classes/Vues.class.php';
     
+    //Classe qui permet de charger une extension Chrome pour debugg PHP
+        require_once 'classes/PhpConsole/PhpConsole.php';
+    
+    //Extension Chrome pour Debuggage PHP
+        PhpConsole::start();
+    
     //insertion du moteur smarty
         require_once 'classes/SmartyYungi.class.php';
 

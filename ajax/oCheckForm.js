@@ -96,7 +96,7 @@ formulaire = {
     },
     
     disableTooltip : function(oForm){
-        if(oForm.length > 1){
+        if(oForm.length > 4){
             //On essaie d'envoyer plus que 1 formulaire!
             return false;
         }
@@ -153,7 +153,7 @@ formulaire = {
             
             if(valueLength > 1){
                 el.className = 'correct';
-                elTooltipStyle.display = 'none';
+                elTooltipStyle.display = 'none';                
                 return true;
             }else{
                 el.className += ' incorrect';

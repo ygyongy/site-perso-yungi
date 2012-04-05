@@ -25,6 +25,24 @@ class DataBase {
     {
         if(mysql_connect($this->host, $this->user, $this->pwd))
         {
+            $dsn = "mysql:host=".$this->host.";port=3306;dbname=".$this->dbName."";
+            $username = $this->user;
+            $passwd = $this->pwd;
+
+            try
+            {
+                $connect = new PDO($dsn, $username, $passwd);
+                $driver = $connect->getAvailableDrivers();
+                $driver = $connect->getAttribute(PDO::ATTR_SERVER_VERSION);
+                $querry = "SET NAMES UTF8";
+                $contenu = $connect->query($querry);
+                $res = $contenu->fetchAll();
+            }
+            catch (PDOException $e)
+            {
+                die ("Echec!!!<div style='color: red;'>".$e->getMessage()."</div>");
+            }            
+
             $link = mysql_connect($this->host, $this->user, $this->pwd);
             $res = mysql_select_db($this->dbName);
 
