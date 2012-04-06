@@ -2,5 +2,5 @@
     <h1>{$title}</h1>
 </div>
 <div id="menu_navigation" class="menu">
-    {include file="menu_navigation.tpl"}
+    {include file="menu.tpl"}
 </div>

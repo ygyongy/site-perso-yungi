@@ -16,8 +16,8 @@
     <head>
         
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="keywords" content="{$keywords_website}" />
-        <meta name="description" content="{$description_website}" />
+        <meta name="keywords" content="{*$keywords_website*}" />
+        <meta name="description" content="{*$description_website*}" />
         <title>{$title_website}</title>
         
         <link rel="stylesheet" type="text/css" href="{$css_path}main.css" />
