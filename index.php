@@ -54,7 +54,7 @@
         $myCategorie->id_categorie = $myCategorie->getIdCategorie($page, $myLanguage->id_langue, $myDb);
         $myCategorie->nom_categorie = $myCategorie->getNomCategorie($myCategorie->id_categorie, $myLanguage->id_langue, $myDb);
         $myCategorie->liste_categorie = $myCategorie->getCategorieList($myDb, 'navigation');
-        
+	        
     //Récupération de la catégorie Admin
         $myCategorieAdmin = new Categories();
         $myCategorieAdmin->liste_categorie = $myCategorieAdmin->getCategorieList($myDb, 'admin');
@@ -125,9 +125,9 @@
             $type_contenu = $myVue->getTemplate($myVue, $t);
             $type_block_sidebar = $myBlocks->getTemplate($myBlocks, $t);
             
-            $t->assign('menu_admin_liste', $myMenuAdminList);
-            $t->assign('menu_navigation_liste', $myMenuList);
-            $t->assign('menu_langue_liste', $myMenuLangueList);
+            $t->assign('menu_liste_admin', $myMenuAdminList);
+            $t->assign('menu_liste_nav', $myMenuList);
+            $t->assign('menu_liste_langues', $myMenuLangueList);
 
             //assignation des blocks de la sideBar
             $t->assign('blocks', $myBlocks->contentsHTML);
