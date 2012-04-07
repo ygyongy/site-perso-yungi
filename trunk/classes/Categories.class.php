@@ -46,7 +46,7 @@ class Categories {
         {
             $this->nom_categorie = $record[0]['nom_categorie'];
         }else{
-            $this->nom_categorie = FALSE;
+            $this->nom_categorie = false;
         }
 
         return $this->nom_categorie;
