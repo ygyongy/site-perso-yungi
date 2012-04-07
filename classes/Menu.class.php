@@ -17,7 +17,11 @@ class Menu {
 
     public function Menu()
     {
-        return true;
+            $menuArray = null;
+            $menuTranslatedArray = null;
+            $menuParametres = null;
+            $translationMenuParametres = null;
+            return true;
     }
 
     public function getMenu($categorie, $langue, $db, $oCategorie, $page)
@@ -31,7 +35,7 @@ class Menu {
                  {
                      if($categorie->liste_categorie[$i]['langues_id_langue'] === $langue->id_langue)
                      {
-                         $tmp[$i]['lien_menu'] = SUB_DOMAIN.$langue->code_langue.'/'.$categorie->liste_categorie[$i]['nom_categorie'].'/';
+                         $tmp[$i]['lien_menu'] = SUB_DOMAIN.$langue->code_langue.'/'.$categorie->liste_categorie[$i]['nom_categorie'].'/'; 
                      }else{
                          unset ($tmp[$i]);
                      }
@@ -63,7 +67,6 @@ class Menu {
 
         $this->menuArray = $tmp;
         unset ($tmp);
-        
         return $this->menuArray;
     }
 }
