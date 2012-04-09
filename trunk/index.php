@@ -30,7 +30,15 @@
             'name' => 'oUser',
             'id' => 'oUser',
             'value' => $oUser
-        );        
+        );
+        
+        //si la session n'est pas initialisée ou égal au compte par défaut on affiche le formulaire
+        //sinon on fait rien
+        
+        if(!isset($_SESSION['utilisateur']) || $_SESSION['utilisateur'][0]->login_utilisateur === 'anonymous')
+        {
+            $myUserForm = $myUser->getUserForm($myDb, $myUser);
+        }        
 
     //détection de la langue
         $myLanguage = new Languages($langue);
@@ -53,18 +61,19 @@
         $myCategorie = new Categories();
         $myCategorie->id_categorie = $myCategorie->getIdCategorie($page, $myLanguage->id_langue, $myDb);
         $myCategorie->nom_categorie = $myCategorie->getNomCategorie($myCategorie->id_categorie, $myLanguage->id_langue, $myDb);
-        $myCategorie->liste_categorie = $myCategorie->getCategorieList($myDb, 'navigation');
+        $myCategorie->liste_categorie = $myCategorie->getCategorieList($myDb, 'navigation', $myUser);
 	        
     //Récupération de la catégorie Admin
         $myCategorieAdmin = new Categories();
-        $myCategorieAdmin->liste_categorie = $myCategorieAdmin->getCategorieList($myDb, 'admin');
+        $myCategorieAdmin->liste_categorie = $myCategorieAdmin->getCategorieList($myDb, 'admin', $myUser);
 
     //Récupération du contenu
         $myVue = new Vues();
-        if($myVue->contents[0]['id_contenu'])
+        
+        if($myVue->oContents[0]['id_contenu'])
         {
             $myVue->getContent($myCategorie->id_categorie, $myLanguage->id_langue, $myDb, $myUser);
-            $myVue->getTitleHtml($myVue->contents[0]['id_contenu'], $myLanguage->id_langue, $myDb);
+            $myVue->getTitleHtml($myVue->oContents[0]['id_contenu'], $myLanguage->id_langue, $myDb);
         }else{
             $myVue->getContent($myCategorie->id_categorie, $myLanguage->id_langue, $myDb, $myUser);
             $myVue->getTitleHtml(1, $myLanguage->id_langue, $myDb);
@@ -97,14 +106,6 @@
             //création d'un objet debug pour tester les variables
             $myDebug = new Debug();
             
-            //si la session n'est pas initialisée ou égal au compte par défaut on affiche le formulaire
-            //sinon on fait rien
-            if(!isset($_SESSION['utilisateur']) || $_SESSION['utilisateur']['login_utilisateur'] === 'anonymous')
-            {
-                $myUserForm = $myUser->getUserForm($myDb, $myUser);
-                $t->assign('connexion_user_form', json_decode($myUserForm[0]['contenu'], true));
-            }
-            
             //Ces infos ont déjà été attribuée donc on décharge la mémoire de leurs valeurs
             unset ($myInfosWebsiteListe['keywords_website']);
             unset ($myInfosWebsiteListe['title_website']);
@@ -132,6 +133,7 @@
             //assignation des blocks de la sideBar
             $t->assign('blocks', $myBlocks->contentsHTML);
             $t->assign('contents_block', $myBlocks->contents);
+            $t->assign('connexion_user_form', json_decode($myUserForm[0]['contenu'], true));
             $t->assign("infos_website_liste", $myInfosWebsiteListe[0]);
             
             //assignation des contenus aux pages
@@ -149,6 +151,4 @@
             $t->display('index.tpl');
 
             $myDb->dataBaseClose($myDb->link);
-            
-            $myDebug->p($_SESSION['utilisateur']);
 ?>

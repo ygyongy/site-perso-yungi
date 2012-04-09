@@ -11,7 +11,7 @@
                           {include file="elements_form/input.tpl" field=$fUser}
                           {foreach from=$page.contenu.fields item=field key=j}
                             
-                            {if $field.type !== 'submit' && $field.type != 'reset'}
+                            {if isset($field.type) && $field.type !== 'submit' && $field.type != 'reset'}
                                 <div class="label_wrapper">
                                     {if isset($field.display_name)}
                                         <label for="{$field.name}" title="{$field.display_name}" id="label_{$field.id}">{$field.display_name}:</label>
@@ -23,13 +23,13 @@
                                  <div class="field_wrapper {$field.class}">                                    
                                      {include file=elements_form/`$field.template`.tpl field=$field}
                                      
-                                     {if $field.type !== 'submit' && $field.type != 'reset'}
+                                     {if isset($field.type) && $field.type !== 'submit' && $field.type != 'reset'}
                                          <!-- Si le champ est différent d'un type 'submit' ou 'reset' on ajout un tooltip pour afficher l'erreur -->
                                         <span class="tooltip" id="tooltip_field_{$field.id}">{if $field.tooltip !== ''}{$field.tooltip}{/if}</span>
                                      {/if}                                      
                                  </div>
 
-                                {if $field.type !== 'submit' && $field.type !== 'reset'}
+                                {if isset($field.type) && $field.type !== 'submit' && $field.type !== 'reset'}
                                     <div class="clear">&nbsp;</div>
                                 {/if}
                                 <!-- Ici fin de la gestion des champs -->

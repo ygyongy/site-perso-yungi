@@ -14,7 +14,7 @@ class Vues{
     private $sous_categorie_id;
     public $nom_categorie;
     public $nom_sous_categorie;
-    public $contents = array();
+    public $oContents = array();
     public $contentsHTML = array();
     public $titre_html;
     private $fichiers = array();
@@ -25,7 +25,7 @@ class Vues{
         $this->sous_categorie_id = NULL;
         $this->nom_categorie = NULL;
         $this->nom_sous_categorie = NULL;
-        $this->contents = null;
+        $this->oContents = null;
         $this->titre_html = null;
     }
 
@@ -53,33 +53,44 @@ class Vues{
         {
             $parametre = array(
                 'select' => '*',
-                'from' => "view_".$_SESSION['utilisateur']['nom_groupe']."_contenus", //concatene le nom de la vue avec celui du groupe de l'utilisateur
+                'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_contenus", //concatene le nom de la vue avec celui du groupe de l'utilisateur
                 'where' => "id_categorie = ".$id_categorie." AND langues_id_langue = ".$langue.""
             );            
         }else{
             $parametre = array(
                 'select' => '*',
-                'from' => "view_".$_SESSION['utilisateur']['nom_groupe']."_contenus",
+                'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_contenus",
                 'where' => "id_categorie = 1 AND langues_id_langue = ".$langue.""
             );            
         }
 
-        $contenus = $db->dataBaseSelect($parametre);
-
+        $this->oContents = $db->dataBaseSelect($parametre);
+        
         //on gère la multiplicité des contenus possible
-        if(!is_null($contenus))
+        if(!is_null($this->oContents))
         {
-            for($i = 0; $i < count($contenus); $i++)
-            {
-                if(isset($contenus[$i]['contenu']) && !empty($contenus[$i]['contenu']))
+            foreach($this->oContents as $key => $contenu)
+            {                
+                if(isset($contenu->contenu) && !empty($contenu->contenu))
                 {
                     // le contenus est serialisez dans un objet JSON
                     //le paramètre TRUE => permet de renvoyer un tableau!!!
-                    $contents_page[$i] = json_decode($contenus[$i]['contenu'], TRUE);
-                    $contents_page[$i]['fichier_tpl'] = $contenus[$i]['nom_type_contenu'];
-                    $contents_page[$i]['id_contenu'] = $contenus[$i]['id_contenu'];
+                    $contents_page[$key] = json_decode($contenu->contenu, TRUE);
+                    $contents_page[$key]['fichier_tpl'] = $contenu->nom_type_contenu;
+                    $contents_page[$key]['id_contenu'] = $contenu->id_contenu;
                 }else{
-                    $contents_page[] = array('titre' => "Contenu vide!!!", 'contenu' => 'contenus par défaut', 'fichier_tpl' => 'page');
+                    switch ($langue)
+                    {
+                        case 1:
+                            $contents_page[] = array('titre' => "Contenu vide!!!", 'contenu' => 'contenus par défaut', 'fichier_tpl' => 'page');
+                            ; break;
+                        case 2:
+                            $contents_page[] = array('titre' => "Diese Seite ist leer!", 'contenu' => 'Default Seite', 'fichier_tpl' => 'page');
+                            ; break;
+                        case 3:
+                            $contents_page[] = array('titre' => "Empty content!!!", 'contenu' => 'Default content', 'fichier_tpl' => 'page');
+                            ; break;
+                    }
                 }
             }
         }else{
@@ -106,7 +117,7 @@ class Vues{
          */
 
         $pattern_links = '#^(http://)?(www\.)?([-\w.]*)\.([a-z0-9]{2,})#iU';
-        
+
         foreach($contents_page as $value)
         {
             //Si ce n'est pas un formulaire
@@ -172,7 +183,7 @@ class Vues{
             );
 
             $tmp = $db->dataBaseSelect($parametre);
-            $this->titre_html = $tmp[0]['titre_html'];
+            $this->titre_html = $tmp[0]->titre_html;
 
             return TRUE;
         }else{

@@ -21,11 +21,11 @@ class Categories {
         $this->liste_categorie = array();
     }
 
-    public function getCategorieList($oDb, $emplacement)
+    public function getCategorieList($oDb, $emplacement, $oUser)
     {        
         $parametre = array(
             'select' => 'id_categorie, nom_categorie, langues_id_langue, position_categorie, emplacement_categorie',
-            'from' => "view_".$_SESSION['utilisateur']['nom_groupe']."_menu",
+            'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_menu",
             'where' => 'emplacement_categorie = "'.$emplacement.'"'
         );
 
@@ -41,10 +41,10 @@ class Categories {
             );
 
         $record = $db->dataBaseSelect($arguments);
-        
+
         if(count($record) === 1)
         {
-            $this->nom_categorie = $record[0]['nom_categorie'];
+            $this->nom_categorie = $record[0]->nom_categorie;
         }else{
             $this->nom_categorie = false;
         }
