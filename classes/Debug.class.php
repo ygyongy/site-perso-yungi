@@ -20,11 +20,9 @@ class Debug {
 
     function p ($var)
     {
-        $this->printDebug = "<pre>";
-            $this->printDebug .= var_dump($var);
-        $this->printDebug .= "</pre>";
-        
-        return $this->printDebug;
+        echo "<pre>";
+            var_dump($var);
+        echo "</pre>";
     }
 }
 ?>

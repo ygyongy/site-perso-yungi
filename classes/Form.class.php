@@ -27,6 +27,7 @@ class Form {
 
     function setProperties($form)
     {
+
         if (count($form['contenu']['fields']) <= 0)
         {
             $this->action = $form['contenu']['action'];

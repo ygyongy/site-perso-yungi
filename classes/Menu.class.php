@@ -33,9 +33,9 @@ class Menu {
                  $tmp = $categorie->liste_categorie;
                  for ($i = 0; $i < count($categorie->liste_categorie); $i++)
                  {
-                     if($categorie->liste_categorie[$i]['langues_id_langue'] === $langue->id_langue)
+                     if($categorie->liste_categorie[$i]->langues_id_langue === $langue->id_langue)
                      {
-                         $tmp[$i]['lien_menu'] = SUB_DOMAIN.$langue->code_langue.'/'.$categorie->liste_categorie[$i]['nom_categorie'].'/'; 
+                         $tmp[$i]->lien_menu = SUB_DOMAIN.$langue->code_langue.'/'.$categorie->liste_categorie[$i]->nom_categorie.'/'; 
                      }else{
                          unset ($tmp[$i]);
                      }
@@ -53,9 +53,9 @@ class Menu {
                  {
                      if(!empty($page))
                      {                         
-                         $tmp[$i]['lien_menu'] = SUB_DOMAIN.$tmp[$i]['code_langue'].'/'.$oCategorie->getNomCategorie($tmp_id, $langue->liste_langue[$i]['id_langue'], $db).'/';
+                         $tmp[$i]->lien_menu = SUB_DOMAIN.$tmp[$i]->code_langue.'/'.$oCategorie->getNomCategorie($tmp_id, $langue->liste_langue[$i]->id_langue, $db).'/';
                      }else{
-                         $tmp[$i]['lien_menu'] = SUB_DOMAIN.$tmp[$i]['code_langue'].'/'.$oCategorie->getNomCategorie(1, $langue->liste_langue[$i]['id_langue'], $db).'/';
+                         $tmp[$i]->lien_menu = SUB_DOMAIN.$tmp[$i]->code_langue.'/'.$oCategorie->getNomCategorie(1, $langue->liste_langue[$i]->id_langue, $db).'/';
                      }
                  }
                  ; break;

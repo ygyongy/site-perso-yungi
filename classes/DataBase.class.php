@@ -20,44 +20,44 @@ class DataBase {
         $this->user = "root";
         $this->pwd = "";
     }
+    
+    function getPDOObject()
+    {
+        $dsn = "mysql:host=".$this->host.";port=3306;dbname=".$this->dbName."";
+        $parametres = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
+        $username = $this->user;
+        $passwd = $this->pwd;
+
+        try
+        {
+            $PDOObject = new PDO($dsn, $username, $passwd);
+            $driver = $PDOObject->getAvailableDrivers();
+            $driver = $PDOObject->getAttribute(PDO::ATTR_SERVER_VERSION);
+            $PDOObject->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $PDOObject;
+        }
+        catch (PDOException $e)
+        {
+            die ("Echec!!!<div style='color: red;'>".$e->getMessage()."</div>");
+            return false;
+        }        
+    }
 
     function dataBaseConnect()
     {
-        if(mysql_connect($this->host, $this->user, $this->pwd))
+        $bdd = $this->getPDOObject();
+        
+        $link = mysql_connect($this->host, $this->user, $this->pwd);
+        $res = mysql_select_db($this->dbName);
+
+        if($res !== false)
         {
-            $dsn = "mysql:host=".$this->host.";port=3306;dbname=".$this->dbName."";
-            $username = $this->user;
-            $passwd = $this->pwd;
-
-            try
-            {
-                $connect = new PDO($dsn, $username, $passwd);
-                $driver = $connect->getAvailableDrivers();
-                $driver = $connect->getAttribute(PDO::ATTR_SERVER_VERSION);
-                $querry = "SET NAMES UTF8";
-                $contenu = $connect->query($querry);
-                $res = $contenu->fetchAll();
-            }
-            catch (PDOException $e)
-            {
-                die ("Echec!!!<div style='color: red;'>".$e->getMessage()."</div>");
-            }            
-
-            $link = mysql_connect($this->host, $this->user, $this->pwd);
-            $res = mysql_select_db($this->dbName);
-
-            //permet de parametrer les connections entre la base est PHP en UTF-8
-            $querry = "SET NAMES UTF8";
-            if(mysql_query($querry))
-            {
-                $res = mysql_query($querry);
-            }else{
-                $res = false;
-            }
+            unset ($bdd);
         }else{
-            $link = "Erreur de connection";
+            return false;
         }
-            return $link;
+
+        return $link;
     }
 
     function dataBaseClose($link)
@@ -68,7 +68,15 @@ class DataBase {
 
     function dataBaseSelect($arguments)
     {
+        //création de l'objet PDO
+        $bdd = $this->getPDOObject();
+
+        //permet de parametrer les connections entre la base est PHP en UTF-8
+        $query = "Set Names utf8";
+        $bdd->exec($query);        
+
         //construction de la requete
+
         $query = "SELECT ".$arguments['select']." FROM ".$arguments['from']."";
 
         if(isset($arguments['where']) && !is_null($arguments['where']) && !empty($arguments['where']))
@@ -86,28 +94,37 @@ class DataBase {
             $query .= " LIMIT ".$arguments['limit'];
         }
 
-        if(mysql_query($query))
+        try{
+            $res = $bdd->query($query);
+            $res->setFetchMode(PDO::FETCH_OBJ);            
+        }  catch (Exception $e){
+            echo "Une erreur est survenue lors de la récupération des données";
+            die ($e->getMessage());
+        }
+        
+        if($res)
         {
-            $res = mysql_query($query);
-
-            while($line = mysql_fetch_assoc($res))
+            while($line = $res->fetch())
             {
                 $tmp[] = $line;
-            }
-
+            }         
 
             if(isset($tmp) && count($tmp)> 0)
             {
-                mysql_free_result($res);
+                unset ($bdd);
                 return $tmp;
             }
         }else{
+            unset ($bdd);
             return false;
         }
     }
 
     function dataBaseSelectImbrique($arguments, $arguments2)
     {
+        //création de l'objet PDO
+        $bdd = $this->getPDOObject();       
+
         //construction de la requete
         $query = "SELECT ".$arguments['select']." FROM ".$arguments['from']." WHERE ".$arguments['where']."";
             $query .= "SELECT ".$arguments2['select']. " FROM ".$arguments2['from']." WHERE ".$arguments2['where'].""; //requete imbriquée
@@ -126,7 +143,7 @@ class DataBase {
         if(mysql_query($query))
         {
             $res = mysql_query($query);
-			$tmp = NULL;
+            $tmp = null;
 			
             while($line = mysql_fetch_assoc($res))
             {

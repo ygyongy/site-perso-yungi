@@ -50,24 +50,24 @@ class User {
             $query = array(
                 'select' => '*',
                 'from' => 'groupes',
-                'where' => "id_groupe = ".$dbAnswer[0]['groupes_id_groupe']." ",
+                'where' => "id_groupe = ".$dbAnswer[0]->groupes_id_groupe." ",
                 'limit' => "0,1"
             );
 
             $groupe = $oDb->dataBaseSelect($query);
             $tmp = array_merge($dbAnswer, $groupe);
             
-            $_SESSION['utilisateur'] = array_merge($tmp[0], $tmp[1]);
+            $_SESSION['utilisateur'] = $tmp;
 
-            $this->login = $_SESSION['utilisateur']['login_utilisateur'];
-            $this->password = $_SESSION['utilisateur']['pwd_utilisateur'];
-            $this->groupe = $_SESSION['utilisateur']['nom_groupe'];
-            $this->droit = $_SESSION['utilisateur']['droit_groupe'];
+            $this->login = $_SESSION['utilisateur'][0]->login_utilisateur;
+            $this->password = $_SESSION['utilisateur'][0]->pwd_utilisateur;
+            $this->groupe = $_SESSION['utilisateur'][1]->nom_groupe;
+            $this->droit = $_SESSION['utilisateur'][1]->droit_groupe;
 
             unset ($tmp);
             unset ($groupe);
             unset ($query);
-            
+           
         return $oDb->dataBaseSelect($parametres);
     }
 
@@ -104,7 +104,7 @@ class User {
                 $query = array(
                     'select' => '*',
                     'from' => 'groupes',
-                    'where' => "id_groupe = ".$dbAnswer[0]['groupes_id_groupe']." ",
+                    'where' => "id_groupe = ".$dbAnswer[0]->groupes_id_groupe." ",
                     'limit' => "0,1"
                 );
 
