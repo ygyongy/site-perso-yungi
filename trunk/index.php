@@ -20,7 +20,8 @@
 
     //création d'un objet BDD
         $myDb = new DataBase();
-        $myDb->link = $myDb->dataBaseConnect();
+        $myDb->dataBaseConnect();
+        $myDbLink = $myDb->getLink();
         
     //création d'un utilisateur
         $myUser = new User($myDb);
@@ -42,14 +43,15 @@
 
     //détection de la langue
         $myLanguage = new Languages($langue);
-        $myLanguage->liste_langue = $myLanguage->getLangueList($myDb);
+        $myLanguage->setListeLangue($myDb); //tableau récupérant les données des menus langues
+        $myListeLanguage = $myLanguage->getListeLangue();
 
         
 // <-creation des blocks --> 
        
         //L'id_categorie 5 => block_sidebar
         $myBlocks = new Vues();
-        $myBlocks->getContent(5, $myLanguage->id_langue, $myDb, $myUser);
+        $myBlocks->getContent(5, $myLanguage->getIdLangue(), $myDb, $myUser);
 
         //Reprise des infos du site web
         $myInfosWebsite = new InfosWebsite();
@@ -59,24 +61,28 @@
 
     //Sélection du contenu
         $myCategorie = new Categories();
-        $myCategorie->id_categorie = $myCategorie->getIdCategorie($page, $myLanguage->id_langue, $myDb);
-        $myCategorie->nom_categorie = $myCategorie->getNomCategorie($myCategorie->id_categorie, $myLanguage->id_langue, $myDb);
-        $myCategorie->liste_categorie = $myCategorie->getCategorieList($myDb, 'navigation', $myUser);
-	        
+        $myIdCategorie = $myCategorie->getIdCategorie($page, $myLanguage->getIdLangue(), $myDb);
+        $myNomCategorie = $myCategorie->getNomCategorie($myCategorie->getIdCategorie($page, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb);
+        $myCategorie->setCategorieList($myDb, 'navigation', $myUser);
+        $myListeCategorie = $myCategorie->getListeCategorie(); //tableau récupérant les données des menus navigation
+       
+        
     //Récupération de la catégorie Admin
         $myCategorieAdmin = new Categories();
-        $myCategorieAdmin->liste_categorie = $myCategorieAdmin->getCategorieList($myDb, 'admin', $myUser);
+        $myCategorieAdmin->setCategorieList($myDb, 'admin', $myUser);
+        $myListeCategorieAdmin = $myCategorieAdmin->getListeCategorie(); //tableau récupérant les données des menus admin
 
+        
     //Récupération du contenu
         $myVue = new Vues();
         
         if($myVue->oContents[0]['id_contenu'])
         {
-            $myVue->getContent($myCategorie->id_categorie, $myLanguage->id_langue, $myDb, $myUser);
-            $myVue->getTitleHtml($myVue->oContents[0]['id_contenu'], $myLanguage->id_langue, $myDb);
+            $myVue->getContent($myCategorie->getIdCategorie($page, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb, $myUser);
+            $myVue->getTitleHtml($myVue->oContents[0]['id_contenu'], $myLanguage->getIdLangue(), $myDb);
         }else{
-            $myVue->getContent($myCategorie->id_categorie, $myLanguage->id_langue, $myDb, $myUser);
-            $myVue->getTitleHtml(1, $myLanguage->id_langue, $myDb);
+            $myVue->getContent($myCategorie->getIdCategorie($page, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb, $myUser);
+            $myVue->getTitleHtml(1, $myLanguage->getIdLangue(), $myDb);
         }
 
     //récupération des données pour le référencement
@@ -106,21 +112,24 @@
             //création d'un objet debug pour tester les variables
             $myDebug = new Debug();
             
+            
             //Ces infos ont déjà été attribuée donc on décharge la mémoire de leurs valeurs
             unset ($myInfosWebsiteListe['keywords_website']);
             unset ($myInfosWebsiteListe['title_website']);
             
             //Creation du sommaire admin
             $myMenuAdmin = new Menu();
-            $myMenuAdminList = $myMenuAdmin->getMenu($myCategorieAdmin, $myLanguage, $myDb, $myCategorieAdmin, $page);
+            $myMenuAdminList = $myMenuAdmin->getMenu($myCategorieAdmin, $myLanguage, $myDb, $myCategorieAdmin, $page, $myListeCategorieAdmin);
             
             //création du sommaire des langues
             $myMenuLangue = new Menu();
-            $myMenuLangueList = $myMenuLangue->getMenu($myLanguage, $myLanguage, $myDb, $myCategorie, $page);
+            $myMenuLangueList = $myMenuLangue->getMenu($myLanguage, $myLanguage, $myDb, $myCategorie, $page, $myListeLanguage);
+            //$myDebug->p($myListeCategorie);
             
             //Creation du sommaire principal
             $myMenu = new Menu();
-            $myMenuList = $myMenu->getMenu($myCategorie, $myLanguage, $myDb, $myCategorie, $page);
+            $myMenuList = $myMenu->getMenu($myCategorie, $myLanguage, $myDb, $myCategorie, $page, $myListeCategorie);
+            
             
             //méthode de gestion d'appel des templates
             $type_contenu = $myVue->getTemplate($myVue, $t);
@@ -150,5 +159,5 @@
 
             $t->display('index.tpl');
 
-            $myDb->dataBaseClose($myDb->link);
+            $myDb->dataBaseClose($myDbLink);
 ?>
