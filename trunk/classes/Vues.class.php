@@ -12,11 +12,12 @@
 class Vues{
     private $categorie_id;
     private $sous_categorie_id;
-    public $nom_categorie;
-    public $nom_sous_categorie;
-    public $oContents = array();
-    public $contentsHTML = array();
-    public $titre_html;
+    private $nom_categorie;
+    private $nom_sous_categorie;
+    private $oContents = array();
+    private $contentsHTML = array();
+    private $titre_html_categorie;
+    private $contents = array();
     private $fichiers = array();
 
     public function Vues()
@@ -26,12 +27,42 @@ class Vues{
         $this->nom_categorie = NULL;
         $this->nom_sous_categorie = NULL;
         $this->oContents = null;
-        $this->titre_html = null;
+        $this->titre_html_categorie = null;
     }
 
+    public function getTitreHtml()
+    {
+        return $this->titre_html_categorie;
+    }
+    
+    public function getNomCategorie()
+    {
+        return $this->nom_categorie;
+    }
+    
+    public function getNomSousCategorie()
+    {
+        return $this->nom_sous_categorie;
+    }    
+    
+    public function getOContents()
+    {
+        return $this->oContents;
+    }
+    
+    public function getContents()
+    {
+        return $this->contents;
+    }
+    
+    public function getContentsHTML()
+    {
+        return $this->contentsHTML;
+    }
+    
     public function getContent($id_categorie, $langue, $db, $oUser)
     {
-        switch ($oUser->droit)
+        switch ($oUser->getDroitUser())
         {
             case 'UPEA' : $view = 'view_admin_contenus';
                 break;
@@ -82,13 +113,13 @@ class Vues{
                     switch ($langue)
                     {
                         case 1:
-                            $contents_page[] = array('titre' => "Contenu vide!!!", 'contenu' => 'contenus par défaut', 'fichier_tpl' => 'page');
+                            $contents_page[] = array('titre' => "Contenu vide!!!", 'contenu' => 'contenus par défaut', 'footer' => 'Pied de page non-présent', 'fichier_tpl' => 'page');
                             ; break;
                         case 2:
-                            $contents_page[] = array('titre' => "Diese Seite ist leer!", 'contenu' => 'Default Seite', 'fichier_tpl' => 'page');
+                            $contents_page[] = array('titre' => "Diese Seite ist leer!", 'contenu' => 'Default Seite', 'footer' => 'Füssen des Seite leer', 'fichier_tpl' => 'page');
                             ; break;
                         case 3:
-                            $contents_page[] = array('titre' => "Empty content!!!", 'contenu' => 'Default content', 'fichier_tpl' => 'page');
+                            $contents_page[] = array('titre' => "Empty content!!!", 'contenu' => 'Default content', 'footer' => 'Footer doesn\'t exist', 'fichier_tpl' => 'page');
                             ; break;
                     }
                 }
@@ -97,13 +128,13 @@ class Vues{
             switch ($langue)
             {
                 case 1:
-                    $contents_page[] = array('titre' => "Contenu vide!!!", 'contenu' => 'contenus par défaut', 'fichier_tpl' => 'page');
+                    $contents_page[] = array('titre' => "Contenu vide!!!", 'contenu' => 'contenus par défaut', 'footer' => 'Pied de page non-présent', 'fichier_tpl' => 'page');
                     ; break;
                 case 2:
-                    $contents_page[] = array('titre' => "Diese Seite ist leer!", 'contenu' => 'Default Seite', 'fichier_tpl' => 'page');
+                    $contents_page[] = array('titre' => "Diese Seite ist leer!", 'contenu' => 'Default Seite', 'footer' => 'Füssen des Seite leer', 'fichier_tpl' => 'page');
                     ; break;
                 case 3:
-                    $contents_page[] = array('titre' => "Empty content!!!", 'contenu' => 'Default content', 'fichier_tpl' => 'page');
+                    $contents_page[] = array('titre' => "Empty content!!!", 'contenu' => 'Default content', 'footer' => 'Footer doesn\'t exist', 'fichier_tpl' => 'page');
                     ; break;
             }
         }
@@ -172,18 +203,18 @@ class Vues{
         $mot_exclu = array('un', 'une', 'de', 'du', 'des', 'l\'', 'le', 'la', 'les', 'mon', 'ton', 'son', 'dans');
     }
 
-    public function getTitleHtml($id, $langue, $db)
+    public function setTitleHtml($id, $langue, $db)
     {
         if($id)
         {
             $parametre = array(
-                'select' => 'titre_html',
-                'from' => 'contenus',
-                'where' => 'id_contenu = '.$id.' AND langues_id_langue = '.$langue
+                'select' => 'titre_html_categorie',
+                'from' => 'categories',
+                'where' => 'id_categorie = '.$id.' AND langues_id_langue = '.$langue
             );
 
             $tmp = $db->dataBaseSelect($parametre);
-            $this->titre_html = $tmp[0]->titre_html;
+            $this->titre_html_categorie = $tmp[0]->titre_html_categorie;
 
             return TRUE;
         }else{

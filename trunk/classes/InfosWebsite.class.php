@@ -10,22 +10,28 @@
  * @author yungiii
  */
 class InfosWebsite {
-    public $infosWebsiteListe = array();
+    private $infosWebsiteListe = array();
 
     public function InfosWebsite()
     {
         $this->infosWebsiteListe = null;
         return true;
     }
+    
+    public function getInfosWebsite()
+    {
+        return $this->infosWebsiteListe;
+    }
 
-    public function getInfosWebsite($db)
+    public function setInfosWebsite($db)
     {
         $parametres = array(
             'select' => '*',
             'from' => 'websites w'
         );
-
-        return $db->dataBaseSelect($parametres);
+        
+        $this->infosWebsiteListe = $db->dataBaseSelect($parametres);
+        return true;
     }
 }
 ?>

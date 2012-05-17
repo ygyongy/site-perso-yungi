@@ -14,6 +14,7 @@ class Languages {
     private $code_langue;
     private $id_langue;
     private $liste_langue = array();
+    private $emplacement_langue;
 
     public function Languages($langue)
     {
@@ -25,7 +26,7 @@ class Languages {
     
     public function getListeLangue()
     {
-            return $this->liste_langue;        
+        return $this->liste_langue;        
     }
     
     public function getIdLangue()
@@ -36,6 +37,11 @@ class Languages {
     public function getCodeLangue()
     {
         return $this->code_langue;
+    }
+    
+    public function getEmplacementLangue()
+    {
+        return $this->emplacement_langue;
     }
 
 
@@ -74,7 +80,7 @@ class Languages {
         
         foreach($this->liste_langue as $key => $value)
         {
-            $value->emplacement_categorie = "langue";
+            $value->emplacement_langue = "langue";
         }
         
         return true;

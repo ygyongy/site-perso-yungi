@@ -10,10 +10,10 @@
  * @author yungiii
  */
 class Menu {
-    public $menuArray = array();
-    public $menuTranslatedArray = array();
-    public $menuParametres = array();
-    public $translationMenuParametres = array();
+    private $menuArray = array();
+    private $menuTranslatedArray = array();
+    private $menuParametres = array();
+    private $translationMenuParametres = array();
 
     public function Menu()
     {
@@ -23,8 +23,13 @@ class Menu {
             $translationMenuParametres = null;
             return true;
     }
+    
+    public function getMenuArray()
+    {
+        return $this->menuArray;
+    }
 
-    public function getMenu($categorie, $langue, $db, $oCategorie, $page, $listeArray)
+    public function setMenu($categorie, $langue, $db, $oCategorie, $page, $listeArray)
     {
         $tmp = $listeArray; // attribution du tableau de résultat à une variable
         $nb_items = count($tmp); //stock le nombre d'entrées pour chaque menu
@@ -73,7 +78,7 @@ class Menu {
         $this->menuArray = $tmp;
         
         unset ($tmp);
-        return $this->menuArray;
+        return true;
     }
 }
 ?>
