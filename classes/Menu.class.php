@@ -24,38 +24,43 @@ class Menu {
             return true;
     }
 
-    public function getMenu($categorie, $langue, $db, $oCategorie, $page)
-    {     
-
+    public function getMenu($categorie, $langue, $db, $oCategorie, $page, $listeArray)
+    {
+        $tmp = $listeArray; // attribution du tableau de résultat à une variable
+        $nb_items = count($tmp); //stock le nombre d'entrées pour chaque menu
+        $tmp_id = null;
+        
         switch(get_class($categorie))
          {
              case "Categories":
-                 $tmp = $categorie->liste_categorie;
-                 for ($i = 0; $i < count($categorie->liste_categorie); $i++)
+                 
+                 //permet de stocker l'id de la langue pour le test des catégories
+                 $tmp_id = $langue->getIdLangue();
+                 
+                 for ($i = 0; $i < $nb_items; $i++)
                  {
-                     if($categorie->liste_categorie[$i]->langues_id_langue === $langue->id_langue)
+                     if($tmp[$i]->langues_id_langue === $tmp_id)
                      {
-                         $tmp[$i]->lien_menu = SUB_DOMAIN.$langue->code_langue.'/'.$categorie->liste_categorie[$i]->nom_categorie.'/'; 
+                         $tmp[$i]->lien_menu = SUB_DOMAIN.$langue->getCodeLangue().'/'.$tmp[$i]->nom_categorie.'/'; 
                      }else{
                          unset ($tmp[$i]);
                      }
-                     
                  }
+                 //var_dump($tmp);
                  ; break;
 
              case "Languages":
-                 $tmp = $categorie->liste_langue;
+                
                  //permet de récupérer l'id de la categorie en cours
+                 $tmp_id = $oCategorie->getIdCategorie($page, $langue->getIdLangue(), $db);
                  
-                 $tmp_id = $oCategorie->getIdCategorie($page, $langue->id_langue, $db);
-                 
-                 for ($i = 0; $i < count($tmp); $i++)
+                 for ($i = 0; $i < $nb_items; $i++)
                  {
                      if(!empty($page))
                      {                         
-                         $tmp[$i]->lien_menu = SUB_DOMAIN.$tmp[$i]->code_langue.'/'.$oCategorie->getNomCategorie($tmp_id, $langue->liste_langue[$i]->id_langue, $db).'/';
+                         $tmp[$i]->lien_menu = SUB_DOMAIN.$tmp[$i]->code_langue.'/'.$oCategorie->getNomCategorie($tmp_id, $tmp[$i]->id_langue, $db).'/';
                      }else{
-                         $tmp[$i]->lien_menu = SUB_DOMAIN.$tmp[$i]->code_langue.'/'.$oCategorie->getNomCategorie(1, $langue->liste_langue[$i]->id_langue, $db).'/';
+                         $tmp[$i]->lien_menu = SUB_DOMAIN.$tmp[$i]->code_langue.'/'.$oCategorie->getNomCategorie(1, $tmp[$i]->id_langue, $db).'/';
                      }
                  }
                  ; break;
@@ -66,6 +71,7 @@ class Menu {
          }
 
         $this->menuArray = $tmp;
+        
         unset ($tmp);
         return $this->menuArray;
     }

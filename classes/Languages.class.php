@@ -11,9 +11,9 @@
  */
 class Languages {
     //put your code here
-    public $code_langue;
-    public $id_langue;
-    public $liste_langue = array();
+    private $code_langue;
+    private $id_langue;
+    private $liste_langue = array();
 
     public function Languages($langue)
     {
@@ -22,14 +22,30 @@ class Languages {
 
         $this->initLanguage();
     }
+    
+    public function getListeLangue()
+    {
+            return $this->liste_langue;        
+    }
+    
+    public function getIdLangue()
+    {
+        return $this->id_langue;
+    }
+    
+    public function getCodeLangue()
+    {
+        return $this->code_langue;
+    }
+
 
     private function initLanguage()
     {
-        $this->id_langue = $this->getIdLangue($this->code_langue);
+        $this->id_langue = $this->setIdLangue($this->code_langue);
         return true;
     }
 
-    private function getIdLangue($code)
+    private function setIdLangue($code)
     {
         $sql = "SELECT * FROM langues WHERE code_langue = '".$code."' AND actif_langue <> '0'";
         $res = mysql_query($sql);
@@ -45,7 +61,7 @@ class Languages {
         }
     }
     
-    public function getLangueList($db)
+    public function setListeLangue($db)
     {
         $parametre = array(
             'select' => 'id_langue, nom_langue, code_langue, position_langue',
@@ -54,7 +70,14 @@ class Languages {
             'order by' => 'position_langue'
         );
         
-        return $db->dataBaseSelect($parametre);
+        $this->liste_langue = $db->dataBaseSelect($parametre);
+        
+        foreach($this->liste_langue as $key => $value)
+        {
+            $value->emplacement_categorie = "langue";
+        }
+        
+        return true;
     }    
     
 }

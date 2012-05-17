@@ -40,14 +40,14 @@ div
     font-size: 1em;
 }
 
-#menu_admin
+#wrapper_menu_admin
 {
     border: 1px deepskyblue solid;
     width: 998px;
     min-height: 20px;
 }
 
-#menu_langue
+#wrapper_menu_langue
 {
         margin: 0px;
         padding: 0px;
@@ -58,13 +58,13 @@ div
         text-align: left;
 }
 
-        #menu_langue li
+        #wrapper_menu_langue li
         {
                 display: inline;
                 font-size: 1em;
         }
 
-                #menu_langue li a
+                #wrapper_menu_langue li a
                 {
                         display: block;
                         margin-top: -30px;
@@ -96,7 +96,7 @@ div
             padding-left: 1em;
         }
 
-	#header #menu_navigation
+	#header #wrapper_menu_navigation
 	{
 		margin: 0px;
 		padding: 0px;
@@ -108,13 +108,13 @@ div
 		text-align: left;
 	}
 	
-		#menu_navigation li
+		#wrapper_menu_navigation li
 		{
 			display: inline;
 			font-size: 1em;
 		}
 		
-			#menu_navigation li a
+			#wrapper_menu_navigation li a
 			{
 				display: block;
 				float: left;

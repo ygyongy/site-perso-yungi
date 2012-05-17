@@ -10,9 +10,9 @@
  * @author yungiii
  */
 class Categories {
-    public $nom_categorie;
-    public $id_categorie;
-    public $liste_categorie;
+    private $nom_categorie;
+    private $id_categorie;
+    private $liste_categorie;
 
     public function Categories()
     {
@@ -21,15 +21,22 @@ class Categories {
         $this->liste_categorie = array();
     }
 
-    public function getCategorieList($oDb, $emplacement, $oUser)
+    public function setCategorieList($oDb, $emplacement, $oUser)
     {        
         $parametre = array(
             'select' => 'id_categorie, nom_categorie, langues_id_langue, position_categorie, emplacement_categorie',
             'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_menu",
             'where' => 'emplacement_categorie = "'.$emplacement.'"'
         );
-
-        return $oDb->dataBaseSelect($parametre);
+        
+        $this->liste_categorie = $oDb->dataBaseSelect($parametre);
+        
+        return true;
+    }
+    
+    public function getListeCategorie()
+    {
+        return $this->liste_categorie;
     }
 
     public function getNomCategorie($id, $id_langue, $db)

@@ -10,8 +10,8 @@ class DataBase {
     private $dbName;
     private $user;
     private $pwd;
-    public $link;
-    public $sql = array();
+    private $link;
+    private $sql = array();
 
     function DataBase()
     {
@@ -19,6 +19,16 @@ class DataBase {
         $this->dbName = "site_perso_yungi";
         $this->user = "root";
         $this->pwd = "";
+    }
+    
+    function getLink()
+    {
+        return $this->link;
+    }
+    
+    function getSql()
+    {
+        return $this->sql;
     }
     
     function getPDOObject()
@@ -56,8 +66,9 @@ class DataBase {
         }else{
             return false;
         }
-
-        return $link;
+        $this->link = $link;
+        
+        return true;
     }
 
     function dataBaseClose($link)
