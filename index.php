@@ -55,7 +55,8 @@
 
         //Reprise des infos du site web
         $myInfosWebsite = new InfosWebsite();
-        $myInfosWebsiteListe = $myInfosWebsite->getInfosWebsite($myDb);
+        $myInfosWebsite->setInfosWebsite($myDb);
+        $myInfosWebsiteListe = $myInfosWebsite->getInfosWebsite();
         
 // <-fin création des blocks -->
 
@@ -75,18 +76,19 @@
         
     //Récupération du contenu
         $myVue = new Vues();
+        $myVueObjectContent = $myVue->getOContents();
         
-        if($myVue->oContents[0]['id_contenu'])
+        if($myVueObjectContent[0]['id_contenu'])
         {
             $myVue->getContent($myCategorie->getIdCategorie($page, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb, $myUser);
-            $myVue->getTitleHtml($myVue->oContents[0]['id_contenu'], $myLanguage->getIdLangue(), $myDb);
+            $myVue->getTitleHtml($myVueObjectContent[0]['id_contenu'], $myLanguage->getIdLangue(), $myDb);
         }else{
             $myVue->getContent($myCategorie->getIdCategorie($page, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb, $myUser);
-            $myVue->getTitleHtml(1, $myLanguage->getIdLangue(), $myDb);
+            $myVue->setTitleHtml($myCategorie->getIdCategorie($page, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb);
         }
 
     //récupération des données pour le référencement
-        $myInfosWebsiteTitle = $myVue->titre_html;
+        $myInfosWebsiteTitle = $myVue->getTitreHtml();
 
 
     //création d'un objet avec la classe Smarty + attribution des variables nécessaires
@@ -119,17 +121,18 @@
             
             //Creation du sommaire admin
             $myMenuAdmin = new Menu();
-            $myMenuAdminList = $myMenuAdmin->getMenu($myCategorieAdmin, $myLanguage, $myDb, $myCategorieAdmin, $page, $myListeCategorieAdmin);
-            
+            $myMenuAdmin->setMenu($myCategorieAdmin, $myLanguage, $myDb, $myCategorieAdmin, $page, $myListeCategorieAdmin);
+            $myMenuAdminList = $myMenuAdmin->getMenuArray();
+                    
             //création du sommaire des langues
             $myMenuLangue = new Menu();
-            $myMenuLangueList = $myMenuLangue->getMenu($myLanguage, $myLanguage, $myDb, $myCategorie, $page, $myListeLanguage);
-            //$myDebug->p($myListeCategorie);
+            $myMenuLangue->setMenu($myLanguage, $myLanguage, $myDb, $myCategorie, $page, $myListeLanguage);
+            $myMenuLangueList = $myMenuLangue->getMenuArray();
             
             //Creation du sommaire principal
             $myMenu = new Menu();
-            $myMenuList = $myMenu->getMenu($myCategorie, $myLanguage, $myDb, $myCategorie, $page, $myListeCategorie);
-            
+            $myMenu->setMenu($myCategorie, $myLanguage, $myDb, $myCategorie, $page, $myListeCategorie);
+            $myMenuList = $myMenu->getMenuArray();
             
             //méthode de gestion d'appel des templates
             $type_contenu = $myVue->getTemplate($myVue, $t);
@@ -140,17 +143,16 @@
             $t->assign('menu_liste_langues', $myMenuLangueList);
 
             //assignation des blocks de la sideBar
-            $t->assign('blocks', $myBlocks->contentsHTML);
-            $t->assign('contents_block', $myBlocks->contents);
+            $t->assign('blocks', $myBlocks->getContentsHTML());
+            $t->assign('contents_block', $myBlocks->getContents());
             $t->assign('connexion_user_form', json_decode($myUserForm[0]['contenu'], true));
             $t->assign("infos_website_liste", $myInfosWebsiteListe[0]);
             
             //assignation des contenus aux pages
-            $t->assign('pages', $myVue->contentsHTML);
-            $t->assign('contents_page', $myVue->contents);
+            $t->assign('pages', $myVue->getContentsHTML());
+            $t->assign('contents_page', $myVue->getContents());
 
             //passage d'une variable titre au header
-            //$page = $_GET['page']
             $titre = $page;
             $t->assign('title', $titre);
             

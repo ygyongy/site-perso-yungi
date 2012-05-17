@@ -10,13 +10,13 @@
  * @author yungiii
  */
 class User {
-    var $login;
-    var $password;
-    var $email;
-    var $groupe;
-    var $droit;
+    private $login;
+    private $password;
+    private $email;
+    private $groupe;
+    private $droit;
     
-    var $arborescence = array(
+    private $arborescence = array(
         'images', 'artworks', 'documents', 'scripts', 'videos', 'tmp'
     );
 
@@ -26,6 +26,11 @@ class User {
         $this->password = null;
         $this->email = null;
         $this->groupe = 'anonymous';          
+    }
+    
+    public function getDroitUser()
+    {
+        return $this->droit;
     }
     
     public function getUserForm($oDb, $oUser)

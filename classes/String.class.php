@@ -14,7 +14,7 @@ class String {
     //put your code here
     private $string;
     
-    public function  String()
+    public function String()
     {
         $this->string = null;
     }
