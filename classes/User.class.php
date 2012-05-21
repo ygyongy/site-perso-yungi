@@ -1,9 +1,4 @@
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of User
  *
@@ -19,13 +14,18 @@ class User {
     private $arborescence = array(
         'images', 'artworks', 'documents', 'scripts', 'videos', 'tmp'
     );
-
+    
+    /**
+     * Constructeur de la classe
+     * 
+     * @return void
+     */   
     function User()
     {
         $this->login = 'anonymous';
         $this->password = null;
         $this->email = null;
-        $this->groupe = 'anonymous';          
+        $this->groupe = 'anonymous';
     }
     
     public function getDroitUser()

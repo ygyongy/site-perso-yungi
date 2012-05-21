@@ -24,11 +24,30 @@ class Form {
         $this->enctype = NULL;
         $this->fields = NULL;
     }
+    
+    function getAction()
+    {
+        return $this->action;
+    }
+    
+    function getMethod()
+    {
+        return $this->method;
+    }
+    
+    function getEnctype()
+    {
+        return $this->enctype;
+    }
+    
+    function getFields()
+    {
+        return $this->fields;
+    }
 
     function setProperties($form)
     {
-
-        if (count($form['contenu']['fields']) <= 0)
+        if (count($form['contenu']['fields']) > 0)
         {
             $this->action = $form['contenu']['action'];
             $this->method = $form['contenu']['method'];

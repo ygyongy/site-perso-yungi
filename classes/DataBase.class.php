@@ -21,17 +21,17 @@ class DataBase {
         $this->pwd = "";
     }
     
-    function getLink()
+    public function getLink()
     {
         return $this->link;
     }
     
-    function getSql()
+    public function getSql()
     {
         return $this->sql;
     }
     
-    function getPDOObject()
+    public function getPDOObject()
     {
         $dsn = "mysql:host=".$this->host.";port=3306;dbname=".$this->dbName."";
         $parametres = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
@@ -53,7 +53,7 @@ class DataBase {
         }        
     }
 
-    function dataBaseConnect()
+    public function dataBaseConnect()
     {
         $bdd = $this->getPDOObject();
         
@@ -71,13 +71,13 @@ class DataBase {
         return true;
     }
 
-    function dataBaseClose($link)
+    public function dataBaseClose($link)
     {
         $res = mysql_close($link);
         return $res;
     }
 
-    function dataBaseSelect($arguments)
+    public function dataBaseSelect($arguments)
     {
         //création de l'objet PDO
         $bdd = $this->getPDOObject();
@@ -131,7 +131,7 @@ class DataBase {
         }
     }
 
-    function dataBaseSelectImbrique($arguments, $arguments2)
+    public function dataBaseSelectImbrique($arguments, $arguments2)
     {
         //création de l'objet PDO
         $bdd = $this->getPDOObject();       
@@ -171,14 +171,14 @@ class DataBase {
         }
     }
     
-    function dataBaseInsert($arguments)
+    public function dataBaseInsert($arguments)
     {
         $query = NULL;
         $query = "INSERT INTO ".$arguments['table']."";
         $query .= "";
     }
     
-    function dataBaseUpdate($arguments)
+    public function dataBaseUpdate($arguments)
     {
         $query = NULL;
         $query = "UPDATE ".$arguments['table']." ";

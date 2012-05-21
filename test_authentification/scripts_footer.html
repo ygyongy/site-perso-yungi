@@ -1,0 +1,36 @@
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('.fenetre').dialog({
+                    autoOpen: false,
+                    bgiframe: true,
+                    resizable: true,
+                    modal: false,
+                    width: 600
+                });
+
+                $('.open').click(function(){
+                    fenetre_to_open = this.id;
+                    fenetre_to_open = fenetre_to_open.split('_')
+                    if(fenetre_to_open.length === 2)
+                        {
+                            //Effet fade-in du fond opaque
+                            $('body').append('<div id="fade"></div>'); //Ajout du fond opaque noir
+                            $('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn();                            
+                            
+                            $('#fenetre_'+fenetre_to_open[1]).dialog('open');
+                            return false;
+                        }
+                });
+                
+                //Fermeture de la pop-up et du fond
+                $('.ui-dialog-titlebar-close, #fade').live('click', function() { //Au clic sur le bouton ou sur le calque...
+                        $('#fade , .fenetre').fadeOut(function() {
+                                $('#fade, .ui-dialog-titlebar-close').remove();  //...ils disparaissent ensemble
+                        });
+                        return false;
+                });             
+        
+            });
+        </script>
+    </body>
+</html>
