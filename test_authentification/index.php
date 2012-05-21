@@ -28,8 +28,8 @@ require_once 'view_form.php';
         
         <!-- chargement de JQuery -->
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script>        
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script>
+        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="../css/form.css" />
         <style>
             body{
@@ -81,6 +81,12 @@ require_once 'view_form.php';
                 -moz-border-radius: 10px;
                 -webkit-border-radius: 10px;
             }
+            
+            .ui-widget-overlay {
+                background: black/*{bgColorOverlay}*/ ;
+                opacity: .7;
+            }            
+            
         </style>
     </head>
     <body>
@@ -89,7 +95,9 @@ require_once 'view_form.php';
                 <li>
                     <a href="#" id="open_authentification" class="open">Login</a>
                 </li>
-                <li><a href="#" id="open_edition" class="open">Créer un compte</a></li>
+                <li>
+                    <a href="#" id="open_edition" class="open">Créer un compte</a>
+                </li>
             </ul>
         
             <div id="fenetre_authentification" style="display: none;" class="fenetre"><?php require_once 'authentification_form.php'; ?></div>
