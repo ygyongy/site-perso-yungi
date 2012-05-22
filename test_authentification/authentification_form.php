@@ -1,5 +1,3 @@
-<h1 style="border-bottom: 1px dodgerblue solid;">formulaire d'authentification</h1>
-
     <?php
     $myFormUser = new Form();
 
