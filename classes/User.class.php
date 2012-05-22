@@ -143,9 +143,10 @@ class User {
     }
 
 
-    private function createPasswordUser($login,$pwd)
+    public function createPasswordUser($login,$pwd)
     {
         $hash = md5(KEY_MD5.$pwd.KEY_MD5.$login);
+        return $hash;
     }
 
     private function createArborescenceUser()

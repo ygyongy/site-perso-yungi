@@ -18,7 +18,7 @@ class String {
     {
         $this->string = null;
     }
-    
+
     public function sanitize($s, $link)
     {
         $output = mysql_real_escape_string(trim($s), $link);

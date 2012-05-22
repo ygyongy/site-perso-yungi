@@ -31,7 +31,7 @@ class DataBase {
         return $this->sql;
     }
     
-    public function getPDOObject()
+    private function getPDOObject()
     {
         $dsn = "mysql:host=".$this->host.";port=3306;dbname=".$this->dbName."";
         $parametres = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");

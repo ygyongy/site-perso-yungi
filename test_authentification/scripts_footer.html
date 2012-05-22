@@ -10,7 +10,8 @@
                     position: 'center',
                     closeOnEscape: true,
                     resizable: false,
-                    show: {effect: 'explode', pieces: 9}
+                    show: {effect: 'explode', pieces: 9},
+                    hide: {effect: 'explode', pieces: 9}
                 });
 
                 $('.open').click(function(){
@@ -18,7 +19,7 @@
                     fenetre_to_open = fenetre_to_open.split('_')
                     if(fenetre_to_open.length === 2)
                         {                         
-                            $("#fenetre_"+fenetre_to_open[1]).dialog( "option", "title", "Formulaire - "+fenetre_to_open[1]); //voici un setter
+                            $("#fenetre_"+fenetre_to_open[1]).dialog( "option", "title", "Formulaire - "+fenetre_to_open[1]); //voici un setter pour le titre
                             $('#fenetre_'+fenetre_to_open[1]).dialog('open');
                             return false;
                         }
@@ -28,37 +29,3 @@
         </script>
     </body>
 </html>
-
-
-
-<!--
-<script type="text/javascript">
-    function maFonction(monParametre)
-    {
-      //ICI tu modifie les OPTIONS de ta boite de dialog que tu as definie au début de l execution du code dans $(document).ready();
-      $('#favoris').dialog('option','buttons',{
-        'Button Title': function() {
-          $(this).dialog('close');
-          alert(monParametre);
-          // La ton parametre monParametre est passé.
-          //ICI tu met ton appel ajax, soit en le faisant directement soit en rappelant une autre fonction sans oublier denvoyer les parametres que tu veux!
-          $.ajax({
-            type: "POST",
-            url: "some.php",
-            data: "monParametre="+monParametre,
-            success: function(msg){
-             alert( "Data Saved: " + msg );
-            }
-          });
-        },
-        'Annuler': function() {
-          $(this).dialog('close');
-        }
-      });
-
-       //ICI TU OUVRE TON DIALOG
-       $('#favoris').dialog('open');
-       return false;
-    }   
-</script>    
--->
