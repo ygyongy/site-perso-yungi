@@ -1,25 +1,26 @@
 <?php
-session_start();
+    session_start();
 
-function setUser($_POST)
-{
-    if($_POST && ($_POST['login_user'] !== '' && $_POST['password_user'] !== ''))
+    function setUser($_POST)
     {
-        $_SESSION['user']['login'] = $_POST['login_user'];
-        $_SESSION['user']['passord'] = $_POST['password_user'];
-        return true;
-    }else{
-        return false;
+        if($_POST && ($_POST['login_user'] !== '' && $_POST['password_user'] !== ''))
+        {
+            $_SESSION['user']['login'] = $_POST['login_user'];
+            $_SESSION['user']['passord'] = $_POST['password_user'];
+            return true;
+        }else{
+            return false;
+        }
     }
-}
 
-setUser($_POST);
+    setUser($_POST);
 
-require_once '../classes/DataBase.class.php';
-require_once '../classes/Form.class.php';
-require_once '../classes/User.class.php';
-require_once 'view_form.php';
+    require_once '../classes/DataBase.class.php';
+    require_once '../classes/Form.class.php';
+    require_once '../classes/User.class.php';
+    require_once 'view_form.php';
 ?>
+
 <!DOCTYPE html>
 <html>
     <head>
