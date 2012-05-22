@@ -8,7 +8,9 @@
                     width: 'auto',
                     height: 'auto',
                     position: 'center',
-                    title: 'Formulaire - '
+                    closeOnEscape: true,
+                    resizable: false,
+                    show: {effect: 'explode', pieces: 9}
                 });
 
                 $('.open').click(function(){
@@ -16,10 +18,11 @@
                     fenetre_to_open = fenetre_to_open.split('_')
                     if(fenetre_to_open.length === 2)
                         {                         
+                            $("#fenetre_"+fenetre_to_open[1]).dialog( "option", "title", "Formulaire - "+fenetre_to_open[1]); //voici un setter
                             $('#fenetre_'+fenetre_to_open[1]).dialog('open');
                             return false;
                         }
-                });            
+                });
         
             });
         </script>

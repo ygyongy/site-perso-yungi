@@ -11,7 +11,7 @@
                     {
                         if($fields[$i]['type'] === 'input type="text"' || $fields[$i]['type'] === 'input type="password"')
                         {
-                            echo "<label for=\"".$fields[$i]['name']."\" title=\"".$fields[$i]['display_name']."\" id=\"label_login\">".$fields[$i]['display_name']."</label>";
+                            echo "<label for=\"".$fields[$i]['name']."\" title=\"".$fields[$i]['name']."\" id=\"label_login\">".$fields[$i]['display_name']."</label>";
                             echo "<".$fields[$i]['type']." name=\"".$fields[$i]['name']."\" id=\"".$fields[$i]['id']."\" class=\"".$fields[$i]['class']."\" value=\"".$fields[$i]['value']."\" />";
                             echo "<br />";
                         }else{

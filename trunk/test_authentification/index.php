@@ -29,7 +29,8 @@ require_once 'view_form.php';
         <!-- chargement de JQuery -->
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js"></script>
-        <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.20/themes/base/jquery-ui.css" type="text/css" media="all">
+        <link rel="stylesheet" href="http://static.jquery.com/ui/css/demo-docs-theme/ui.theme.css" type="text/css" media="all">
         <link rel="stylesheet" href="../css/form.css" />
         <style>
             body{
@@ -77,15 +78,23 @@ require_once 'view_form.php';
             .fenetre{
                 background: #E7E6E6;
                 padding: 15px;
-                border: 10px #E7E6E6 solid;
-                -moz-border-radius: 10px;
-                -webkit-border-radius: 10px;
+                border: 5px #E7E6E6 solid;
+                -moz-border-radius: 5px;
+                -webkit-border-radius: 5px;
             }
             
             .ui-widget-overlay {
                 background: black/*{bgColorOverlay}*/ ;
                 opacity: .7;
-            }            
+            }
+            
+            .ui-dialog{
+                background: #E7E6E6;
+                padding: 5px;
+                border: 5px #E7E6E6 solid;
+                -moz-border-radius: 5px;
+                -webkit-border-radius: 5px;                
+            }
             
         </style>
     </head>

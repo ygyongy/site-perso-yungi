@@ -1,6 +1,4 @@
-<h1 style="border-bottom: 1px dodgerblue solid;">formulaire d'édition</h1>
-
-<?php
+    <?php
     $myFormUser = new Form();
 
     $form_parametre = array(
@@ -13,30 +11,26 @@
             0 => array(
                 'display_name' => "Login :",
                 'type' => 'input type="text"',
-                'class' => '',
-                'id' => 'login_user',
-                'name' => 'login_user',
+                'id' => 'create_login_user',
+                'name' => 'create_login_user',
                 'value' => null
             ),
             1 => array(
                 'display_name' => "Password :",
                 'type' => 'input type="text"',
-                'class' => '',
-                'id' => 'password_user',
-                'name' => 'password_user',
+                'id' => 'create_password_user',
+                'name' => 'create_password_user',
                 'value' => null
             ),
             2 => array(
                 'display_name' => "Vérification Password :",
                 'type' => 'input type="text"',
-                'class' => '',
                 'id' => 'verif_password_user',
                 'name' => 'verif_password_user',
                 'value' => null
             ),
             3 => array(
                 'type' => 'input type="submit"',
-                'class' => '',
                 'id' => 'submit',
                 'name' => 'submit',
                 'value' => 's\'enregistrer'
