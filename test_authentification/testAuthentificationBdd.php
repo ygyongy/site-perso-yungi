@@ -1,6 +1,7 @@
 <?php
-    header('Content-Type: text/html; charset=ISO 8859-1'); 
+    header('Content-Type: text/html; charset=UTF-8'); 
     define('KEY_MD5', 'Je ne_5ui5 pa5_un héro!');
+	define('BASE', 8);
     require_once '../classes/DataBase.class.php';
     require_once '../classes/String.class.php';
     require_once '../classes/User.class.php';
@@ -44,8 +45,8 @@
                      );
         
         //permet de reproduire le Hash insérer dans la Bdd
-        $password_hash = $oUser->createPasswordUser($user['login'], $user['pwd']);
-        echo $password_hash;
+        //$password_hash = $oUser->createPasswordUser($user['login'], $user['pwd']);
+        //echo $password_hash;
 
         
         
@@ -59,21 +60,18 @@
         {
             //retourne le code ASCII de chaque caractère du mdp
             $ascii_pwd_array[$i] = ord($pwd_chars[$i]);  
-            $bin_pwd_array[$i] = sprintf("%08d", decbin($ascii_pwd_array[$i]));
-            $bin_pwd_string .= sprintf("%08d", decbin($ascii_pwd_array[$i]));
-        }       
-
+            $bin_pwd_string .= sprintf("%0".BASE."d", decbin($ascii_pwd_array[$i]));
+        }
         
         $key_chars = (str_split(KEY_MD5));
         $nb_element = count($key_chars);
         
         for($i = 0; $i < $nb_element; $i++)
         {
-            //retourne le code ASCII de chaque caractère du mdp
+            //retourne le code ASCII de chaque caractère de la clef
             $ascii_key_array[$i] = ord($key_chars[$i]);  
-            $bin_key_array[$i] = sprintf("%08d", decbin($ascii_key_array[$i]));
-            $bin_key_string .= sprintf("%08d", decbin($ascii_key_array[$i]));
-        }        
+            $bin_key_string .= sprintf("%0".BASE."d", decbin($ascii_key_array[$i]));
+        }   
 ########################### Fin de la codification en BIN ##############################
         
         
@@ -102,17 +100,23 @@
         
 ########################### Différents tests et appels de fonction ###########################            
         $hash_test = cryptage($bin_pwd_string, $bin_key_string);
-        
-
-        
-        $tmp = cryptage($hash_test, $bin_key_string);
-        var_dump($tmp === $bin_pwd_string);
-        
-        
-        echo "valeur de retour: ";
-        printf('%b', $hash_test);
         echo "<hr>";
-        var_dump($tmp);
+        echo $hash_test;
+		
+		
+        $nb_element = strlen($hash_test)/BASE;
+        $start = 0;
+        
+        for($i = 0; $i < $nb_element; $i++)
+        {            
+            if($start < strlen($hash_test))
+            {
+                $test[] = bin2Ascii($hash_test, $start);
+            }
+            $start += BASE;
+        }
+		
+		var_dump($test);
 ########################### Différents tests et appels de fonction ###########################   
         
         
@@ -123,7 +127,7 @@
         
         
 ############################ Reconstruction du mot de passe###################################### 
-        $nb_element = strlen($tmp)/8;
+        $nb_element = strlen($tmp)/BASE;
         $start = 0;
         
         for($i = 0; $i < $nb_element; $i++)
@@ -133,10 +137,10 @@
                 $test[] = bin2Ascii($tmp, $start);
             }
             
-            echo $start += 8;
+            echo $start += BASE;
         }
         
-        var_dump($test = implode("", $test));
+        //var_dump($test = implode("", $test));
 ############################ fin de la reconstruction du mot de passe#############################        
         
         
@@ -155,26 +159,20 @@
     
     
     function cryptage($parameter1, $parameter2)
-    {
-        function bitxor($o1, $o2) {
-            $xorWidth = PHP_INT_SIZE*8;
-            $o1 = str_split($o1, $xorWidth);
-            $o2 = str_split($o2, $xorWidth);
-            $res = '';
-            $runs = count($o1);
-            for($i=0;$i<$runs;$i++)
-                $res .= decbin(bindec($o1[$i]) ^ bindec($o2[$i]));        
-            return $res;
-        }        
-        
-        $hash = $parameter1^$parameter2;
+    { 
+        $length = strlen($parameter1);
+        echo $parameter1."<br>".$parameter2;
+        for($i=0; $i < $length; $i++)
+        {
+            $hash .= (bool)$parameter1[$i] ^ (bool)$parameter2[$i];
+        }
         return $hash;
     }
     
     
     function bin2Ascii($chaine, $start)
     {
-        $tmp = substr($chaine, $start, 8);
+        $tmp = substr($chaine, $start, BASE);
         $tmp = bindec($tmp);
         $tmp = chr($tmp);
         return $tmp;
