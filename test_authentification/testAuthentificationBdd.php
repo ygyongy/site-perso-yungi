@@ -27,10 +27,10 @@
         $password_to_test = false;
     }
         
-    if($oString->sanitize($login, $myBddLink))
+    if($oString->sanitize($login_to_test, $myBddLink))
     {
         //le password n'y passe pas, car sinon certains caractères risquent de sauter
-        $login = $oString->sanitize($login, $myBddLink);
+        $login = $oString->sanitize($login_to_test, $myBddLink);
         $login = $oString->getString();
     }
 
