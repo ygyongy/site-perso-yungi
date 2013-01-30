@@ -11,7 +11,8 @@ ini_set('display_errors', 1);
 //Definitions des variables du site
 !isset($_SESSION['template']) ? $template = 'classique' : $template = $_SESSION['template'];
 !isset($_GET['langue']) ? $langue = '' : $langue = $_GET['langue'];
-!isset($_GET['page']) ? $page = '' : $page = $_GET['page'];
+!isset($_GET['categorie']) ? $categorie = '' : $categorie = $_GET['categorie'];
+!isset($_GET['sous_categorie']) ? $sous_categorie = '' : $sous_categorie = $_GET['sous_categorie'];
 !isset($site) ? $site = "/google_code_2/trunk/" : $site = "/google_code_2/trunk/";
 
 //Definitions des constantes du site

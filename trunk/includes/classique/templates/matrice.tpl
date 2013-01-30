@@ -2,7 +2,7 @@
             <h1>{$page.titre}</h1>
             {if is_array($page.contenu)}
                 {foreach from=$page.contenu item=element key=k name=matrice}
-                    <div class="fleft" id="cell_{$k}" style="width:{$width}px; margin-right: 0.1em;">
+                    <div class="fleft" id="cell_{$k}" style="width:{$width}px; margin-right: 0.1em; border: 1px red solid;">
                         {$element}
                     </div>
 
@@ -19,5 +19,8 @@
                 <div class="fleft" id="cell_1" style="float: none;margin-right: 0.5em;">
                     {$page.contenu}
                 </div>
+                <div class="fleft" id="cell_1" style="float: none;margin-right: 0.5em;">
+                    {$page.footer}
+                </div>                
             {/if}
 </div>

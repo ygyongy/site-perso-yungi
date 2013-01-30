@@ -34,7 +34,7 @@ class Menu {
         $tmp = $listeArray; // attribution du tableau de résultat à une variable
         $nb_items = count($tmp); //stock le nombre d'entrées pour chaque menu
         $tmp_id = null;
-        
+
         switch(get_class($categorie))
          {
              case "Categories":
@@ -51,7 +51,29 @@ class Menu {
                          unset ($tmp[$i]);
                      }
                  }
-                 //var_dump($tmp);
+                 
+                 ; break;
+                 
+             case "SousCategories":
+
+                 //permet de stocker l'id de la langue pour le test des catégories
+                 $tmp_id = $langue->getIdLangue();
+
+                 for ($i = 0; $i < $nb_items; $i++)
+                 {
+                     if($tmp[$i]->langues_id_langue === $tmp_id)
+                     {
+                         $tmp[$i]->lien_menu = SUB_DOMAIN.$langue->getCodeLangue().'/';
+                         
+                         $tmp[$i]->lien_menu .= $oCategorie->getNomCategorie($tmp[$i]->categories_id_categorie, $langue->getIdLangue(), $db)."/";
+                         
+                         $tmp[$i]->lien_menu .= $tmp[$i]->nom_sous_categorie.'/';
+                         
+                     }else{
+                         unset ($tmp[$i]);
+                     }
+                 }
+                 
                  ; break;
 
              case "Languages":

@@ -60,8 +60,8 @@ class Vues{
         return $this->contentsHTML;
     }
     
-    public function getContent($id_categorie, $langue, $db, $oUser)
-    {
+    public function getContent($id_categorie, $langue, $db, $oUser, $id_sous_categorie)
+    {        
         switch ($oUser->getDroitUser())
         {
             case 'UPEA' : $view = 'view_admin_contenus';
@@ -82,11 +82,20 @@ class Vues{
         
         if($id_categorie)
         {
-            $parametre = array(
-                'select' => '*',
-                'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_contenus", //concatene le nom de la vue avec celui du groupe de l'utilisateur
-                'where' => "id_categorie = ".$id_categorie." AND langues_id_langue = ".$langue.""
-            );            
+            if($id_sous_categorie != '0')
+            {
+                $parametre = array(
+                    'select' => '*',
+                    'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_contenus", //concatene le nom de la vue avec celui du groupe de l'utilisateur
+                    'where' => "id_categorie = ".$id_categorie." AND sous_categories_id_sous_categorie = ".$id_sous_categorie." AND langues_id_langue = ".$langue.""
+                );
+            }else{
+                $parametre = array(
+                    'select' => '*',
+                    'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_contenus", //concatene le nom de la vue avec celui du groupe de l'utilisateur
+                    'where' => "id_categorie = ".$id_categorie." AND sous_categories_id_sous_categorie IS NULL AND langues_id_langue = ".$langue.""
+                );                
+            }            
         }else{
             $parametre = array(
                 'select' => '*',
@@ -96,7 +105,7 @@ class Vues{
         }
 
         $this->oContents = $db->dataBaseSelect($parametre);
-        
+
         //on gère la multiplicité des contenus possible
         if(!is_null($this->oContents))
         {

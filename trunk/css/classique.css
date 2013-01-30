@@ -40,47 +40,54 @@ div
     font-size: 1em;
 }
 
-#wrapper_menu_admin
+#wrapper_menu_admin, #wrapper_sous_menu_admin, #wrapper_sous_menu_navigation
 {
     border: 1px deepskyblue solid;
     width: 998px;
     min-height: 20px;
 }
 
+        #wrapper_sous_menu_admin li, #wrapper_sous_menu_navigation li
+        {
+            display: inline;
+            font-size: 1em;
+            padding: 0.5em;
+        }
+
 #wrapper_menu_langue
 {
-        margin: 0px;
-        padding: 0px;
-        list-style: none;
-        line-height: 0.3em;
-        font-size: 1em;
-        padding-left: 0.5em;
-        text-align: left;
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    line-height: 0.3em;
+    font-size: 1em;
+    padding-left: 0.5em;
+    text-align: left;
 }
 
         #wrapper_menu_langue li
         {
-                display: inline;
-                font-size: 1em;
+            display: inline;
+            font-size: 1em;
         }
 
                 #wrapper_menu_langue li a
                 {
-                        display: block;
-                        margin-top: -30px;
-                        float: right;
-                        width: 30px;
-                        background: url(../images/classique/theme/fd_onglets.png) repeat-x #e7e6e6;
-                        border: 1px deepskyblue solid;
-                        border-bottom: 1px grey solid;
-                        padding-top: 1em;
-                        padding-bottom: 1em;
-                        font-variant: small-caps;
-                        font-size: 1.3em;
-                        color: white;
-                        font-weight: bolder;
-                        text-align: center;
-                        margin-right: 0px;
+                    display: block;
+                    margin-top: -30px;
+                    float: right;
+                    width: 30px;
+                    background: url(../images/classique/theme/fd_onglets.png) repeat-x #e7e6e6;
+                    border: 1px deepskyblue solid;
+                    border-bottom: 1px grey solid;
+                    padding-top: 1em;
+                    padding-bottom: 1em;
+                    font-variant: small-caps;
+                    font-size: 1.3em;
+                    color: white;
+                    font-weight: bolder;
+                    text-align: center;
+                    margin-right: 0px;
                 }
 
 #header
@@ -96,41 +103,42 @@ div
             padding-left: 1em;
         }
 
-	#header #wrapper_menu_navigation
+	#wrapper_menu_navigation
 	{
-		margin: 0px;
-		padding: 0px;
-		list-style: none;
-		line-height: 0.3em;
-		font-size: 1em;
-		margin-top: 70px;
-		padding-left: 0.5em;
-		text-align: left;
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+            line-height: 0.3em;
+            font-size: 1em;
+            margin-top: 70px;
+            padding-left: 0.5em;
+            text-align: left;
+            height: 43px;
 	}
 	
 		#wrapper_menu_navigation li
 		{
-			display: inline;
-			font-size: 1em;
+                    display: inline;
+                    font-size: 1em;
 		}
 		
 			#wrapper_menu_navigation li a
 			{
-				display: block;
-				float: left;
-                                padding-left: 10px;
-                                padding-right: 10px;
-				background: url(../images/classique/theme/fd_onglets.png) repeat-x #e7e6e6;
-				border: 1px deepskyblue solid;
-                                border-bottom: 1px grey solid;
-				padding-top: 1em;
-				padding-bottom: 1em;
-				font-variant: small-caps;
-				font-size: 1.3em;
-                                color: white;
-                                font-weight: bolder;
-				text-align: center;
-				margin-right: -1px;
+                            display: block;
+                            float: left;
+                            padding-left: 10px;
+                            padding-right: 10px;
+                            background: url(../images/classique/theme/fd_onglets.png) repeat-x #e7e6e6;
+                            border: 1px deepskyblue solid;
+                            border-bottom: 1px grey solid;
+                            padding-top: 1em;
+                            padding-bottom: 1em;
+                            font-variant: small-caps;
+                            font-size: 1.3em;
+                            color: white;
+                            font-weight: bolder;
+                            text-align: center;
+                            margin-right: -1px;
 			}
 
 #content

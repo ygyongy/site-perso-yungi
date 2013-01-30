@@ -1,5 +1,5 @@
 #--------------------------------------------------
-# URL pattern : www.siteWeb.com/langue/categorie/titre-article-parametres[].html
+# URL pattern : www.siteWeb.com/langue/categorie/(sous_categorie)/titre-article-parametres[].html
 #--------------------------------------------------
 
 # Le serveur doit suivre les liens symboliques :
@@ -16,4 +16,4 @@ RewriteEngine on
 # Modifier la règle de rewrite pour la mise en PROD => pas besoin du chemin complet [test_rewrite/test.html => suffit] !!!
 
 # Article avec numéro de page:
-RewriteRule ^([a-zA-Z]{2,2})/?([a-zA-Z]+)?/?$ ?langue=$1&page=$2 [L]
+RewriteRule ^([a-zA-Z]{2,2})/?([a-zA-Z]+)?/([a-zA-Z]+)?/?$ ?langue=$1&categorie=$2&sous_categorie=$3 [L]
