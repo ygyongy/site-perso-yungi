@@ -158,10 +158,6 @@
                 $mySousMenuList = $mySousMenu->getMenuArray();                
             
             //méthode de gestion d'appel des templates
-                $myMatrice = new Matrice();
-                $myMatrice = $myMatrice->setMatrice(3, 10, 30, $myVue->getContents(), 100, $t);
-                
-                
                 $type_contenu = $myVue->getTemplate($myVue, $t);
                 $type_block_sidebar = $myBlocks->getTemplate($myBlocks, $t);
             
