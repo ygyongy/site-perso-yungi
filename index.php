@@ -7,8 +7,9 @@
     require_once 'classes/DataBase.class.php';
     require_once 'classes/Languages.class.php';
     require_once 'classes/Categories.class.php';
+    require_once 'classes/SousCategories.class.php';
     require_once 'classes/Vues.class.php';
-    
+   
     //Classe qui permet de charger une extension Chrome pour debugg PHP
         require_once 'classes/PhpConsole/PhpConsole.php';
     
@@ -50,28 +51,40 @@
 // <-creation des blocks --> 
        
         //L'id_categorie 5 => block_sidebar
-        $myBlocks = new Vues();
-        $myBlocks->getContent(5, $myLanguage->getIdLangue(), $myDb, $myUser);
+            $myBlocks = new Vues();
+            $myBlocks->getContent(5, $myLanguage->getIdLangue(), $myDb, $myUser, "0");
 
         //Reprise des infos du site web
-        $myInfosWebsite = new InfosWebsite();
-        $myInfosWebsite->setInfosWebsite($myDb);
-        $myInfosWebsiteListe = $myInfosWebsite->getInfosWebsite();
+            $myInfosWebsite = new InfosWebsite();
+            $myInfosWebsite->setInfosWebsite($myDb);
+            $myInfosWebsiteListe = $myInfosWebsite->getInfosWebsite();
         
 // <-fin création des blocks -->
 
-    //Sélection du contenu
+    //Récupération de la navigation principale
         $myCategorie = new Categories();
-        $myIdCategorie = $myCategorie->getIdCategorie($page, $myLanguage->getIdLangue(), $myDb);
-        $myNomCategorie = $myCategorie->getNomCategorie($myCategorie->getIdCategorie($page, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb);
+        $myIdCategorie = $myCategorie->getIdCategorie($categorie, $myLanguage->getIdLangue(), $myDb);
+        $myNomCategorie = $myCategorie->getNomCategorie($myCategorie->getIdCategorie($categorie, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb);
         $myCategorie->setCategorieList($myDb, 'navigation', $myUser);
         $myListeCategorie = $myCategorie->getListeCategorie(); //tableau récupérant les données des menus navigation
-       
+
+    //Récupération de la sous_navigation
+        $mySousCategorie = new SousCategories();
+        $myIdSousCategorie = $mySousCategorie->getIdSousCategorie($sous_categorie, $myLanguage->getIdLangue(), $myDb);
+        $myNomSousCategorie = $mySousCategorie->getNomSousCategorie($mySousCategorie->getIdSousCategorie($sous_categorie, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb);
+        $mySousCategorie->setSousCategorieList($myDb, $myIdCategorie, 'sous_navigation', $myUser);
+        $myListeSousCategorie = $mySousCategorie->getListeSousCategorie(); //tableau récupérant les données des menus navigation        
         
     //Récupération de la catégorie Admin
         $myCategorieAdmin = new Categories();
+        $myIdCategorieAdmin = $myCategorieAdmin->getIdCategorie($categorie, $myLanguage->getIdLangue(), $myDb);
         $myCategorieAdmin->setCategorieList($myDb, 'admin', $myUser);
         $myListeCategorieAdmin = $myCategorieAdmin->getListeCategorie(); //tableau récupérant les données des menus admin
+        
+   //Récupération des sous categories Admin
+        $mySousCategorieAdmin = new SousCategories();
+        $mySousCategorieAdmin->setSousCategorieList($myDb, $myIdCategorieAdmin,'sous_admin', $myUser);
+        $myListeSousCategorieAdmin = $mySousCategorieAdmin->getListeSousCategorie(); //tableau récupérant les données des sous menu Admin
 
         
     //Récupération du contenu
@@ -80,11 +93,11 @@
         
         if($myVueObjectContent[0]['id_contenu'])
         {
-            $myVue->getContent($myCategorie->getIdCategorie($page, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb, $myUser);
+            $myVue->getContent($myCategorie->getIdCategorie($categorie, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb, $myUser, $mySousCategorie->getIdSousCategorie($sous_categorie, $myLanguage->getIdLangue(), $myDb));
             $myVue->getTitleHtml($myVueObjectContent[0]['id_contenu'], $myLanguage->getIdLangue(), $myDb);
         }else{
-            $myVue->getContent($myCategorie->getIdCategorie($page, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb, $myUser);
-            $myVue->setTitleHtml($myCategorie->getIdCategorie($page, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb);
+            $myVue->getContent($myCategorie->getIdCategorie($categorie, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb, $myUser, $mySousCategorie->getIdSousCategorie($sous_categorie, $myLanguage->getIdLangue(), $myDb));
+            $myVue->setTitleHtml($myCategorie->getIdCategorie($categorie, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb);
         }
 
     //récupération des données pour le référencement
@@ -112,54 +125,75 @@
     <body>
         <?php
             //création d'un objet debug pour tester les variables
-            $myDebug = new Debug();
-            
+                $myDebug = new Debug();
+                //$myDebug->p();
             
             //Ces infos ont déjà été attribuée donc on décharge la mémoire de leurs valeurs
-            unset ($myInfosWebsiteListe['keywords_website']);
-            unset ($myInfosWebsiteListe['title_website']);
+                unset ($myInfosWebsiteListe['keywords_website']);
+                unset ($myInfosWebsiteListe['title_website']);
             
             //Creation du sommaire admin
-            $myMenuAdmin = new Menu();
-            $myMenuAdmin->setMenu($myCategorieAdmin, $myLanguage, $myDb, $myCategorieAdmin, $page, $myListeCategorieAdmin);
-            $myMenuAdminList = $myMenuAdmin->getMenuArray();
+                $myMenuAdmin = new Menu();
+                $myMenuAdmin->setMenu($myCategorieAdmin, $myLanguage, $myDb, $myCategorieAdmin, $categorie, $myListeCategorieAdmin);
+                $myMenuAdminList = $myMenuAdmin->getMenuArray();
+            
+           //Creation du sous_menu admin
+                $mySousMenuAdmin = new Menu();
+                $mySousMenuAdmin->setMenu($mySousCategorieAdmin, $myLanguage, $myDb, $myCategorieAdmin, $categorie, $myListeSousCategorieAdmin);
+                $mySousMenuAdminList = $mySousMenuAdmin->getMenuArray();
                     
             //création du sommaire des langues
-            $myMenuLangue = new Menu();
-            $myMenuLangue->setMenu($myLanguage, $myLanguage, $myDb, $myCategorie, $page, $myListeLanguage);
-            $myMenuLangueList = $myMenuLangue->getMenuArray();
+                $myMenuLangue = new Menu();
+                $myMenuLangue->setMenu($myLanguage, $myLanguage, $myDb, $myCategorie, $categorie, $myListeLanguage);
+                $myMenuLangueList = $myMenuLangue->getMenuArray();
             
             //Creation du sommaire principal
-            $myMenu = new Menu();
-            $myMenu->setMenu($myCategorie, $myLanguage, $myDb, $myCategorie, $page, $myListeCategorie);
-            $myMenuList = $myMenu->getMenuArray();
+                $myMenu = new Menu();
+                $myMenu->setMenu($myCategorie, $myLanguage, $myDb, $myCategorie, $categorie, $myListeCategorie);
+                $myMenuList = $myMenu->getMenuArray();
+                
+            //Creation du sous_menu principal    
+                $mySousMenu = new Menu();
+                $mySousMenu->setMenu($mySousCategorie, $myLanguage, $myDb, $myCategorie, $categorie, $myListeSousCategorie);
+                $mySousMenuList = $mySousMenu->getMenuArray();                
             
             //méthode de gestion d'appel des templates
-            $type_contenu = $myVue->getTemplate($myVue, $t);
-            $type_block_sidebar = $myBlocks->getTemplate($myBlocks, $t);
+                $myMatrice = new Matrice();
+                $myMatrice = $myMatrice->setMatrice(3, 10, 30, $myVue->getContents(), 100, $t);
+                
+                
+                $type_contenu = $myVue->getTemplate($myVue, $t);
+                $type_block_sidebar = $myBlocks->getTemplate($myBlocks, $t);
             
-            $t->assign('menu_liste_admin', $myMenuAdminList);
-            $t->assign('menu_liste_nav', $myMenuList);
-            $t->assign('menu_liste_langues', $myMenuLangueList);
+           //assignation des menus 
+                $t->assign('menu_liste_admin', $myMenuAdminList);
+                $t->assign('sous_menu_liste_admin', $mySousMenuAdminList);
+                $t->assign('menu_liste_nav', $myMenuList);
+                $t->assign('sous_menu_liste_nav', $mySousMenuList);
+                $t->assign('menu_liste_langues', $myMenuLangueList);
 
             //assignation des blocks de la sideBar
-            $t->assign('blocks', $myBlocks->getContentsHTML());
-            $t->assign('contents_block', $myBlocks->getContents());
-            $t->assign('connexion_user_form', json_decode($myUserForm[0]->contenu, true));
-            $t->assign("infos_website_liste", $myInfosWebsiteListe[0]);
+                $t->assign('blocks', $myBlocks->getContentsHTML());
+                $t->assign('contents_block', $myBlocks->getContents());
+                $t->assign('connexion_user_form', json_decode($myUserForm[0]->contenu, true));
+                $t->assign("infos_website_liste", $myInfosWebsiteListe[0]);
             
             //assignation des contenus aux pages
-            $t->assign('pages', $myVue->getContentsHTML());
-            $t->assign('contents_page', $myVue->getContents());
+                $t->assign('pages', $myVue->getContentsHTML());
+                $t->assign('contents_page', $myVue->getContents());
 
             //passage d'une variable titre au header
-            $titre = $page;
-            $t->assign('title', $titre);
-            
+                $sous_titre = $sous_categorie;
+                $titre = $categorie;
+
+                $t->assign('title', $titre);
+                $t->assign('subtitle', $sous_titre);
+                
             // test de la classe Upload
-            $myUpload = new Images($_FILES, $myUser);
+                $myUpload = new Images($_FILES, $myUser);
 
-            $t->display('index.tpl');
+                $t->display('index.tpl');
 
-            $myDb->dataBaseClose($myDbLink);
+                $myDb->dataBaseClose($myDbLink);
+                       
 ?>

@@ -115,6 +115,7 @@ class DataBase {
         
         if($res)
         {
+            $tmp = array();
             while($line = $res->fetch())
             {
                 $tmp[] = $line;
