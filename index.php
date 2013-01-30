@@ -145,7 +145,7 @@
             //assignation des blocks de la sideBar
             $t->assign('blocks', $myBlocks->getContentsHTML());
             $t->assign('contents_block', $myBlocks->getContents());
-            $t->assign('connexion_user_form', json_decode($myUserForm[0]['contenu'], true));
+            $t->assign('connexion_user_form', json_decode($myUserForm[0]->contenu, true));
             $t->assign("infos_website_liste", $myInfosWebsiteListe[0]);
             
             //assignation des contenus aux pages
