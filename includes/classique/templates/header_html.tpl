@@ -20,6 +20,7 @@
         <meta name="description" content="{*$description_website*}" />
         <title>{$title_website}</title>
         
+        <link rel="stylesheet" type="text/css" href="{$css_path}admin.css" /> 
         <link rel="stylesheet" type="text/css" href="{$css_path}main.css" />
         <link rel="stylesheet" type="text/css" href="{$css_path}form.css" />
         <link rel="stylesheet" type="text/css" href="{$css_path}{$template}.css" /> 
