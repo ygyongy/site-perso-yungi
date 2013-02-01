@@ -1,0 +1,47 @@
+/* 
+    Document   : admin
+    Created on : 31 janv. 2013, 21:45:11
+    Author     : ygyongy
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root
+{ 
+    display: block;
+}
+
+.datagrid_header
+{
+    font-size: 0.65em;
+    list-style: none;
+    text-align: center;
+    font-weight: bold;
+}
+
+.datagrid
+{
+    font-size: 0.65em;
+    border: 1px #878787 solid;
+    text-align: center;
+    height: 25px;
+    line-height: 1em;
+}
+
+    .datagrid span, .datagrid_header span
+    {
+        padding: 0.2em;
+        margin: 0.2em;
+        width: 105px;
+        display: block;
+        float: left;
+        height: 25px;
+        line-height: 1em;
+    }
+    
+    .header_list
+    {
+        border: 1px red solid;
+        background-color: #eee;
+    }
+

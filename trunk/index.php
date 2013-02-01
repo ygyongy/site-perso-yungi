@@ -53,7 +53,10 @@
         //L'id_categorie 5 => block_sidebar
             $myBlocks = new Vues();
             $myBlocks->getContent(5, $myLanguage->getIdLangue(), $myDb, $myUser, "0");
-
+            
+            $myContentById = new Vues();
+            $myContentById->getContentById(1, $myLanguage->getIdLangue(), $myDb, $myUser);
+            
         //Reprise des infos du site web
             $myInfosWebsite = new InfosWebsite();
             $myInfosWebsite->setInfosWebsite($myDb);

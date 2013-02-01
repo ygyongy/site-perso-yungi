@@ -60,6 +60,43 @@ class Vues{
         return $this->contentsHTML;
     }
     
+    public function getContentById($id, $langue, $db, $oUser)
+    {
+        switch ($oUser->getDroitUser())
+        {
+            case 'UPEA' : $view = 'view_admin_contenus';
+                break;
+            
+            case 'UPE' : $view = 'view_editeur_contenus';
+                break;
+            
+            case 'UP': $view = 'view_pro_contenus';
+                break;
+            
+            case 'U': $view = 'view_user_contenus';
+                break;
+            
+            default: $view = 'view_anonymous_contenus';
+                break;
+        }
+        
+        if($id)
+        {
+            $parametre = array(
+                    'select' => '*',
+                    'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_contenus", //concatene le nom de la vue avec celui du groupe de l'utilisateur
+                    'where' => "id_contenu = ".$id." AND langues_id_langue = ".$langue.""
+             );
+        }
+        
+        //récupération du contenu
+        $contents_page = $this->querryContent($parametre, $db, $langue);
+        
+        $this->contents = $contents_page;
+        
+        return true;
+    }
+    
     public function getContent($id_categorie, $langue, $db, $oUser, $id_sous_categorie)
     {        
         switch ($oUser->getDroitUser())
@@ -103,7 +140,44 @@ class Vues{
                 'where' => "id_categorie = 1 AND langues_id_langue = ".$langue.""
             );            
         }
+        
+        
+        //récupération du contenu
+        $contents_page = $this->querryContent($parametre, $db, $langue);
 
+        /*
+         * TO DO
+         * Ajouter des regexs pour parser le contenu!!!!
+         *  - Les liens #^(http://)?(www\.)?([-\w.]*)\.([a-z0-9]{2,})$#iU
+         *  - Les emails
+         *  - Les alt sur les images
+         */
+        foreach ($contents_page as $item)
+        {
+            echo "<br /><br />";
+            var_dump($item);
+            echo "<br /><br />";
+        }
+        
+        
+        $pattern_links = '#^(http://)?(www\.)?([-\w.]*)\.([a-z0-9]{2,})#iU';
+
+        foreach($contents_page as $value)
+        {
+
+            //Si ce n'est pas un formulaire
+            if(!is_array($value['contenu']))
+            {
+                $value['contenu'] = preg_replace($pattern_links, '<a href="$1$2$3.$4" target="_blank" title="$2$3.$4">$2$3.$4</a>', $value['contenu']);
+            }
+        }
+
+        $this->contents = $contents_page;
+        return true;
+    }
+    
+    private function querryContent($parametre, $db, $langue)
+    {
         $this->oContents = $db->dataBaseSelect($parametre);
 
         //on gère la multiplicité des contenus possible
@@ -147,29 +221,8 @@ class Vues{
                     ; break;
             }
         }
-
-        /*
-         * TO DO
-         * Ajouter des regexs pour parser le contenu!!!!
-         *  - Les liens #^(http://)?(www\.)?([-\w.]*)\.([a-z0-9]{2,})$#iU
-         *  - Les emails
-         *  - Les alt sur les images
-         */
-
-        $pattern_links = '#^(http://)?(www\.)?([-\w.]*)\.([a-z0-9]{2,})#iU';
-
-        foreach($contents_page as $value)
-        {
-            //Si ce n'est pas un formulaire
-            if(!is_array($value['contenu']))
-            {
-                $value['contenu'] = preg_replace($pattern_links, '<a href="$1$2$3.$4" target="_blank" title="$2$3.$4">$2$3.$4</a>', $value['contenu']);
-            }
-        }
-
-
-        $this->contents = $contents_page;
-        return true;
+        
+        return $contents_page;
     }
 
     public function getTemplate($oPage, $oSmarty)
@@ -189,6 +242,16 @@ class Vues{
                 case 'form' :
                     $myForm = new Form();
                     $tmp[$key] = $myForm->setProperties($value);
+                    $myPageHtml[] = $value;
+                    break;
+                case 'liste' : 
+                    $myPageHtml[] = $value;                    
+                    break;
+                case 'include' :
+                    $myPageHtml[] = $value;
+                    break;
+                
+                default :
                     $myPageHtml[] = $value;
                     break;
             }
