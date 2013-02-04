@@ -42,6 +42,8 @@
     
     
     $myPaginator = new Paginator();
+    
+    //(contenu, nbreParPage, paramètre à récupérer dans l'url)
     $myPaginator->setPaginator($myQuery, 2, 'paginator');
     $myPaginatorHtml = $myPaginator->getPaginator();
     
