@@ -2,8 +2,9 @@
             <h1>{$page.titre}</h1>
             {if is_array($page.contenu)}
                 {foreach from=$page.contenu item=element key=k name=matrice}
-
-                    <div class="fleft" id="cell_{$k}" style="width:{$width}px; margin-right: 0.1em; border: 1px red solid;">
+                    
+                    <!-- le paramètre width est directement fourni par la classe Matrice.class.php -->
+                    <div class="fleft matrice" id="cell_{$k}" style="width:{$width}px; margin-right: 0.1em; border: 1px red solid;">
                         {$element}
                     </div>
 

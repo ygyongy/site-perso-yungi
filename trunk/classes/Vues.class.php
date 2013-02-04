@@ -227,7 +227,7 @@ class Vues{
             {
                 case 'matrice' :
                     $myMatrice = new Matrice();
-                    $tmp[$key] = $myMatrice->setMatrice(4, 10, 20, $value, 694, $oSmarty);
+                    $tmp[$key] = $myMatrice->setMatrice(4, 10, 20, $value, 694*0.99, $oSmarty);
                     $myPageHtml[] = $value;
                     break;
                 case 'page' :
