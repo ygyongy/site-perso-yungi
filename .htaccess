@@ -16,4 +16,4 @@ RewriteEngine on
 # Modifier la règle de rewrite pour la mise en PROD => pas besoin du chemin complet [test_rewrite/test.html => suffit] !!!
 
 # Article avec numéro de page:
-RewriteRule ^([a-zA-Z]{2,2})/?([a-zA-Z]+)?/([a-zA-Z]+)?/?$ ?langue=$1&categorie=$2&sous_categorie=$3 [L]
+RewriteRule ^([a-zA-Z]{2,2})/?([a-zA-Z]+)?/([a-zA-Z]+)?/?([0-9]+)?/?$ ?langue=$1&categorie=$2&sous_categorie=$3&paginator=$4 [L]

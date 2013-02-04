@@ -21,4 +21,6 @@
                 {/if}
             {/foreach}
         </ol>
+        <div class="pagination">{$pagination}</div>
+        <div class="clear"></div>
 </div>
