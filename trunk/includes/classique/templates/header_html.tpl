@@ -7,6 +7,7 @@
     require_once 'classes/Upload.class.php';
     require_once 'classes/Form.class.php';
     require_once 'classes/String.class.php';
+    require_once 'classes/Paginator.class.php';
 {/php}
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
