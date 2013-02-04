@@ -56,11 +56,13 @@ class Paginator {
         for($i = $premier_element-1; $i <= $dernier_element-1; $i++)
         {
             $tmp_content['contenu'][$i] = $this->contenus_list[$i];
+            
+            if($i >= $nb_element-1)
+            {
+                break;
+            }            
         }
-        
-        echo $premier_element;
-        echo $dernier_element;
-        print_r($tmp_content);
+
         return $tmp_content;
     }
 
@@ -73,7 +75,7 @@ class Paginator {
         $this->nb_contenus = count($this->contenus_list);
         
         //la fonction "ceil()" de PHP arrondi à l'entier suppérieur
-        $this->nb_pages = ceil($this->nb_contenus/$this->nb_max_par_page);
+        $this->nb_pages = (int)ceil($this->nb_contenus/$this->nb_max_par_page);
         $this->last_page = (int)$this->nb_pages;
     }
     
@@ -114,7 +116,13 @@ class Paginator {
         
         $this->output = $msg;
         
-        return $this->output;
+        if($this->nb_pages === 1)
+        {
+            return false;
+        }else{
+            return $this->output;
+        }
+        
     }
     
     function setFirstLast($pageEnCours)

@@ -39,10 +39,13 @@ h1 h2 h3 h4
 
 .wrapper
 {
-    width: 100%;
+    display: block;
+    width: 98%;
     min-height: 10px;
     padding: 5px;
+    margin-right: 20px;
     margin-bottom: 0px;
+    border: 1px red solid;
 }
 
 .fleft
@@ -59,6 +62,11 @@ h1 h2 h3 h4
     padding: 0px;
 }
 
+.datagrid td
+{
+    border: #838383 1px solid;
+}
+
 .pagination
 {
     font-size: 0.5em;
@@ -70,7 +78,8 @@ h1 h2 h3 h4
         padding: 0.5em;
         border: 1px dodgerblue solid;
         margin: 0.2em;
-        background-color: #838383;        
+        background-color: #838383; 
+        list-style: none;
     }
     
         .pagination li a
