@@ -152,12 +152,6 @@ class Vues{
          *  - Les emails
          *  - Les alt sur les images
          */
-        foreach ($contents_page as $item)
-        {
-            echo "<br /><br />";
-            var_dump($item);
-            echo "<br /><br />";
-        }
         
         
         $pattern_links = '#^(http://)?(www\.)?([-\w.]*)\.([a-z0-9]{2,})#iU';

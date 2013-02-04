@@ -1,30 +1,29 @@
 <div class="wrapper">
-    <h3>{$title}</h3>
-        <ol id="liste_{$title}{if isset($subtitle)}_{$subtitle}{/if}">
+        <h3>{$title}</h3>
+        <table id="grid" style="width: 100%;">
             <!-- Header des listes -->
-            <li class="datagrid_header">
+            <tr class="datagrid_header">
                 {foreach from=$header_list name=header item=header}
-                    <span class="header_list">{$header}</span>
+                    <th class="header_list">{$header}</th>
                 {/foreach}
-                <div class="clear"></div>
-            </li>        
+            </tr>        
             <!-- Fin Header des listes -->
             
             <!-- Début de l'affichage de la grille -->
             {foreach from=$page.contenu item=element key=k name=liste}                
                 {if $element != NULL && isset($element)}
-                    <li class="datagrid">
+                    <tr class="datagrid">
                         {foreach from=$element item=value name=values key=label}
-                            <span>{$value}</span>
+                            <td>{$value}</td>
                         {/foreach}
-                        
-                    </li>
-                    <div class="clear"></div>
+                        <td class="edit">edit</td>
+                        <td class="delete">delete</td>
+                    </tr>
                 {/if}
             {/foreach}
             <!-- Fin de l'affichage de la grille -->
             
-        </ol>
+        </table>
         <div class="pagination">{$pagination}</div>
         <div class="clear"></div>
 </div>
