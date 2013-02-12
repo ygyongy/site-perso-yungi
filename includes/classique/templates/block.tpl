@@ -1,3 +1,3 @@
-<div class="wrapper_sidebar" id="block_connexion_users">
+<div class="wrapper_sidebar">
     {include file='page.tpl' contenu=$pages}
 </div>
