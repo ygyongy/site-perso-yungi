@@ -55,9 +55,7 @@
        
         //L'id_categorie 5 => block_sidebar
             $myBlocks = new Vues();
-            $myBlocks->setContents('5', '1', $myDb, $myUser, '0');
-            $myBlocksContents = $myBlocks->getContents();
-            $myBlocksContentsHtml = $myBlocks->getContentsHTML();
+            $myBlocks->setContents(5, 1, $myDb, $myUser, 0);
             
         //Reprise des infos du site web
             $myInfosWebsite = new InfosWebsite();
@@ -179,18 +177,19 @@
                 $t->assign('menu_liste_langues', $myMenuLangueList);
 
             //assignation des blocks de la sideBar
-                $t->assign('blocks', $myBlocksContentsHtml);
-                $t->assign('contents_block', $myBlocksContents);
+                $myBlocksContentsHtml = $myBlocks->getContentsHTML();
+                $myBlocksContentsHtml['contenus'][0]['fichier_tpl'] = $type_block_sidebar;
+
+                $t->assign('contents_block', $myBlocksContentsHtml);
+                $t->assign('index_navigation_blocks', 'contenus');
                 $t->assign('connexion_user_form', json_decode($myUserForm[0]->contenu, true));
                 $t->assign("infos_website_liste", $myInfosWebsiteListe[0]);
                 
             
             //assignation des contenus aux pages avec paginateur
-                $myContents = $myVue->getContents();
                 $myContentsHtml = $myVue->getContentsHTML();
 
-                $nb_element_parent_HTML = count($myContentsHtml);
-                $nb_element_parent = count($myContents); 
+                $nb_element_parent_HTML = count($myContentsHtml); 
                 
                 //(contenu, nbreParPage, paramètre à récupérer dans l'url)     
                 $myPaginator2 = new Paginator();

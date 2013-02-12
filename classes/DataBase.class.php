@@ -104,13 +104,14 @@ class DataBase {
         {
             $query .= " LIMIT ".$arguments['limit'];
         }
-echo $query."<br><br><br><br><br><br>";
+//echo $query."<br><br><br><br><br><br>";
         try{
             $res = $bdd->query($query);
             $res->setFetchMode(PDO::FETCH_OBJ);            
         }  catch (Exception $e){
             echo "<h1>Une erreur est survenue lors de la récupération des données</h1>";
             die ($e->getMessage());
+            
         }
         
         if($res)

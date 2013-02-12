@@ -292,11 +292,12 @@ class Vues{
     public function getTemplate($oPage, $index, $oSmarty, $oDb)
     {
         $name_tpl = null;
+        
         foreach($oPage->contents as $key=>$valeurs)
         {
             $myPageHtml[$key]=$valeurs;
         }
-        
+
         foreach($myPageHtml as $key => $valeur)
         {
             $nb_elements = count($myPageHtml[$index]);
@@ -305,36 +306,37 @@ class Vues{
             {
                 $myPageHtml[$index][$i]['fichier_tpl'] = $oPage->getNameTemplate($myPageHtml[$index][$i]['types_contenus_id_type_contenu'], $oDb);
                 $nom_template = $oPage->getNameTemplate($myPageHtml[$index][$i]['types_contenus_id_type_contenu'], $oDb);
+                
+                switch ($nom_template)
+                {
+                   case 'matrice' :
+                       $myMatrice = new Matrice();
+                       $tmp[$key] = $myMatrice->setMatrice(4, 10, 20, $myPageHtml[$index][$i], 694*0.99, $oSmarty);
+                       break;
+                   case 'page' :
+
+                       break;
+                   case 'form' :
+                       $myForm = new Form();
+                       $tmp[$key] = $myForm->setProperties($myPageHtml[$index][$i]);
+
+                       break;
+                   case 'liste' : 
+
+                       break;
+                   case 'include' :
+
+                       break;
+
+                   case 'grid':
+
+                       break;
+
+                   default :
+
+                       break;                
+                }                
             }
-        }
-        
-        switch ($nom_template)
-        {
-           case 'matrice' :
-               $myMatrice = new Matrice();
-               //$tmp[$key] = $myMatrice->setMatrice(4, 10, 20, $value, 694*0.99, $oSmarty);
-               break;
-           case 'page' :
-
-               break;
-           case 'form' :
-               $myForm = new Form();
-               //$tmp[$key] = $myForm->setProperties($value);
-               break;
-           case 'liste' : 
-
-               break;
-           case 'include' :
-
-               break;
-
-           case 'grid':
-
-               break;
-
-           default :
-
-               break;                
         }
 
         //j attribue le contenu HTML à mon objet
