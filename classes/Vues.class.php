@@ -16,6 +16,8 @@ class Vues{
     private $nom_sous_categorie;
     private $oContents = array();
     private $contentsHTML = array();
+    private $type_contenu;
+    private $nb_contents;
     private $titre_html_categorie;
     private $contents = array();
     private $fichiers = array();
@@ -27,7 +29,13 @@ class Vues{
         $this->nom_categorie = NULL;
         $this->nom_sous_categorie = NULL;
         $this->oContents = null;
+        $this->contentsHTML = null;
+        $this->type_contenu = null;
+        $this->nb_contents = null;
         $this->titre_html_categorie = null;
+        $this->contents = null;
+        $this->fichiers = null;
+        
     }
 
     public function getTitreHtml()
@@ -55,11 +63,22 @@ class Vues{
         return $this->contents;
     }
     
+    public function getTypeContenu()
+    {
+        return $this->type_contenu;
+    }
+
+
     public function getContentsHTML()
     {
         return $this->contentsHTML;
     }
     
+    public function getNbContents()
+    {
+        return $this->nb_contents;
+    }
+
     public function getContentById($id, $langue, $db, $oUser)
     {
         switch ($oUser->getDroitUser())
@@ -92,12 +111,17 @@ class Vues{
         //récupération du contenu
         $contents_page = $this->querryContent($parametre, $db, $langue);
         
+        $this->nb_contents = count($contents_page);
         $this->contents = $contents_page;
         
-        return true;
+        if($this->nb_contents === 1)
+            return true;
+        else{
+            return false;
+        }
     }
     
-    public function getContent($id_categorie, $langue, $db, $oUser, $id_sous_categorie)
+    public function setContents($id_categorie, $id_langue, $oDb, $oUser, $id_sous_categorie)
     {        
         switch ($oUser->getDroitUser())
         {
@@ -116,7 +140,7 @@ class Vues{
             default: $view = 'view_anonymous_contenus';
                 break;
         }        
-        
+
         if($id_categorie)
         {
             if($id_sous_categorie != '0')
@@ -124,26 +148,54 @@ class Vues{
                 $parametre = array(
                     'select' => '*',
                     'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_contenus", //concatene le nom de la vue avec celui du groupe de l'utilisateur
-                    'where' => "id_categorie = ".$id_categorie." AND sous_categories_id_sous_categorie = ".$id_sous_categorie." AND langues_id_langue = ".$langue.""
+                    'where' => "categories_id_categorie = ".$id_categorie." AND sous_categories_id_sous_categorie = ".$id_sous_categorie." AND langues_id_langue = ".$id_langue.""
                 );
             }else{
                 $parametre = array(
                     'select' => '*',
                     'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_contenus", //concatene le nom de la vue avec celui du groupe de l'utilisateur
-                    'where' => "id_categorie = ".$id_categorie." AND sous_categories_id_sous_categorie IS NULL AND langues_id_langue = ".$langue.""
+                    'where' => "categories_id_categorie = ".$id_categorie." AND sous_categories_id_sous_categorie IS NULL AND langues_id_langue = ".$id_langue.""
                 );                
             }            
         }else{
             $parametre = array(
                 'select' => '*',
                 'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_contenus",
-                'where' => "id_categorie = 1 AND langues_id_langue = ".$langue.""
+                'where' => "categories_id_categorie = 1 AND langues_id_langue = ".$id_langue.""
             );            
         }
         
+        if($id_categorie)
+        {
+            $parametreListe = null;
+            $parametreListe = array(
+                'select' => 'id_categorie, langues_id_langue, types_contenus_id_type_contenu, categorie_max_par_page',
+                'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_menu",
+                'where' => 'id_categorie = '.$id_categorie.' AND langues_id_langue = '.$id_langue
+            );
+            
+            $contents_page['categorie'] = $oDb->dataBaseSelect($parametreListe, $oDb, $id_langue);
+            $contents_page['categorie'][0] = get_object_vars($contents_page['categorie'][0]);
+            
+            if($id_sous_categorie)
+            {
+                $parametreListe = null;
+                $parametreListe = array(
+                    'select' => 'id_sous_categorie, langues_id_langue, types_contenus_id_type_contenu, sous_categorie_max_par_page',
+                    'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_sous_menu",
+                    'where' => 'id_sous_categorie = '.$id_sous_categorie.' AND langues_id_langue = '.$id_langue
+                );
+                
+                $contents_page['sous_categorie'] = $oDb->dataBaseSelect($parametreListe, $oDb, $id_langue);
+                $contents_page['sous_categorie'][0] = get_object_vars($contents_page['sous_categorie'][0]);
+            }
+        }
         
         //récupération du contenu
-        $contents_page = $this->querryContent($parametre, $db, $langue);
+        $contents_page['contenus'] = $this->querryContent($parametre, $oDb, $id_langue);
+        
+        //attribution des contenus à oContents
+        $this->oContents = $contents_page;
 
         /*
          * TO DO
@@ -156,9 +208,8 @@ class Vues{
         
         $pattern_links = '#^(http://)?(www\.)?([-\w.]*)\.([a-z0-9]{2,})#iU';
 
-        foreach($contents_page as $value)
+        foreach($contents_page['contenus'] as $value)
         {
-
             //Si ce n'est pas un formulaire
             if(!is_array($value['contenu']))
             {
@@ -170,91 +221,125 @@ class Vues{
         return true;
     }
     
-    private function querryContent($parametre, $db, $langue)
+    private function querryContent($aParametres, $oDb, $id_langue)
     {
-        $this->oContents = $db->dataBaseSelect($parametre);
-
+        $tmp_contents = $oDb->dataBaseSelect($aParametres);
+        
         //on gère la multiplicité des contenus possible
-        if(!is_null($this->oContents))
+        if(!is_null($tmp_contents))
         {
-            foreach($this->oContents as $key => $contenu)
+            foreach($tmp_contents as $key => $contenu)
             {                
                 if(isset($contenu->contenu) && !empty($contenu->contenu))
                 {
                     // le contenus est serialisez dans un objet JSON
                     //le paramètre TRUE => permet de renvoyer un tableau!!!
                     $contents_page[$key] = json_decode($contenu->contenu, TRUE);
-                    $contents_page[$key]['fichier_tpl'] = $contenu->nom_type_contenu;
+                    $contents_page[$key]['types_contenus_id_type_contenu'] = $contenu->cont_type_contenu;
                     $contents_page[$key]['id_contenu'] = $contenu->id_contenu;
                 }else{
-                    switch ($langue)
+                    switch ($id_langue)
                     {
                         case 1:
-                            $contents_page[] = array('titre' => "Contenu vide!!!", 'contenu' => 'contenus par défaut', 'footer' => 'Pied de page non-présent', 'fichier_tpl' => 'page');
+                            $contents_page[] = array('titre' => "Contenu vide!!!", 'contenu' => 'contenus par défaut', 'footer' => 'Pied de page non-présent', 'types_contenus_id_type_contenu' => 1, 'id_contenu' => '12', 'fichier_tpl' => 'page');
                             ; break;
                         case 2:
-                            $contents_page[] = array('titre' => "Diese Seite ist leer!", 'contenu' => 'Default Seite', 'footer' => 'Füssen des Seite leer', 'fichier_tpl' => 'page');
+                            $contents_page[] = array('titre' => "Diese Seite ist leer!", 'contenu' => 'Default Seite', 'footer' => 'Füssen des Seite leer', 'types_contenus_id_type_contenu' => 1, 'id_contenu' => '12', 'fichier_tpl' => 'page');
                             ; break;
                         case 3:
-                            $contents_page[] = array('titre' => "Empty content!!!", 'contenu' => 'Default content', 'footer' => 'Footer doesn\'t exist', 'fichier_tpl' => 'page');
+                            $contents_page[] = array('titre' => "Empty content!!!", 'contenu' => 'Default content', 'footer' => 'Footer doesn\'t exist', 'types_contenus_id_type_contenu' => 1, 'id_contenu' => '12', 'fichier_tpl' => 'page');
                             ; break;
                     }
                 }
             }
         }else{
-            switch ($langue)
+            switch ($id_langue)
             {
                 case 1:
-                    $contents_page[] = array('titre' => "Contenu vide!!!", 'contenu' => 'contenus par défaut', 'footer' => 'Pied de page non-présent', 'fichier_tpl' => 'page');
+                    $contents_page[] = array('titre' => "Contenu vide!!!", 'contenu' => 'contenus par défaut', 'footer' => 'Pied de page non-présent', 'types_contenus_id_type_contenu' => 1, 'id_contenu' => '12', 'fichier_tpl' => 'page');
                     ; break;
                 case 2:
-                    $contents_page[] = array('titre' => "Diese Seite ist leer!", 'contenu' => 'Default Seite', 'footer' => 'Füssen des Seite leer', 'fichier_tpl' => 'page');
+                    $contents_page[] = array('titre' => "Diese Seite ist leer!", 'contenu' => 'Default Seite', 'footer' => 'Füssen des Seite leer', 'types_contenus_id_type_contenu' => 1, 'id_contenu' => '12', 'fichier_tpl' => 'page');
                     ; break;
                 case 3:
-                    $contents_page[] = array('titre' => "Empty content!!!", 'contenu' => 'Default content', 'footer' => 'Footer doesn\'t exist', 'fichier_tpl' => 'page');
+                    $contents_page[] = array('titre' => "Empty content!!!", 'contenu' => 'Default content', 'footer' => 'Footer doesn\'t exist', 'types_contenus_id_type_contenu' => 1, 'id_contenu' => '12', 'fichier_tpl' => 'page');
                     ; break;
             }
-        }
+        }    
         
         return $contents_page;
     }
-
-    public function getTemplate($oPage, $oSmarty)
+    
+    public function getNameTemplate($id_type_contenu, $oDb)
     {
-        foreach ($oPage->contents as $key => $value)
+        $tmp = null;
+        $parametres = array(
+            "select" => "*",
+            "from" => "types_contenus",
+            "where" => "id_type_contenu = ".$id_type_contenu." AND actif_type_contenu = '1'"
+        );
+
+        $tmp = $oDb->dataBaseSelect($parametres);
+        
+        if(!empty($tmp[0]->nom_type_contenu))
         {
-            switch($value['fichier_tpl'])
-            {
-                case 'matrice' :
-                    $myMatrice = new Matrice();
-                    $tmp[$key] = $myMatrice->setMatrice(4, 10, 20, $value, 694*0.99, $oSmarty);
-                    $myPageHtml[] = $value;
-                    break;
-                case 'page' :
-                    $myPageHtml[] = $value;
-                    break;
-                case 'form' :
-                    $myForm = new Form();
-                    $tmp[$key] = $myForm->setProperties($value);
-                    $myPageHtml[] = $value;
-                    break;
-                case 'liste' : 
-                    $myPageHtml[] = $value;                    
-                    break;
-                case 'include' :
-                    $myPageHtml[] = $value;
-                    break;
-                
-                default :
-                    $myPageHtml[] = $value;
-                    break;
-            }
-            $nom_template = $value['fichier_tpl'];
+            return $tmp[0]->nom_type_contenu;
+        }else{
+            return false;
+        }
+    }
+
+    public function getTemplate($oPage, $index, $oSmarty, $oDb)
+    {
+        $name_tpl = null;
+        foreach($oPage->contents as $key=>$valeurs)
+        {
+            $myPageHtml[$key]=$valeurs;
         }
         
+        foreach($myPageHtml as $key => $valeur)
+        {
+            $nb_elements = count($myPageHtml[$index]);
+
+            for($i=0; $i < $nb_elements; $i++)
+            {
+                $myPageHtml[$index][$i]['fichier_tpl'] = $oPage->getNameTemplate($myPageHtml[$index][$i]['types_contenus_id_type_contenu'], $oDb);
+                $nom_template = $oPage->getNameTemplate($myPageHtml[$index][$i]['types_contenus_id_type_contenu'], $oDb);
+            }
+        }
+        
+        switch ($nom_template)
+        {
+           case 'matrice' :
+               $myMatrice = new Matrice();
+               //$tmp[$key] = $myMatrice->setMatrice(4, 10, 20, $value, 694*0.99, $oSmarty);
+               break;
+           case 'page' :
+
+               break;
+           case 'form' :
+               $myForm = new Form();
+               //$tmp[$key] = $myForm->setProperties($value);
+               break;
+           case 'liste' : 
+
+               break;
+           case 'include' :
+
+               break;
+
+           case 'grid':
+
+               break;
+
+           default :
+
+               break;                
+        }
+
         //j attribue le contenu HTML à mon objet
         if(isset($myPageHtml) && !empty($myPageHtml))
-        {
+        {            
             $this->contentsHTML = $myPageHtml;
             return $nom_template;
         }else{

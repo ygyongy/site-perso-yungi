@@ -1,7 +1,7 @@
 <div id="contenu_site">
-    {foreach from=$contents_page item=content_element key=k}
-        {include file=`$content_element.fichier_tpl`.tpl page=$pages.$k}
-    {/foreach}
+    {include file=`$contents_page.$index_navigation.0.fichier_tpl`.tpl pages=$contents_page.contenus}
+    <div class="pagination">{$pagination}</div>
+    <div class="clear"></div>    
 </div>
 <div id="sidebar_right">{include file='blocks/sidebar_right.tpl'}</div>
 <div class="clear"></div>

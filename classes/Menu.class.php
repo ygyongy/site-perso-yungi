@@ -29,7 +29,7 @@ class Menu {
         return $this->menuArray;
     }
 
-    public function setMenu($categorie, $langue, $db, $oCategorie, $page, $listeArray)
+    public function setMenu($categorie, $oLangue, $db, $oCategorie, $page, $listeArray)
     {
         $tmp = $listeArray; // attribution du tableau de résultat à une variable
         $nb_items = count($tmp); //stock le nombre d'entrées pour chaque menu
@@ -40,13 +40,13 @@ class Menu {
              case "Categories":
                  
                  //permet de stocker l'id de la langue pour le test des catégories
-                 $tmp_id = $langue->getIdLangue();
+                 $tmp_id = $oLangue->getIdLangue();
                  
                  for ($i = 0; $i < $nb_items; $i++)
                  {
                      if($tmp[$i]->langues_id_langue === $tmp_id)
                      {
-                         $tmp[$i]->lien_menu = SUB_DOMAIN.$langue->getCodeLangue().'/'.$tmp[$i]->nom_categorie.'/'; 
+                         $tmp[$i]->lien_menu = SUB_DOMAIN.$oLangue->getCodeLangue().'/'.$tmp[$i]->nom_categorie.'/'; 
                      }else{
                          unset ($tmp[$i]);
                      }
@@ -57,15 +57,15 @@ class Menu {
              case "SousCategories":
 
                  //permet de stocker l'id de la langue pour le test des catégories
-                 $tmp_id = $langue->getIdLangue();
+                 $tmp_id = $oLangue->getIdLangue();
 
                  for ($i = 0; $i < $nb_items; $i++)
                  {
                      if($tmp[$i]->langues_id_langue === $tmp_id)
                      {
-                         $tmp[$i]->lien_menu = SUB_DOMAIN.$langue->getCodeLangue().'/';
+                         $tmp[$i]->lien_menu = SUB_DOMAIN.$oLangue->getCodeLangue().'/';
                          
-                         $tmp[$i]->lien_menu .= $oCategorie->getNomCategorie($tmp[$i]->categories_id_categorie, $langue->getIdLangue(), $db)."/";
+                         $tmp[$i]->lien_menu .= $oCategorie->getNomCategorie($tmp[$i]->categories_id_categorie, $oLangue->getIdLangue(), $db)."/";
                          
                          $tmp[$i]->lien_menu .= $tmp[$i]->nom_sous_categorie.'/';
                          
@@ -79,7 +79,7 @@ class Menu {
              case "Languages":
                 
                  //permet de récupérer l'id de la categorie en cours
-                 $tmp_id = $oCategorie->getIdCategorie($page, $langue->getIdLangue(), $db);
+                 $tmp_id = $oCategorie->getIdCategorie($page, $oLangue->getIdLangue(), $db);
                  
                  for ($i = 0; $i < $nb_items; $i++)
                  {

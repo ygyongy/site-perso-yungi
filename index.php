@@ -9,12 +9,13 @@
     require_once 'classes/Categories.class.php';
     require_once 'classes/SousCategories.class.php';
     require_once 'classes/Vues.class.php';
+    require_once 'classes/Paginator.class.php';
    
     //Classe qui permet de charger une extension Chrome pour debugg PHP
         require_once 'classes/PhpConsole/PhpConsole.php';
     
     //Extension Chrome pour Debuggage PHP
-        PhpConsole::start();
+        //PhpConsole::start();
     
     //insertion du moteur smarty
         require_once 'classes/SmartyYungi.class.php';
@@ -46,16 +47,17 @@
         $myLanguage = new Languages($langue);
         $myLanguage->setListeLangue($myDb); //tableau récupérant les données des menus langues
         $myListeLanguage = $myLanguage->getListeLangue();
-
+        
+   //Création d'un paginateur afin de gérer le contenu
+        $myPaginator = new Paginator();
         
 // <-creation des blocks --> 
        
         //L'id_categorie 5 => block_sidebar
             $myBlocks = new Vues();
-            $myBlocks->getContent(5, $myLanguage->getIdLangue(), $myDb, $myUser, "0");
-            
-            $myContentById = new Vues();
-            $myContentById->getContentById(1, $myLanguage->getIdLangue(), $myDb, $myUser);
+            $myBlocks->setContents('5', '1', $myDb, $myUser, '0');
+            $myBlocksContents = $myBlocks->getContents();
+            $myBlocksContentsHtml = $myBlocks->getContentsHTML();
             
         //Reprise des infos du site web
             $myInfosWebsite = new InfosWebsite();
@@ -76,7 +78,7 @@
         $myIdSousCategorie = $mySousCategorie->getIdSousCategorie($sous_categorie, $myLanguage->getIdLangue(), $myDb);
         $myNomSousCategorie = $mySousCategorie->getNomSousCategorie($mySousCategorie->getIdSousCategorie($sous_categorie, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb);
         $mySousCategorie->setSousCategorieList($myDb, $myIdCategorie, 'sous_navigation', $myUser);
-        $myListeSousCategorie = $mySousCategorie->getListeSousCategorie(); //tableau récupérant les données des menus navigation        
+        $myListeSousCategorie = $mySousCategorie->getListeSousCategorie(); //tableau récupérant les données des menus navigation
         
     //Récupération de la catégorie Admin
         $myCategorieAdmin = new Categories();
@@ -88,18 +90,18 @@
         $mySousCategorieAdmin = new SousCategories();
         $mySousCategorieAdmin->setSousCategorieList($myDb, $myIdCategorieAdmin,'sous_admin', $myUser);
         $myListeSousCategorieAdmin = $mySousCategorieAdmin->getListeSousCategorie(); //tableau récupérant les données des sous menu Admin
-
         
     //Récupération du contenu
         $myVue = new Vues();
         $myVueObjectContent = $myVue->getOContents();
-        
+
+    //me permet d'attribuer les contenus à la vue
         if($myVueObjectContent[0]['id_contenu'])
         {
-            $myVue->getContent($myCategorie->getIdCategorie($categorie, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb, $myUser, $mySousCategorie->getIdSousCategorie($sous_categorie, $myLanguage->getIdLangue(), $myDb));
+            $myVue->setContents($myCategorie->getIdCategorie($categorie, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb, $myUser, $mySousCategorie->getIdSousCategorie($sous_categorie, $myLanguage->getIdLangue(), $myDb));
             $myVue->getTitleHtml($myVueObjectContent[0]['id_contenu'], $myLanguage->getIdLangue(), $myDb);
         }else{
-            $myVue->getContent($myCategorie->getIdCategorie($categorie, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb, $myUser, $mySousCategorie->getIdSousCategorie($sous_categorie, $myLanguage->getIdLangue(), $myDb));
+            $myVue->setContents($myCategorie->getIdCategorie($categorie, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb, $myUser, $mySousCategorie->getIdSousCategorie($sous_categorie, $myLanguage->getIdLangue(), $myDb));
             $myVue->setTitleHtml($myCategorie->getIdCategorie($categorie, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb);
         }
 
@@ -158,11 +160,16 @@
             //Creation du sous_menu principal    
                 $mySousMenu = new Menu();
                 $mySousMenu->setMenu($mySousCategorie, $myLanguage, $myDb, $myCategorie, $categorie, $myListeSousCategorie);
-                $mySousMenuList = $mySousMenu->getMenuArray();                
+                $mySousMenuList = $mySousMenu->getMenuArray();
+                
+            //Creation de la navigation (gestion de la profondeur de la navigation cat/scat/details/...)
+                $myNavigation = new Navigation();
+                $myNavigation->setNavigation($categorie, $sous_categorie, $detail);
+                $myIndexNavigation = $myNavigation->getIndex();
             
             //méthode de gestion d'appel des templates
-                $type_contenu = $myVue->getTemplate($myVue, $t);
-                $type_block_sidebar = $myBlocks->getTemplate($myBlocks, $t);
+                $type_contenu = $myVue->getTemplate($myVue, $myIndexNavigation, $t, $myDb);
+                $type_block_sidebar = $myBlocks->getTemplate($myBlocks, 'contenus', $t, $myDb);
             
            //assignation des menus 
                 $t->assign('menu_liste_admin', $myMenuAdminList);
@@ -172,14 +179,32 @@
                 $t->assign('menu_liste_langues', $myMenuLangueList);
 
             //assignation des blocks de la sideBar
-                $t->assign('blocks', $myBlocks->getContentsHTML());
-                $t->assign('contents_block', $myBlocks->getContents());
+                $t->assign('blocks', $myBlocksContentsHtml);
+                $t->assign('contents_block', $myBlocksContents);
                 $t->assign('connexion_user_form', json_decode($myUserForm[0]->contenu, true));
                 $t->assign("infos_website_liste", $myInfosWebsiteListe[0]);
+                
             
-            //assignation des contenus aux pages
-                $t->assign('pages', $myVue->getContentsHTML());
-                $t->assign('contents_page', $myVue->getContents());
+            //assignation des contenus aux pages avec paginateur
+                $myContents = $myVue->getContents();
+                $myContentsHtml = $myVue->getContentsHTML();
+
+                $nb_element_parent_HTML = count($myContentsHtml);
+                $nb_element_parent = count($myContents); 
+                
+                //(contenu, nbreParPage, paramètre à récupérer dans l'url)     
+                $myPaginator2 = new Paginator();
+                $myPaginator2->setPaginator($myContentsHtml, 2, 'paginator');
+                $myPaginatorHtml = $myPaginator2->getPaginator($nb_element_parent_HTML);
+
+                $myContentsHtml['contenus'] = $myPaginator2->getContentsPaginate($myPaginator2->getPageEnCour(), $myPaginator2->getNbMaxParPage(), $myContentsHtml);
+                
+                $nb_contents = $myVue->getNbContents();                
+                $myContentsHtml[$myIndexNavigation][0]['fichier_tpl'] = $type_contenu;
+                $t->assign('contents_page', $myContentsHtml);
+
+                $t->assign('index_navigation', $myIndexNavigation);
+                $t->assign('pagination', $myPaginatorHtml); 
 
             //passage d'une variable titre au header
                 $sous_titre = $sous_categorie;
@@ -194,5 +219,4 @@
                 $t->display('index.tpl');
 
                 $myDb->dataBaseClose($myDbLink);
-                       
 ?>
