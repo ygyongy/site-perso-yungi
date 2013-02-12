@@ -104,7 +104,7 @@ class DataBase {
         {
             $query .= " LIMIT ".$arguments['limit'];
         }
-
+echo $query."<br><br><br><br><br><br>";
         try{
             $res = $bdd->query($query);
             $res->setFetchMode(PDO::FETCH_OBJ);            

@@ -14,6 +14,7 @@ class SousCategories {
     private $id_sous_categorie;
     private $categories_id_categorie;
     private $liste_sous_categorie;
+    private $id_contenu_parent;
 
     public function SousCategories()
     {
@@ -21,6 +22,7 @@ class SousCategories {
         $this->id_sous_categorie = null;
         $this->categories_id_categorie = null;
         $this->liste_sous_categorie = array();
+        $this->id_contenu_parent = null;
     }
 
     public function setSousCategorieList($oDb, $id_categorie, $emplacement, $oUser)
@@ -39,6 +41,17 @@ class SousCategories {
     public function getListeSousCategorie()
     {
         return $this->liste_sous_categorie;
+    }
+    
+    public function getContenuParent($id_contenu_parent, $id_langue, $db)
+    {
+        $arguments = array("select" => '*',
+            "from" => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_contenus", //concatene le nom de la vue avec celui du groupe de l'utilisateur
+            'where' => "id_contenu = ".$id_contenu_parent." AND langues_id_langue = ".$id_langue.""
+            );
+
+        $record = $db->dataBaseSelect($arguments);
+        return $record;
     }
 
     public function getNomSousCategorie($id, $id_langue, $db)

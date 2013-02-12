@@ -47,28 +47,10 @@ class Paginator {
         return $this->nb_max_par_page;
     }
 
-    public function getContentsPaginate($currentPage, $nbMaxParPage)
+    public function setPaginator($contenu_to_paginate, $nbMaxParPage, $string)
     {
-        $nb_element = $this->nb_contenus;
-        $dernier_element = $currentPage * $nbMaxParPage;
-        $premier_element = $dernier_element - ($nbMaxParPage-1);
         
-        for($i = $premier_element-1; $i <= $dernier_element-1; $i++)
-        {
-            $tmp_content['contenu'][$i] = $this->contenus_list[$i];
-            
-            if($i >= $nb_element-1)
-            {
-                break;
-            }            
-        }
-
-        return $tmp_content;
-    }
-
-    public function setPaginator($contenus, $nbMaxParPage, $string)
-    {
-        $this->contenus_list = $contenus['contenu'];
+        $this->contenus_list = $contenu_to_paginate['contenus'];
         $this->nb_max_par_page = $nbMaxParPage;
         $this->_getName = $string;
         
@@ -79,7 +61,27 @@ class Paginator {
         $this->last_page = (int)$this->nb_pages;
     }
     
-    public function getPaginator()
+    public function getContentsPaginate($currentPage, $nbMaxParPage, $contents)
+    {
+        $nb_element = count($contents['contenus']);
+
+        $dernier_element = $currentPage * $nbMaxParPage;
+        $premier_element = $dernier_element - ($nbMaxParPage-1);
+
+        for($i = $premier_element-1; $i <= $dernier_element-1; $i++)
+        {
+            $tmp_content[] = $contents['contenus'][$i];
+
+            if($i >= $nb_element-1)
+            {
+               break;
+            }            
+        }
+
+        return $tmp_content;
+    }    
+    
+    public function getPaginator($nb_element_parent)
     {
         if(isset($this->_getName) && $_GET[$this->_getName])
         {
@@ -90,32 +92,107 @@ class Paginator {
         
         $this->page_en_cours = (int)$pageEnCours;
         $this->setFirstLast($this->page_en_cours);
-        
+       
         //initialisation de la liste de liens
         $msg = null;
         $msg = "<ul>";
-        
+
         for ($i = 1; $i <= $this->nb_pages; $i++)
         {
 
             if($i === $this->first_page)
             {
-                $msg .= "<li><a href='".$this->first_page."' id=''>|&lt;</a></li>";
-                $msg .= "<li><a href='".$this->previous_page."' id=''>prev.</a></li>";
+                //condition vitale qui me permet de savoir si je dois passer une sous-pagination ou non.
+                //Dans le cas d'un "include" par exemple je n'ai qu'un contenu... je dois donc modifier le le liens
+                if($nb_element_parent === 1)
+                {
+                    $msg .= "<li><a href='".SUB_DOMAIN."".$_GET['langue']."/".$_GET['categorie'];
+                    if(!empty($_GET['sous_categorie']))
+                    {
+                        $msg .= "/".$_GET['sous_categorie'];
+                    }   
+                    $msg .= "/1/".$this->first_page."' id=''>|&lt;</a></li>";
+                    
+                    $msg .= "<li><a href='".SUB_DOMAIN."".$_GET['langue']."/".$_GET['categorie'];
+                    if(!empty($_GET['sous_categorie']))
+                    {
+                        $msg .= "/".$_GET['sous_categorie'];
+                    }   
+                    $msg .= "/1/".$this->previous_page."' id=''>prev.</a></li>";
+                }else{
+                    $msg .= "<li><a href='".SUB_DOMAIN."".$_GET['langue']."/".$_GET['categorie'];
+                    if(!empty($_GET['sous_categorie']))
+                    {
+                        $msg .= "/".$_GET['sous_categorie'];
+                    } 
+                    $msg .= "/".$this->first_page."' id=''>|&lt;</a></li>";
+                    
+                    $msg .= "<li><a href='".SUB_DOMAIN."".$_GET['langue']."/".$_GET['categorie'];
+                    if(!empty($_GET['sous_categorie']))
+                    {
+                        $msg .= "/".$_GET['sous_categorie'];
+                    }
+                    $msg .= "/".$this->previous_page."' id=''>prev.</a></li>";                    
+                }
             }
             
-            $msg .= "<li><a href='".$i."' id='page_".$i."'>".$i."</a></li>";
+            
+            if($nb_element_parent === 1)
+            {
+                $msg .= "<li><a href='".SUB_DOMAIN."".$_GET['langue']."/".$_GET['categorie'];
+                if(!empty($_GET['sous_categorie']))
+                {
+                    $msg .= "/".$_GET['sous_categorie'];
+                }                 
+                $msg .= "/1/".$i."' id='page_".$i."'>".$i."</a></li>";
+            }else{
+                $msg .= "<li><a href='".SUB_DOMAIN."".$_GET['langue']."/".$_GET['categorie'];
+                if(!empty($_GET['sous_categorie']))
+                {
+                    $msg .= "/".$_GET['sous_categorie'];
+                }                 
+                $msg .= "/".$i."' id='page_".$i."'>".$i."</a></li>";
+            }
             
             if($i === $this->last_page)
             {
-                $msg .= "<li><a href='".$this->next_page."' id='tgests'>next</a></li>";
-                $msg .= "<li><a href='".$this->last_page."' id='tests'>&gt;|</a></li>";
+                if($nb_element_parent === 1)
+                {
+                    $msg .= "<li><a href='".SUB_DOMAIN."".$_GET['langue']."/".$_GET['categorie'];
+                    if(!empty($_GET['sous_categorie']))
+                    {
+                        $msg .= "/".$_GET['sous_categorie'];
+                    }                     
+                    $msg .= "/1/".$this->next_page."' id='tgests'>next</a></li>";
+                    
+                    $msg .= "<li><a href='".SUB_DOMAIN."".$_GET['langue']."/".$_GET['categorie'];
+                    if(!empty($_GET['sous_categorie']))
+                    {
+                        $msg .= "/".$_GET['sous_categorie'];
+                    }                     
+                    $msg .= "/1/".$this->last_page."' id='tests'>&gt;|</a></li>";                
+                }else{
+                    $msg .= "<li><a href='".SUB_DOMAIN."".$_GET['langue']."/".$_GET['categorie'];
+                    if(!empty($_GET['sous_categorie']))
+                    {
+                        $msg .= "/".$_GET['sous_categorie'];
+                    }                     
+                    $msg .= "/".$this->next_page."' id='tgests'>next</a></li>";
+                    
+                    $msg .= "<li><a href='".SUB_DOMAIN."".$_GET['langue']."/".$_GET['categorie'];
+                    if(!empty($_GET['sous_categorie']))
+                    {
+                        $msg .= "/".$_GET['sous_categorie'];
+                    }                     
+                    $msg .= "/".$this->last_page."' id='tests'>&gt;|</a></li>";                    
+                }
+
             }
         }
         $msg .= "</ul>";
         
         $this->output = $msg;
-        
+  
         if($this->nb_pages === 1)
         {
             return false;

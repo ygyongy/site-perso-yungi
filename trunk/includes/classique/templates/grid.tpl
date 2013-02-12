@@ -10,20 +10,18 @@
             <!-- Fin Header des listes -->
             
             <!-- Début de l'affichage de la grille -->
-            {foreach from=$page.contenu item=element key=k name=liste}                
-                {if $element != NULL && isset($element)}
+            {section loop=$pages name=section_liste_utilisateur}                
                     <tr class="datagrid">
-                        {foreach from=$element item=value name=values key=label}
+                        {foreach from=$pages[section_liste_utilisateur] item=value name=values key=label}
                             <td>{$value}</td>
                         {/foreach}
                         <td class="edit">edit</td>
                         <td class="delete">delete</td>
                     </tr>
-                {/if}
-            {/foreach}
+            {/section}
             <!-- Fin de l'affichage de la grille -->
-            
         </table>
+            
         <div class="pagination">{$pagination}</div>
         <div class="clear"></div>
 </div>

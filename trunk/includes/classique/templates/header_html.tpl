@@ -1,13 +1,13 @@
 {php}
     require_once 'classes/Debug.class.php';
     require_once 'classes/Menu.class.php';
+    require_once 'classes/Navigation.class.php';
     require_once 'classes/Matrice.class.php';
     require_once 'classes/Files.class.php';
     require_once 'classes/Images.class.php';
     require_once 'classes/Upload.class.php';
     require_once 'classes/Form.class.php';
     require_once 'classes/String.class.php';
-    require_once 'classes/Paginator.class.php';
 {/php}
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
