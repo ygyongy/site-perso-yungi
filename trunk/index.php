@@ -164,7 +164,7 @@
                 $myNavigation = new Navigation();
                 $myNavigation->setNavigation($categorie, $sous_categorie, $detail);
                 $myIndexNavigation = $myNavigation->getIndex();
-            
+
             //méthode de gestion d'appel des templates
                 $type_contenu = $myVue->getTemplate($myVue, $myIndexNavigation, $t, $myDb);
                 $type_block_sidebar = $myBlocks->getTemplate($myBlocks, 'contenus', $t, $myDb);
@@ -182,6 +182,7 @@
 
                 $t->assign('contents_block', $myBlocksContentsHtml);
                 $t->assign('index_navigation_blocks', 'contenus');
+
                 $t->assign('connexion_user_form', json_decode($myUserForm[0]->contenu, true));
                 $t->assign("infos_website_liste", $myInfosWebsiteListe[0]);
                 
