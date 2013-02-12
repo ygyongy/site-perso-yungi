@@ -1,8 +1,7 @@
-{foreach from=$contents_block item=content_element key=k}
+{section loop=$contents_block.$index_navigation_blocks name=section_blocks}
     <div class="wrapper_sidebar">
-        {$contents_block|var_dump}
-        {include file=`$content_element.fichier_tpl`.tpl page=$blocks.$k}
+        {include file=`$contents_block.$index_navigation_blocks[section_blocks].fichier_tpl`.tpl pages=$contents_block.$index_navigation_blocks[section_blocks]}
     </div>
-{/foreach}
+{/section}
 
 {include file='blocks/block_info_website.tpl'}
