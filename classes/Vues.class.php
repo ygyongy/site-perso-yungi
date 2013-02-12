@@ -291,34 +291,33 @@ class Vues{
 
     public function getTemplate($oPage, $index, $oSmarty, $oDb)
     {
-        $name_tpl = null;
-        
+        $nom_template = null;
+        echo $index."<br>";
         foreach($oPage->contents as $key=>$valeurs)
         {
             $myPageHtml[$key]=$valeurs;
         }
-
+        
         foreach($myPageHtml as $key => $valeur)
         {
-            $nb_elements = count($myPageHtml[$index]);
-
+            $nb_elements = count($myPageHtml[$key]);
             for($i=0; $i < $nb_elements; $i++)
             {
-                $myPageHtml[$index][$i]['fichier_tpl'] = $oPage->getNameTemplate($myPageHtml[$index][$i]['types_contenus_id_type_contenu'], $oDb);
-                $nom_template = $oPage->getNameTemplate($myPageHtml[$index][$i]['types_contenus_id_type_contenu'], $oDb);
+                $myPageHtml[$key][$i]['fichier_tpl'] = $oPage->getNameTemplate($myPageHtml[$key][$i]['types_contenus_id_type_contenu'], $oDb);
+                $nom_template = $oPage->getNameTemplate($myPageHtml[$key][$i]['types_contenus_id_type_contenu'], $oDb);
                 
                 switch ($nom_template)
                 {
                    case 'matrice' :
                        $myMatrice = new Matrice();
-                       $tmp[$key] = $myMatrice->setMatrice(4, 10, 20, $myPageHtml[$index][$i], 694*0.99, $oSmarty);
+                       $tmp[$key] = $myMatrice->setMatrice(4, 10, 20, $myPageHtml[$key][$i], 694*0.99, $oSmarty);
                        break;
                    case 'page' :
 
                        break;
                    case 'form' :
                        $myForm = new Form();
-                       $tmp[$key] = $myForm->setProperties($myPageHtml[$index][$i]);
+                       $tmp[$key] = $myForm->setProperties($myPageHtml[$key][$i]);
 
                        break;
                    case 'liste' : 
@@ -339,11 +338,13 @@ class Vues{
             }
         }
 
+        $this->type_contenu = $myPageHtml[$index][0]['fichier_tpl'];
+        
         //j attribue le contenu HTML à mon objet
         if(isset($myPageHtml) && !empty($myPageHtml))
         {            
             $this->contentsHTML = $myPageHtml;
-            return $nom_template;
+            return $this->type_contenu;
         }else{
             $this->contentsHTML = 'error';
             return false;
