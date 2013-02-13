@@ -20,6 +20,16 @@ class Categories {
         $this->id_categorie = null;
         $this->liste_categorie = array();
     }
+    
+    public function getListeCategorie()
+    {
+        return $this->liste_categorie;
+    }
+    
+    public function getIdCategorie()
+    {
+        return $this->id_categorie;
+    }    
 
     public function setCategorieList($oDb, $emplacement, $oUser)
     {        
@@ -32,11 +42,6 @@ class Categories {
         $this->liste_categorie = $oDb->dataBaseSelect($parametre);
         
         return true;
-    }
-    
-    public function getListeCategorie()
-    {
-        return $this->liste_categorie;
     }
 
     public function getNomCategorie($id, $id_langue, $db)
@@ -59,7 +64,7 @@ class Categories {
         return $this->nom_categorie;
     }
 
-    public function getIdCategorie($nom, $id_langue, $db)
+    public function setIdCategorie($nom, $id_langue, $db)
     {
         $arguments = array("select" => 'id_categorie',
             "from" => 'categories c',

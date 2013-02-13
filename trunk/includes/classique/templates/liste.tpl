@@ -17,6 +17,8 @@
                         {foreach from=$pages[liste_contenus] item=value name=values key=label}
                             <span>{$value}</span>
                         {/foreach}
+                        
+                        <div>{include file=learn_more.tpl menu_liste=$menu_liste_learn_more[liste_contenus]}</div>
                         <div class="clear"></div>
                     </li>
                     <div class="clear"></div>

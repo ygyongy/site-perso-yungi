@@ -12,7 +12,7 @@ ini_set('display_errors', 1);
 !isset($_SESSION['template']) ? $template = 'classique' : $template = $_SESSION['template'];
 !isset($_GET['langue']) ? $langue = '' : $langue = $_GET['langue'];
 !isset($_GET['categorie']) ? $categorie = '' : $categorie = $_GET['categorie'];
-!isset($_GET['detail']) ? $detail = '' : $detail = $_GET['detail'];
+!isset($_GET['article']) ? $article = '' : $article = $_GET['article'];
 !isset($_GET['sous_categorie']) ? $sous_categorie = '' : $sous_categorie = $_GET['sous_categorie'];
 !isset($site) ? $site = "/google_code_3/trunk/" : $site = "/google_code_3/trunk/";
 
