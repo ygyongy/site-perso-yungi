@@ -28,13 +28,17 @@ class Navigation {
         if(!empty($categorie))
         {
             $index_navigation_tmp[] = 'categorie';
+            if(!empty($detail))
+            {
+                $index_navigation_tmp[] = 'contenus';
+            }            
+            
             if(!empty($sous_categorie))
             {
                 $index_navigation_tmp[] = 'sous_categorie';
-
                 if(!empty($detail))
                 {
-                    $index_navigation_tmp[] = 'detail';
+                    $index_navigation_tmp[] = 'contenus';
                 }
             }
         }

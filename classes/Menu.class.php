@@ -38,7 +38,6 @@ class Menu {
         switch(get_class($categorie))
          {
              case "Categories":
-                 
                  //permet de stocker l'id de la langue pour le test des catégories
                  $tmp_id = $oLangue->getIdLangue();
                  
@@ -55,7 +54,6 @@ class Menu {
                  ; break;
                  
              case "SousCategories":
-
                  //permet de stocker l'id de la langue pour le test des catégories
                  $tmp_id = $oLangue->getIdLangue();
 
@@ -75,11 +73,36 @@ class Menu {
                  }
                  
                  ; break;
+                 
+             case "Contenus":
+                 //permet de stocker l'id de la langue pour le test des catégories
+                 $tmp_id = $oLangue->getIdLangue();
+                 
+                 for ($i = 0; $i < $nb_items; $i++)
+                 {
+                     if($tmp[$i]['langues_id_langue'] === $tmp_id)
+                     {
+                         $tmp[$i]['lien_menu'] = SUB_DOMAIN.$oLangue->getCodeLangue().'/';
+                         
+                         $tmp[$i]['lien_menu'] .= $oCategorie->getNomCategorie($oCategorie->getIdCategorie(), $oLangue->getIdLangue(), $db)."/";
+                         
+                         if($categorie->getNomSousCategorie())
+                         {
+                             $tmp[$i]['lien_menu'] .= $categorie->getNomSousCategorie().'/';
+                         }
+                         
+                         $tmp[$i]['lien_menu'] .= $tmp[$i]['titre_url'];
+                         
+                     }else{
+                         unset ($tmp[$i]);
+                     }
+                 }
+                 break;
 
              case "Languages":
                 
                  //permet de récupérer l'id de la categorie en cours
-                 $tmp_id = $oCategorie->getIdCategorie($page, $oLangue->getIdLangue(), $db);
+                 $tmp_id = $oCategorie->setIdCategorie($page, $oLangue->getIdLangue(), $db);
                  
                  for ($i = 0; $i < $nb_items; $i++)
                  {

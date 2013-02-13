@@ -121,7 +121,7 @@ class Vues{
         }
     }
     
-    public function setContents($id_categorie, $id_langue, $oDb, $oUser, $id_sous_categorie)
+    public function setContents($id_categorie, $id_langue, $oDb, $oUser, $id_sous_categorie, $nom_content)
     {        
         switch ($oUser->getDroitUser())
         {
@@ -143,8 +143,17 @@ class Vues{
 
         if($id_categorie)
         {
-            if($id_sous_categorie != '0')
+            if(!empty($id_sous_categorie) && $id_sous_categorie != '0')
             {
+                if(!empty($nom_content) && $nom_content !== null)
+                {
+                    $parametre = array(
+                        'select' => '*',
+                        'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_contenus", //concatene le nom de la vue avec celui du groupe de l'utilisateur
+                        'where' => "titre_url = '".$nom_content."' AND langues_id_langue = ".$id_langue.""
+                    );                    
+                }
+                
                 $parametre = array(
                     'select' => '*',
                     'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_contenus", //concatene le nom de la vue avec celui du groupe de l'utilisateur
@@ -156,6 +165,15 @@ class Vues{
                     'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_contenus", //concatene le nom de la vue avec celui du groupe de l'utilisateur
                     'where' => "categories_id_categorie = ".$id_categorie." AND sous_categories_id_sous_categorie IS NULL AND langues_id_langue = ".$id_langue.""
                 );                
+            } 
+            
+            if(!empty($nom_content) && $nom_content !== null)
+            {
+                $parametre = array(
+                    'select' => '*',
+                    'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_contenus", //concatene le nom de la vue avec celui du groupe de l'utilisateur
+                    'where' => "titre_url = '".$nom_content."' AND langues_id_langue = ".$id_langue.""
+                );                    
             }            
         }else{
             $parametre = array(
@@ -190,7 +208,7 @@ class Vues{
                 $contents_page['sous_categorie'][0] = get_object_vars($contents_page['sous_categorie'][0]);
             }
         }
-        
+
         //récupération du contenu
         $contents_page['contenus'] = $this->querryContent($parametre, $oDb, $id_langue);
         
@@ -224,7 +242,7 @@ class Vues{
     private function querryContent($aParametres, $oDb, $id_langue)
     {
         $tmp_contents = $oDb->dataBaseSelect($aParametres);
-        
+
         //on gère la multiplicité des contenus possible
         if(!is_null($tmp_contents))
         {
@@ -234,9 +252,12 @@ class Vues{
                 {
                     // le contenus est serialisez dans un objet JSON
                     //le paramètre TRUE => permet de renvoyer un tableau!!!
+
                     $contents_page[$key] = json_decode($contenu->contenu, TRUE);
                     $contents_page[$key]['types_contenus_id_type_contenu'] = $contenu->cont_type_contenu;
                     $contents_page[$key]['id_contenu'] = $contenu->id_contenu;
+                    $contents_page[$key]['titre_html'] = $contenu->titre_html;
+                    $contents_page[$key]['titre_url'] = $contenu->titre_url;
                 }else{
                     switch ($id_langue)
                     {
@@ -256,13 +277,13 @@ class Vues{
             switch ($id_langue)
             {
                 case 1:
-                    $contents_page[] = array('titre' => "Contenu vide!!!", 'contenu' => 'contenus par défaut', 'footer' => 'Pied de page non-présent', 'types_contenus_id_type_contenu' => 1, 'id_contenu' => '12', 'fichier_tpl' => 'page');
+                    $contents_page[] = array('titre' => "Contenu vide!!!", 'contenu' => 'contenus par défaut', 'footer' => 'Pied de page non-présent', 'types_contenus_id_type_contenu' => 1, 'id_contenu' => '12', 'fichier_tpl' => 'page', "titre_url" => '');
                     ; break;
                 case 2:
-                    $contents_page[] = array('titre' => "Diese Seite ist leer!", 'contenu' => 'Default Seite', 'footer' => 'Füssen des Seite leer', 'types_contenus_id_type_contenu' => 1, 'id_contenu' => '12', 'fichier_tpl' => 'page');
+                    $contents_page[] = array('titre' => "Diese Seite ist leer!", 'contenu' => 'Default Seite', 'footer' => 'Füssen des Seite leer', 'types_contenus_id_type_contenu' => 1, 'id_contenu' => '12', 'fichier_tpl' => 'page', "titre_url" => '');
                     ; break;
                 case 3:
-                    $contents_page[] = array('titre' => "Empty content!!!", 'contenu' => 'Default content', 'footer' => 'Footer doesn\'t exist', 'types_contenus_id_type_contenu' => 1, 'id_contenu' => '12', 'fichier_tpl' => 'page');
+                    $contents_page[] = array('titre' => "Empty content!!!", 'contenu' => 'Default content', 'footer' => 'Footer doesn\'t exist', 'types_contenus_id_type_contenu' => 1, 'id_contenu' => '12', 'fichier_tpl' => 'page', "titre_url" => '');
                     ; break;
             }
         }    
@@ -292,7 +313,7 @@ class Vues{
     public function getTemplate($oPage, $index, $oSmarty, $oDb)
     {
         $nom_template = null;
-        echo $index."<br>";
+        
         foreach($oPage->contents as $key=>$valeurs)
         {
             $myPageHtml[$key]=$valeurs;
@@ -391,6 +412,7 @@ class Vues{
             return false;
         }
     }
+    
 }
 
 
