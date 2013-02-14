@@ -48,6 +48,7 @@
         $myLanguage = new Languages($langue);
         $myLanguage->setListeLangue($myDb); //tableau récupérant les données des menus langues
         $myListeLanguage = $myLanguage->getListeLangue();
+        $myIdLanguage = $myLanguage->getIdLangue();
         
    //Création d'un paginateur afin de gérer le contenu
         $myPaginator = new Paginator();
@@ -67,21 +68,21 @@
 
     //Récupération de la navigation principale
         $myCategorie = new Categories();
-        $myIdCategorie = $myCategorie->setIdCategorie($categorie, $myLanguage->getIdLangue(), $myDb);
-        $myNomCategorie = $myCategorie->getNomCategorie($myCategorie->setIdCategorie($categorie, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb);
+        $myIdCategorie = $myCategorie->setIdCategorie($categorie, $myIdLanguage, $myDb);
+        $myNomCategorie = $myCategorie->getNomCategorie($myCategorie->setIdCategorie($categorie, $myIdLanguage, $myDb), $myIdLanguage, $myDb);
         $myCategorie->setCategorieList($myDb, 'navigation', $myUser);
         $myListeCategorie = $myCategorie->getListeCategorie(); //tableau récupérant les données des menus navigation
 
     //Récupération de la sous_navigation
         $mySousCategorie = new SousCategories();
-        $myIdSousCategorie = $mySousCategorie->getIdSousCategorie($sous_categorie, $myLanguage->getIdLangue(), $myDb);
-        $myNomSousCategorie = $mySousCategorie->getNomSousCategorie($mySousCategorie->getIdSousCategorie($sous_categorie, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb);
+        $myIdSousCategorie = $mySousCategorie->getIdSousCategorie($sous_categorie, $myIdLanguage, $myDb);
+        $myNomSousCategorie = $mySousCategorie->getNomSousCategorie($mySousCategorie->getIdSousCategorie($sous_categorie, $myIdLanguage, $myDb), $myIdLanguage, $myDb);
         $mySousCategorie->setSousCategorieList($myDb, $myIdCategorie, 'sous_navigation', $myUser);
         $myListeSousCategorie = $mySousCategorie->getListeSousCategorie(); //tableau récupérant les données des menus navigation    
 
     //Récupération de la catégorie Admin
         $myCategorieAdmin = new Categories();
-        $myIdCategorieAdmin = $myCategorieAdmin->setIdCategorie($categorie, $myLanguage->getIdLangue(), $myDb);
+        $myIdCategorieAdmin = $myCategorieAdmin->setIdCategorie($categorie, $myIdLanguage, $myDb);
         $myCategorieAdmin->setCategorieList($myDb, 'admin', $myUser);
         $myListeCategorieAdmin = $myCategorieAdmin->getListeCategorie(); //tableau récupérant les données des menus admin
         
@@ -89,7 +90,7 @@
         $mySousCategorieAdmin = new SousCategories();
         $mySousCategorieAdmin->setSousCategorieList($myDb, $myIdCategorieAdmin,'sous_admin', $myUser);
         $myListeSousCategorieAdmin = $mySousCategorieAdmin->getListeSousCategorie(); //tableau récupérant les données des sous menu Admin       
-        
+
     //Récupération du contenu
         $myVue = new Vues();
         $myVueObjectContent = $myVue->getOContents();
@@ -97,11 +98,11 @@
     //me permet d'attribuer les contenus à la vue
         if($myVueObjectContent[0]['id_contenu'])
         {
-            $myVue->setContents($myCategorie->setIdCategorie($categorie, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb, $myUser, $mySousCategorie->getIdSousCategorie($sous_categorie, $myLanguage->getIdLangue(), $myDb), $article);
-            $myVue->getTitleHtml($myVueObjectContent[0]['id_contenu'], $myLanguage->getIdLangue(), $myDb);
+            $myVue->setContents($myCategorie->setIdCategorie($categorie, $myIdLanguage, $myDb), $myIdLanguage, $myDb, $myUser, $mySousCategorie->getIdSousCategorie($sous_categorie, $myIdLanguage, $myDb), $article);
+            $myVue->getTitleHtml($myVueObjectContent[0]['id_contenu'], $myIdLanguage, $myDb);
         }else{
-            $myVue->setContents($myCategorie->setIdCategorie($categorie, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb, $myUser, $mySousCategorie->getIdSousCategorie($sous_categorie, $myLanguage->getIdLangue(), $myDb), $article);
-            $myVue->setTitleHtml($myCategorie->setIdCategorie($categorie, $myLanguage->getIdLangue(), $myDb), $myLanguage->getIdLangue(), $myDb);
+            $myVue->setContents($myCategorie->setIdCategorie($categorie, $myIdLanguage, $myDb), $myIdLanguage, $myDb, $myUser, $mySousCategorie->getIdSousCategorie($sous_categorie, $myIdLanguage, $myDb), $article);
+            $myVue->setTitleHtml($myCategorie->setIdCategorie($categorie, $myIdLanguage, $myDb), $myIdLanguage, $myDb);
         }
 
     //récupération des données pour le référencement
