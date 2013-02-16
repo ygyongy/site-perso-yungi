@@ -173,6 +173,42 @@ class DataBase {
         }
     }
     
+    public function getFieldsTable($table)
+    {
+        //création de l'objet PDO
+        $bdd = $this->getPDOObject();
+
+        //permet de parametrer les connections entre la base est PHP en UTF-8
+        $query = "SHOW COLUMNS FROM ".$table;
+        
+        try{
+            $res = $bdd->query($query);
+            $res->setFetchMode(PDO::FETCH_OBJ);            
+        }  catch (Exception $e){
+            echo "<h1>Une erreur est survenue lors de la récupération des données</h1>";
+            die ($e->getMessage());
+            
+        }
+        
+        if($res)
+        {
+            $tmp = array();
+            while($line = $res->fetch())
+            {
+                $tmp[] = $line;
+            }         
+            var_dump($tmp);
+            if(isset($tmp) && count($tmp)> 0)
+            {
+                unset ($bdd);
+                return $tmp;
+            }
+        }else{
+            unset ($bdd);
+            return false;
+        }       
+    }
+    
     public function dataBaseInsert($arguments)
     {
         $query = NULL;

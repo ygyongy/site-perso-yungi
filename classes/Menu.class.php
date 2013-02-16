@@ -28,14 +28,15 @@ class Menu {
     {
         return $this->menuArray;
     }
-
-    public function setMenu($categorie, $oLangue, $db, $oCategorie, $page, $listeArray)
+    
+    //L'affectation du dernier paramètre directement dans la déclaration permet de le rendre optionnel...
+    public function setMenu($oListeMenu, $oLangue, $oDb, $oCategorieParent, $nom_categorie, $listeArray, $oSousCategorieParent = 0, $oPaginator = 0)
     {
         $tmp = $listeArray; // attribution du tableau de résultat à une variable
         $nb_items = count($tmp); //stock le nombre d'entrées pour chaque menu
         $tmp_id = null;
 
-        switch(get_class($categorie))
+        switch(get_class($oListeMenu))
          {
              case "Categories":
                  //permet de stocker l'id de la langue pour le test des catégories
@@ -62,11 +63,22 @@ class Menu {
                      if($tmp[$i]->langues_id_langue === $tmp_id)
                      {
                          $tmp[$i]->lien_menu = SUB_DOMAIN.$oLangue->getCodeLangue().'/';
+
+                         $tmp[$i]->lien_menu .= $nom_categorie."/";
                          
-                         $tmp[$i]->lien_menu .= $oCategorie->getNomCategorie($tmp[$i]->categories_id_categorie, $oLangue->getIdLangue(), $db)."/";
+                         //condition en fonction de la profondeur du lien
+                         //Si le dernier paramètre != 0, c'est que c'est un objet
+                         if($oSousCategorieParent !== 0)
+                         {
+                             $test = get_class($oSousCategorieParent);
+                             if($test === 'SousCategories')
+                             {
+                                 $tmp[$i]->lien_menu .= $oSousCategorieParent->getNomSousCategorie($oSousCategorieParent->getIdSousCategorie(), $oLangue->getIdLangue(), $oDb)."/";
+                             }  
+                         }
                          
                          $tmp[$i]->lien_menu .= $tmp[$i]->nom_sous_categorie.'/';
-                         
+                            
                      }else{
                          unset ($tmp[$i]);
                      }
@@ -84,11 +96,11 @@ class Menu {
                      {
                          $tmp[$i]['lien_menu'] = SUB_DOMAIN.$oLangue->getCodeLangue().'/';
                          
-                         $tmp[$i]['lien_menu'] .= $oCategorie->getNomCategorie($oCategorie->getIdCategorie(), $oLangue->getIdLangue(), $db)."/";
+                         $tmp[$i]['lien_menu'] .= $oCategorieParent->getNomCategorie($oCategorieParent->getIdCategorie(), $oLangue->getIdLangue(), $oDb)."/";
                          
-                         if($categorie->getNomSousCategorie())
+                         if($oListeMenu->getNomSousCategorie())
                          {
-                             $tmp[$i]['lien_menu'] .= $categorie->getNomSousCategorie().'/';
+                             $tmp[$i]['lien_menu'] .= $oListeMenu->getNomSousCategorie().'/';
                          }
                          
                          $tmp[$i]['lien_menu'] .= $tmp[$i]['titre_url'];
@@ -102,15 +114,15 @@ class Menu {
              case "Languages":
                 
                  //permet de récupérer l'id de la categorie en cours
-                 $tmp_id = $oCategorie->setIdCategorie($page, $oLangue->getIdLangue(), $db);
+                 $tmp_id = $oCategorieParent->setIdCategorie($nom_categorie, $oLangue->getIdLangue(), $oDb);
                  
                  for ($i = 0; $i < $nb_items; $i++)
                  {
-                     if(!empty($page))
+                     if(!empty($nom_categorie))
                      {                         
-                         $tmp[$i]->lien_menu = SUB_DOMAIN.$tmp[$i]->code_langue.'/'.$oCategorie->getNomCategorie($tmp_id, $tmp[$i]->id_langue, $db).'/';
+                         $tmp[$i]->lien_menu = SUB_DOMAIN.$tmp[$i]->code_langue.'/'.$oCategorieParent->getNomCategorie($tmp_id, $tmp[$i]->id_langue, $oDb).'/';
                      }else{
-                         $tmp[$i]->lien_menu = SUB_DOMAIN.$tmp[$i]->code_langue.'/'.$oCategorie->getNomCategorie(1, $tmp[$i]->id_langue, $db).'/';
+                         $tmp[$i]->lien_menu = SUB_DOMAIN.$tmp[$i]->code_langue.'/'.$oCategorieParent->getNomCategorie(1, $tmp[$i]->id_langue, $oDb).'/';
                      }
                  }
                  ; break;

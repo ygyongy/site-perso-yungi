@@ -43,7 +43,12 @@ class SousCategories {
         return $this->liste_sous_categorie;
     }
     
-    public function getContenuParent($id_contenu_parent, $id_langue, $db)
+    public function getIdSousCategorie()
+    {
+        return $this->id_sous_categorie;
+    }
+
+        public function getContenuParent($id_contenu_parent, $id_langue, $db)
     {
         $arguments = array("select" => '*',
             "from" => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_contenus", //concatene le nom de la vue avec celui du groupe de l'utilisateur
@@ -74,7 +79,7 @@ class SousCategories {
         return $this->nom_sous_categorie;
     }
 
-    public function getIdSousCategorie($nom, $id_langue, $db)
+    public function setIdSousCategorie($nom, $id_langue, $db)
     {
         $arguments = array("select" => 'id_sous_categorie',
             "from" => 'sous_categories sc',
