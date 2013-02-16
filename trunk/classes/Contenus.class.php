@@ -80,7 +80,7 @@ class Contenus {
             $parametre = array(
                 'select' => 'id_contenu',
                 'from' => "view_".$_SESSION['utilisateur'][1]->nom_groupe."_contenus",
-                'where' => 'titre_url = "'.$this->titre_url.'"'
+                'where' => 'titre_url = "'.$this->titre_url.'" AND langues_id_langue = '.$id_langue
             );             
         }else{
             $parametre = array(

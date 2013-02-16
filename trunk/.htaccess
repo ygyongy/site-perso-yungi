@@ -17,4 +17,5 @@ RewriteEngine on
 
 # Article avec numéro de page:
 #RewriteRule ^([a-zA-Z]{2,2})/?([a-zA-Z]+)?/([a-zA-Z]+)?/?$ ?langue=$1&categorie=$2&sous_categorie=$3 [L]
+RewriteRule ^([a-zA-Z]{2,2})/(Admin)/([a-zA-Z]+)/?([a-zA-Z]+)?/?([0-9]+)?/([0-9]+)?/?$ ?langue=$1&categorie=$2&sous_categorie=$3&article=$4&paginator=$5&id_article=$6 [L]
 RewriteRule ^([a-zA-Z]{2,2})/?([a-zA-Z]+)?/?([a-zA-Z]+)?/?[\/]([a-zA-Z-]+)?/?([0-9]+)?/?([0-9]+)?/?$ ?langue=$1&categorie=$2&sous_categorie=$3&article=$4&paginator=$5&sous_paginator=$6 [L]

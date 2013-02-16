@@ -13,10 +13,14 @@
             {section loop=$pages name=section_liste_utilisateur}                
                     <tr class="datagrid">
                         {foreach from=$pages[section_liste_utilisateur] item=value name=values key=label}
-                            <td>{$value}</td>
+                            {if is_array($value)}
+                                <td>
+                                    {include file=menu_array.tpl menu_liste=$value}
+                                </td>
+                            {else}
+                                <td>{$value}</td>
+                            {/if}
                         {/foreach}
-                        <td class="edit">edit</td>
-                        <td class="delete">delete</td>
                     </tr>
             {/section}
             <!-- Fin de l'affichage de la grille -->

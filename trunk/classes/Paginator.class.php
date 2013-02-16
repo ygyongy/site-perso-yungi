@@ -92,7 +92,7 @@ class Paginator {
         
         $this->page_en_cours = (int)$pageEnCours;
         $this->setFirstLast($this->page_en_cours);
-       
+
         //initialisation de la liste de liens
         $msg = null;
         $msg = "<ul>";

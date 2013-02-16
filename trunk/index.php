@@ -11,7 +11,7 @@
     require_once 'classes/Contenus.class.php';
     require_once 'classes/Vues.class.php';
     require_once 'classes/Paginator.class.php';
-   
+    
     //Classe qui permet de charger une extension Chrome pour debugg PHP
         require_once 'classes/PhpConsole/PhpConsole.php';
     
@@ -75,8 +75,8 @@
 
     //Récupération de la sous_navigation
         $mySousCategorie = new SousCategories();
-        $myIdSousCategorie = $mySousCategorie->getIdSousCategorie($sous_categorie, $myIdLanguage, $myDb);
-        $myNomSousCategorie = $mySousCategorie->getNomSousCategorie($mySousCategorie->getIdSousCategorie($sous_categorie, $myIdLanguage, $myDb), $myIdLanguage, $myDb);
+        $myIdSousCategorie = $mySousCategorie->setIdSousCategorie($sous_categorie, $myIdLanguage, $myDb);
+        $myNomSousCategorie = $mySousCategorie->getNomSousCategorie($mySousCategorie->setIdSousCategorie($sous_categorie, $myIdLanguage, $myDb), $myIdLanguage, $myDb);
         $mySousCategorie->setSousCategorieList($myDb, $myIdCategorie, 'sous_navigation', $myUser);
         $myListeSousCategorie = $mySousCategorie->getListeSousCategorie(); //tableau récupérant les données des menus navigation    
 
@@ -98,10 +98,10 @@
     //me permet d'attribuer les contenus à la vue
         if($myVueObjectContent[0]['id_contenu'])
         {
-            $myVue->setContents($myCategorie->setIdCategorie($categorie, $myIdLanguage, $myDb), $myIdLanguage, $myDb, $myUser, $mySousCategorie->getIdSousCategorie($sous_categorie, $myIdLanguage, $myDb), $article);
+            $myVue->setContents($myCategorie->setIdCategorie($categorie, $myIdLanguage, $myDb), $myIdLanguage, $myDb, $myUser, $mySousCategorie->setIdSousCategorie($sous_categorie, $myIdLanguage, $myDb), $article);
             $myVue->getTitleHtml($myVueObjectContent[0]['id_contenu'], $myIdLanguage, $myDb);
         }else{
-            $myVue->setContents($myCategorie->setIdCategorie($categorie, $myIdLanguage, $myDb), $myIdLanguage, $myDb, $myUser, $mySousCategorie->getIdSousCategorie($sous_categorie, $myIdLanguage, $myDb), $article);
+            $myVue->setContents($myCategorie->setIdCategorie($categorie, $myIdLanguage, $myDb), $myIdLanguage, $myDb, $myUser, $mySousCategorie->setIdSousCategorie($sous_categorie, $myIdLanguage, $myDb), $article);
             $myVue->setTitleHtml($myCategorie->setIdCategorie($categorie, $myIdLanguage, $myDb), $myIdLanguage, $myDb);
         }
 
@@ -229,6 +229,9 @@
                 $myUpload = new Images($_FILES, $myUser);
 
                 $t->display('index.tpl');
+                
 
                 $myDb->dataBaseClose($myDbLink);
-?>
+//$tmp = $myDb->getFieldsTable('utilisateurs');
+var_dump($_GET);
+                ?>
