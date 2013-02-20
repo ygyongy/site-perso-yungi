@@ -197,7 +197,7 @@ class DataBase {
             {
                 $tmp[] = $line;
             }         
-            var_dump($tmp);
+
             if(isset($tmp) && count($tmp)> 0)
             {
                 unset ($bdd);

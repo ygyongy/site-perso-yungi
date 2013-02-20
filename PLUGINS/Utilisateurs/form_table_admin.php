@@ -15,7 +15,8 @@
 //détection de la langue
     $myLanguage = new Languages($langue);
     $myLanguage->setListeLangue($myDb); //tableau récupérant les données des menus langues
-    $myIdLanguage = $myLanguage->getIdLangue(); 
+    $myListeLanguage = $myLanguage->getListeLangue();
+    $myIdLanguage = $myLanguage->getIdLangue();
     
 //Récupération de la catégorie Admin
     $myCategorieEnCours = new Categories();
@@ -38,15 +39,27 @@
     $parametres = array(
         "select" => '*',
         "from" => ''.$sous_categorie.'',
-        "where" => 'id_'.$idToEdit.'='.$id_article
+        "where" => 'id_'.$idToEdit.'="'.$id_article.'"'
     );
     
+    //un tableau contenant les données correspondantes aux contenu de la base
+    //ne prend pas en compte de paramètre langue... ce qui sous-entend qu'il faudra
+    //le gérer avec des onglets par exemple
     $dataToAdmin = $myDb->dataBaseSelect($parametres);
-    var_dump($dataToAdmin);
     
     $t = new SmartyYungi();
     $t->assign('name', 'Yungiii');
     $t->assign('include_path', $t->template_dir);
     
-    $myContentTmp = null;    
+    if($id_article && !empty($id_article))
+    {
+        $myForm = new Form();
+        $myForm = $myForm->setProperties($dataToAdmin, $myDb, $sous_categorie, 'sauver', 'annuler');
+        $myFormContent = $myForm->getFormatedContent($dataToAdmin, $myDb, $sous_categorie, 'sauver', 'annuler');
+        $t->assign('title', 'Edition des utilisateurs');
+        $t->assign('pages', $myFormContent);
+        $t->display('form.tpl');
+    }else{
+        return false;
+    }
 ?>
