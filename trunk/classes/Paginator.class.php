@@ -83,7 +83,7 @@ class Paginator {
     
     public function getPaginator($nb_element_parent)
     {
-        if(isset($this->_getName) && $_GET[$this->_getName])
+        if(isset($this->_getName) && !empty($_GET[$this->_getName]))
         {
             $pageEnCours = $_GET[$this->_getName];
         }else{
@@ -99,12 +99,11 @@ class Paginator {
 
         for ($i = 1; $i <= $this->nb_pages; $i++)
         {
-
             if($i === $this->first_page)
             {
                 //condition vitale qui me permet de savoir si je dois passer une sous-pagination ou non.
                 //Dans le cas d'un "include" par exemple je n'ai qu'un contenu... je dois donc modifier le le liens
-                if($nb_element_parent === 1)
+                if($nb_element_parent === 1 || $this->_getName === 'sous_paginator')
                 {
                     $msg .= "<li><a href='".SUB_DOMAIN."".$_GET['langue']."/".$_GET['categorie'];
                     if(!empty($_GET['sous_categorie']))
@@ -137,7 +136,7 @@ class Paginator {
             }
             
             
-            if($nb_element_parent === 1)
+            if($nb_element_parent === 1 || $this->_getName === 'sous_paginator')
             {
                 $msg .= "<li><a href='".SUB_DOMAIN."".$_GET['langue']."/".$_GET['categorie'];
                 if(!empty($_GET['sous_categorie']))
@@ -156,7 +155,7 @@ class Paginator {
             
             if($i === $this->last_page)
             {
-                if($nb_element_parent === 1)
+                if($nb_element_parent === 1 || $this->_getName === 'sous_paginator')
                 {
                     $msg .= "<li><a href='".SUB_DOMAIN."".$_GET['langue']."/".$_GET['categorie'];
                     if(!empty($_GET['sous_categorie']))

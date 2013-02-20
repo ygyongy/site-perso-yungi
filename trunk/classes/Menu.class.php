@@ -97,7 +97,7 @@ class Menu {
                          $tmp[$i]['lien_menu'] = SUB_DOMAIN.$oLangue->getCodeLangue().'/';
                          
                          $tmp[$i]['lien_menu'] .= $oCategorieParent->getNomCategorie($oCategorieParent->getIdCategorie(), $oLangue->getIdLangue(), $oDb)."/";
-                         
+                         var_dump($oListeMenu->getNomSousCategorie());
                          if($oListeMenu->getNomSousCategorie())
                          {
                              $tmp[$i]['lien_menu'] .= $oListeMenu->getNomSousCategorie().'/';

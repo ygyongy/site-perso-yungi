@@ -339,7 +339,6 @@ class Vues{
                    case 'form' :
                        $myForm = new Form();
                        $tmp[$key] = $myForm->setProperties($myPageHtml[$key][$i]);
-
                        break;
                    case 'liste' : 
 

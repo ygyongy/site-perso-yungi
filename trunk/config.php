@@ -13,7 +13,6 @@ ini_set('display_errors', 1);
 !isset($_GET['langue']) ? $langue = '' : $langue = $_GET['langue'];
 !isset($_GET['categorie']) ? $categorie = '' : $categorie = $_GET['categorie'];
 !isset($_GET['article']) ? $article = '' : $article = $_GET['article'];
-!isset($_GET['id_article']) ? $id_article = '' : $id_article = $_GET['id_article'];
 !isset($_GET['sous_categorie']) ? $sous_categorie = '' : $sous_categorie = $_GET['sous_categorie'];
 !isset($site) ? $site = "/google_code_3/trunk/" : $site = "/google_code_3/trunk/";
 
@@ -21,6 +20,7 @@ ini_set('display_errors', 1);
 define('SUB_DOMAIN', $site);
 define ('TEMPLATE', $template);
 define('INCLUDE_PATH', $_SERVER['DOCUMENT_ROOT'].SUB_DOMAIN.'includes/'.TEMPLATE.'/');
+define('USERS_PLUGIN_PATH', $_SERVER['DOCUMENT_ROOT'].SUB_DOMAIN.'PLUGINS/');
 define('CSS_PATH', SUB_DOMAIN.'css/');
 define('AJAX_PATH', SUB_DOMAIN.'ajax/');
 define('IMG_PATH', $_SERVER['DOCUMENT_ROOT'].SUB_DOMAIN.'images/'.TEMPLATE.'/');

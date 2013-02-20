@@ -117,6 +117,8 @@
     //assignation des variables nécessaires au Header_Html
         $t->assign('langue', $langue);
         $t->assign('title_website', $myInfosWebsiteTitle);
+        $t->assign('include_path', INCLUDE_PATH);
+        $t->assign('plugin_path', USERS_PLUGIN_PATH);
         $t->assign('css_path', CSS_PATH);
         $t->assign('ajax_path', AJAX_PATH);
         $t->assign('template', $template);
