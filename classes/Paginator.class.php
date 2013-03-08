@@ -47,7 +47,7 @@ class Paginator {
         return $this->nb_max_par_page;
     }
 
-    public function setPaginator($contenu_to_paginate, $nbMaxParPage, $string)
+    public function setPaginator(array $contenu_to_paginate, $nbMaxParPage, $string)
     {
         
         $this->contenus_list = $contenu_to_paginate['contenus'];
@@ -61,7 +61,7 @@ class Paginator {
         $this->last_page = (int)$this->nb_pages;
     }
     
-    public function getContentsPaginate($currentPage, $nbMaxParPage, $contents)
+    public function getContentsPaginate($currentPage, $nbMaxParPage, array $contents)
     {
         $nb_element = count($contents['contenus']);
 
@@ -203,7 +203,6 @@ class Paginator {
     
     function setFirstLast($pageEnCours)
     {
-
         if(is_int((int)$pageEnCours))
         {
             switch ($pageEnCours)

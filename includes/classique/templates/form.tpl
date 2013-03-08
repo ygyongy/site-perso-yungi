@@ -2,7 +2,8 @@
         {if is_array($pages.contenu)}
             <fieldset title="{$pages.titre}" {if isset($pages.id_fieldset) && $pages.id_fieldset !== ''} id='{$pages.id_fieldset}'{/if}>
                 <legend>Formulaire &laquo;{$pages.titre}&raquo;</legend>
-                    <form method = '{$pages.contenu.method}' action = '{$pages.contenu.action}' enctype = '{$pages.contenu.enctype}' id='{$pages.contenu.id}'                        
+                
+                    <form method = '{$pages.contenu.method}' action = '{$pages.contenu.action}' enctype = '{$pages.contenu.enctype}' id='{$pages.contenu.id}' class='{$pages.contenu.class}'                        
                           
                           {if $pages.contenu.evenement_form !== '' && isset($pages.contenu.evenement_form)}
                               {$pages.contenu.evenement_form}
@@ -15,7 +16,7 @@
                             {if isset($pages.contenu.fields[section_fields].type) && $pages.contenu.fields[section_fields].type !== 'submit' && $pages.contenu.fields[section_fields].type != 'reset'}
                                 <div class="label_wrapper">
                                     {if isset($pages.contenu.fields[section_fields].display_name)}
-                                        <label for="{$pages.contenu.fields[section_fields].name}" title="{$pages.contenu.fields[section_fields].display_name}" id="label_{$pages.contenu.fields[section_fields].id}">{$pages.contenu.fields[section_fields].display_name}:</label>
+                                        <label for="{$pages.contenu.fields[section_fields].id}" title="{$pages.contenu.fields[section_fields].display_name}" id="label_{$pages.contenu.fields[section_fields].id}">{$pages.contenu.fields[section_fields].display_name}:</label>
                                     {/if}
                                 </div>
                              {/if}

@@ -36,22 +36,22 @@ class Files {
         )
     );
 
-    public function Files($file, $user)
+    public function Files(array $oFile, User $oUser)
     {   
-        if ($this->getTypeFile($file))
+        if ($this->getTypeFile($oFile))
         {
-            $this->type_file = $this->getTypeFile($file);
+            $this->type_file = $this->getTypeFile($oFile);
         }else{
             $this->type_file = NULL;
         }
         
         // si l'initialisation s'est correctement passée
-        if(!($this->initFile($this->type_file, $file, $user)))
+        if(!($this->initFile($this->type_file, $oFile, $oUser)))
         {
             $init_upload = false;
         }else{
             $init_upload = true;
-            $this->state_upload = $this->initFile($this->type_file, $file, $user);
+            $this->state_upload = $this->initFile($this->type_file, $oFile, $oUser);
             //$this->state_upload = $this->uploadFile();
             if ($this->state_upload)
             {
@@ -60,22 +60,22 @@ class Files {
         }
     }
 
-    protected function initFile($type, $file, $user)
+    protected function initFile($type, array $aFile, User $oUser)
     {
         //si le fichier a été passé
-        if(isset($file) && !is_null($file) && !empty($file))
+        if(isset($aFile) && !is_null($aFile) && !empty($aFile))
         {
-            $this->filename_tmp = trim($file[$type]['tmp_name']);
+            $this->filename_tmp = trim($aFile[$type]['tmp_name']);
             $this->type_file = trim($type);
-            $this->file_size = trim($file[$type]['size']);
+            $this->file_size = trim($aFile[$type]['size']);
 
             //si l'extension est correcte
-            if($this->getExtension(trim($file[$type]['name'])))
+            if($this->getExtension(trim($aFile[$type]['name'])))
             {
-                $this->extension = $this->getExtension(trim($file[$type]['name']));
+                $this->extension = $this->getExtension(trim($aFile[$type]['name']));
                 $this->filename = $this->setName();
                 
-                $myUploader = new Upload($this, $user);
+                $myUploader = new Upload($this, $oUser);
             }else{
                 $this->extension = NULL;
             }
@@ -86,10 +86,10 @@ class Files {
         }
     }
 
-    private function getTypeFile($file)
+    private function getTypeFile(array $aFile)
     {
         //récupération du type d'upload (images videos documents artworks scripts)
-        $type = array_keys($file);
+        $type = array_keys($aFile);
 
         if(isset($type) && !empty($type))
         {

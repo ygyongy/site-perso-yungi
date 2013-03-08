@@ -9,7 +9,7 @@
  *
  * @author yungiii
  */
-class Images {
+class Videos {
     //put your code here
 }
 ?>

@@ -23,14 +23,14 @@ class InfosWebsite {
         return $this->infosWebsiteListe;
     }
 
-    public function setInfosWebsite($db)
+    public function setInfosWebsite(DataBase $oDb)
     {
         $parametres = array(
             'select' => '*',
             'from' => 'websites w'
         );
         
-        $this->infosWebsiteListe = $db->dataBaseSelect($parametres);
+        $this->infosWebsiteListe = $oDb->dataBaseSelect($parametres);
         return true;
     }
 }

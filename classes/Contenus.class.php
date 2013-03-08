@@ -45,7 +45,7 @@ class Contenus {
         return $this->titre_url;
     } 
 
-    public function setContenus($oDb, $emplacement, $oUser, $contents)
+    public function setContenus(DataBase $oDb, $emplacement, User $oUser, array $aContents)
     {        
         $parametre = array(
             'select' => 'id_sous_categorie, nom_sous_categorie, langues_id_langue, position_sous_categorie, emplacement_sous_categorie',
@@ -58,21 +58,26 @@ class Contenus {
         $liste_contenu_tmp = get_object_vars($this->liste_contenu[0]);
         unset($parametre);
         
-        $nb_element = count($contents);
+        $nb_element = count($aContents);
         //boucle sur les contenus afin d'avoir accès à leurs données
         for($i=0; $i<$nb_element; $i++)
         {
             $tmp[$i] = $liste_contenu_tmp;
-            $tmp[$i]['titre_url'] = $contents[$i]['titre_url'];
-            $tmp[$i]['contenus_id_contenu'] = $contents[$i]['id_contenu'];
+            $tmp[$i]['titre_url'] = $aContents[$i]['titre_url'];
+            $tmp[$i]['contenus_id_contenu'] = $aContents[$i]['id_contenu'];
         }
+        
         $this->liste_contenu = null;
-        $this->liste_contenu = $tmp;
-
+        
+        if(is_array($tmp))
+        {
+            $this->liste_contenu = $tmp;
+        }
+        
         return true;
     }
     
-    public function getIdContenu($contenu, $id_langue, $oDb)
+    public function getIdContenu($contenu, $id_langue, DataBase $oDb)
     {        
         if(!empty($contenu))
         {

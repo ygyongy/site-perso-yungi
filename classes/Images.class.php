@@ -23,13 +23,13 @@ class Images extends Files {
     private $height_mini;
 
 
-    public function Images($file, $user)
+    public function Images(array $aFile, User $oUser)
     {
-        parent::Files($file, $user);
-        $this->state_image = $this->initImage($file, $user);
+        parent::Files($aFile, $oUser);
+        $this->state_image = $this->initImage($aFile, $oUser);
     }
 
-    private function initImage($file, $user)
+    private function initImage(array $aFile, User $oUser)
     {
         $this->size_thumb = 200;    //définit la taille max d'une miniature
         $this->max_file_size = 10*1000000;
@@ -37,7 +37,7 @@ class Images extends Files {
         //si la taille n'excède pas la taille max d'upload
         if($this->testFileSize() && $this->extension != NULL)
         {
-            $this->state_image = $this->resizeImages($user);
+            $this->state_image = $this->resizeImages($oUser);
             if ($this->state_image)
             {
                 return true;
@@ -75,24 +75,24 @@ class Images extends Files {
         return $ratio;
     }
 
-    private function resizeImages($user)
+    private function resizeImages(User $oUser)
     {
         $image = null;
-        echo ATTACHMENTS_PATH.$user->login.'/images/originals/'.$this->filename;
+        echo ATTACHMENTS_PATH.$oUser->login.'/images/originals/'.$this->filename;
         switch ($this->extension)
         {
             case 'jpg' :
             case 'jpeg' :
-                $image = imagecreatefromjpeg(ATTACHMENTS_PATH.$user->login.'/images/originals/'.$this->filename);
+                $image = imagecreatefromjpeg(ATTACHMENTS_PATH.$oUser->login.'/images/originals/'.$this->filename);
                 break;
             case 'gif':
-                $image = imagecreatefromgif(ATTACHMENTS_PATH.$user->login.'/images/originals/'.$this->filename);
+                $image = imagecreatefromgif(ATTACHMENTS_PATH.$oUser->login.'/images/originals/'.$this->filename);
                 break;
             case 'png':
-                $image = imagecreatefrompng(ATTACHMENTS_PATH.$user->login.'/images/originals/'.$this->filename);
+                $image = imagecreatefrompng(ATTACHMENTS_PATH.$oUser->login.'/images/originals/'.$this->filename);
                 break;
             default :
-                $image = imagecreatefromjpeg(ATTACHMENTS_PATH.$user->login.'/images/originals/'.$this->filename);
+                $image = imagecreatefromjpeg(ATTACHMENTS_PATH.$oUser->login.'/images/originals/'.$this->filename);
                 break;
         }
         //récupération de la taille de l'image originale
@@ -115,16 +115,16 @@ class Images extends Files {
         {
             case 'jpg' :
             case 'jpeg' :
-                $image = imagejpeg($destination, ATTACHMENTS_PATH.$user->login.'/images/thumbnails/'.$this->filename);
+                $image = imagejpeg($destination, ATTACHMENTS_PATH.$oUser->login.'/images/thumbnails/'.$this->filename);
                 break;
             case 'gif':
-                $image = imagegif($destination, ATTACHMENTS_PATH.$user->login.'/images/thumbnails/'.$this->filename);
+                $image = imagegif($destination, ATTACHMENTS_PATH.$oUser->login.'/images/thumbnails/'.$this->filename);
                 break;
             case 'png':
-                $image = imagepng($destination, ATTACHMENTS_PATH.$user->login.'/images/thumbnails/'.$this->filename);
+                $image = imagepng($destination, ATTACHMENTS_PATH.$oUser->login.'/images/thumbnails/'.$this->filename);
                 break;
             default :
-                $image = imagejpeg($destination, ATTACHMENTS_PATH.$user->login.'/images/thumbnails/'.$this->filename);
+                $image = imagejpeg($destination, ATTACHMENTS_PATH.$oUser->login.'/images/thumbnails/'.$this->filename);
                 break;
         }
 

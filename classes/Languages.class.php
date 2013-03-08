@@ -67,7 +67,7 @@ class Languages {
         }
     }
     
-    public function setListeLangue($db)
+    public function setListeLangue(DataBase $oDb)
     {
         $parametre = array(
             'select' => 'id_langue, nom_langue, code_langue, position_langue',
@@ -76,7 +76,7 @@ class Languages {
             'order by' => 'position_langue'
         );
         
-        $this->liste_langue = $db->dataBaseSelect($parametre);
+        $this->liste_langue = $oDb->dataBaseSelect($parametre);
         
         foreach($this->liste_langue as $key => $value)
         {
