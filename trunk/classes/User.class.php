@@ -33,7 +33,7 @@ class User {
         return $this->droit;
     }
     
-    public function getUserForm($oDb, $oUser)
+    public function getUserForm(DataBase $oDb, User $oUser)
     {
        $parametres = array(
             'select' => '*',
@@ -76,7 +76,7 @@ class User {
         return $oDb->dataBaseSelect($parametres);
     }
 
-    public function getUser($login, $pwd, $oLogin, $oPwd, $oDb)
+    public function getUser($login, $pwd, $oLogin, $oPwd, DataBase $oDb)
     {
         //fonction qui permet de récupérer l'utilisateur
         $this->login = $login;
@@ -136,14 +136,14 @@ class User {
         }        
     }
     
-    private function createUser($login, $pwd, $db)
+    private function createUser($login, $pwd, DataBase $oDb)
     {
         
         $this->createArborescenceUser();
     }
 
 
-    public function createPasswordUser($login,$pwd)
+    public function createPasswordUser($login, $pwd)
     {
         $hash = md5(KEY_MD5.$pwd.KEY_MD5.$login);
         return $hash;

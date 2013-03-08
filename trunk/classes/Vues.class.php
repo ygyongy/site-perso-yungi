@@ -79,7 +79,7 @@ class Vues{
         return $this->nb_contents;
     }
 
-    public function getContentById($id, $langue, $db, $oUser)
+    public function getContentById($id, $langue, DataBase $oDb, User $oUser)
     {
         switch ($oUser->getDroitUser())
         {
@@ -109,7 +109,7 @@ class Vues{
         }
         
         //récupération du contenu
-        $contents_page = $this->querryContent($parametre, $db, $langue);
+        $contents_page = $this->querryContent($parametre, $oDb, $langue);
         
         $this->nb_contents = count($contents_page);
         $this->contents = $contents_page;
@@ -121,7 +121,7 @@ class Vues{
         }
     }
     
-    public function setContents($id_categorie, $id_langue, $oDb, $oUser, $id_sous_categorie, $nom_content)
+    public function setContents($id_categorie, $id_langue, DataBase $oDb, User $oUser, $id_sous_categorie, $nom_content)
     {        
         switch ($oUser->getDroitUser())
         {
@@ -239,7 +239,7 @@ class Vues{
         return true;
     }
     
-    private function querryContent($aParametres, $oDb, $id_langue)
+    private function querryContent(array $aParametres, DataBase $oDb, $id_langue)
     {
         $tmp_contents = $oDb->dataBaseSelect($aParametres);
 
@@ -291,7 +291,7 @@ class Vues{
         return $contents_page;
     }
     
-    public function getNameTemplate($id_type_contenu, $oDb)
+    public function getNameTemplate($id_type_contenu, DataBase $oDb)
     {
         $tmp = null;
         $parametres = array(
@@ -310,7 +310,7 @@ class Vues{
         }
     }
 
-    public function getTemplate($oPage, $index, $oSmarty, $oDb)
+    public function getTemplate(Vues $oPage, $index, Smarty $oSmarty, DataBase $oDb)
     {
         $nom_template = null;
         
@@ -325,7 +325,7 @@ class Vues{
             for($i=0; $i < $nb_elements; $i++)
             {
                 $myPageHtml[$key][$i]['fichier_tpl'] = $oPage->getNameTemplate($myPageHtml[$key][$i]['types_contenus_id_type_contenu'], $oDb);
-                $nom_template = $oPage->getNameTemplate($myPageHtml[$key][$i]['types_contenus_id_type_contenu'], $oDb);
+                $nom_template = $myPageHtml[$key][$i]['fichier_tpl'];
                 
                 switch ($nom_template)
                 {
@@ -377,7 +377,7 @@ class Vues{
         $mot_exclu = array('un', 'une', 'de', 'du', 'des', 'l\'', 'le', 'la', 'les', 'mon', 'ton', 'son', 'dans');
     }
 
-    public function setTitleHtml($id, $langue, $db)
+    public function setTitleHtml($id, $langue, DataBase $oDb)
     {
         if($id)
         {
@@ -387,7 +387,7 @@ class Vues{
                 'where' => 'id_categorie = '.$id.' AND langues_id_langue = '.$langue
             );
 
-            $tmp = $db->dataBaseSelect($parametre);
+            $tmp = $oDb->dataBaseSelect($parametre);
             $this->titre_html_categorie = $tmp[0]->titre_html_categorie;
 
             return TRUE;

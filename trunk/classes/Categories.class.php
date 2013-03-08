@@ -31,7 +31,7 @@ class Categories {
         return $this->id_categorie;
     }    
 
-    public function setCategorieList($oDb, $emplacement, $oUser)
+    public function setCategorieList(DataBase $oDb, $emplacement, User $oUser)
     {        
         $parametre = array(
             'select' => 'id_categorie, nom_categorie, langues_id_langue, position_categorie, emplacement_categorie',
@@ -39,12 +39,19 @@ class Categories {
             'where' => 'emplacement_categorie = "'.$emplacement.'"'
         );
         
-        $this->liste_categorie = $oDb->dataBaseSelect($parametre);
+        $tmp = $oDb->dataBaseSelect($parametre);
+        
+        if(is_array($tmp))
+        {
+            $this->liste_categorie = $tmp;
+        }else{
+            $this->liste_categorie = null;
+        }
         
         return true;
     }
 
-    public function getNomCategorie($id, $id_langue, $db)
+    public function getNomCategorie($id, $id_langue, DataBase $oDb)
     {
         $arguments = array("select" => 'nom_categorie',
             "from" => 'categories c',
@@ -52,7 +59,7 @@ class Categories {
             "order by" => 'id_categorie DESC'
             );
 
-        $record = $db->dataBaseSelect($arguments);
+        $record = $oDb->dataBaseSelect($arguments);
 
         if(count($record) === 1)
         {
@@ -64,7 +71,7 @@ class Categories {
         return $this->nom_categorie;
     }
 
-    public function setIdCategorie($nom, $id_langue, $db)
+    public function setIdCategorie($nom, $id_langue, DataBase $oDb)
     {
         $arguments = array("select" => 'id_categorie',
             "from" => 'categories c',
@@ -77,11 +84,17 @@ class Categories {
             'order by' => 'l.code_langue'
         );
 
-        $record = $db->dataBaseSelectImbrique($arguments, $arguments2);
+        $record = $oDb->dataBaseSelectImbrique($arguments, $arguments2);
         
         if(count($record) === 1)
         {
-            $this->id_categorie = $record[0]['id_categorie'];
+            if(is_int($record[0]['id_categorie']))
+            {
+                $this->id_categorie = (int)$record[0]['id_categorie'];
+            }else{
+                $this->id_categorie = 1;
+            }
+            
         }else{
             $this->id_categorie = 1;
         }

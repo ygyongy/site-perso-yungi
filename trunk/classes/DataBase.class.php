@@ -77,7 +77,7 @@ class DataBase {
         return $res;
     }
 
-    public function dataBaseSelect($arguments)
+    public function dataBaseSelect(array $arguments)
     {
         //création de l'objet PDO
         $bdd = $this->getPDOObject();
@@ -106,6 +106,8 @@ class DataBase {
         }
 //echo $query."<br><br><br><br><br><br>";
         try{
+            $res = $bdd->prepare($query);
+            var_dump($res);
             $res = $bdd->query($query);
             $res->setFetchMode(PDO::FETCH_OBJ);            
         }  catch (Exception $e){
@@ -133,7 +135,7 @@ class DataBase {
         }
     }
 
-    public function dataBaseSelectImbrique($arguments, $arguments2)
+    public function dataBaseSelectImbrique(array $arguments, array $arguments2)
     {
         //création de l'objet PDO
         $bdd = $this->getPDOObject();       
@@ -209,14 +211,14 @@ class DataBase {
         }       
     }
     
-    public function dataBaseInsert($arguments)
+    public function dataBaseInsert(array $arguments)
     {
         $query = NULL;
         $query = "INSERT INTO ".$arguments['table']."";
         $query .= "";
     }
     
-    public function dataBaseUpdate($arguments)
+    public function dataBaseUpdate(array $arguments)
     {
         $query = NULL;
         $query = "UPDATE ".$arguments['table']." ";
@@ -236,7 +238,5 @@ class DataBase {
         $query .= $arguments['value']['langues_id_langue'];
     }
 
-
-    
 }
 ?>

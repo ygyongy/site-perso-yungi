@@ -9,7 +9,7 @@
  *
  * @author yungiii
  */
-class Images {
+class Documents {
     //put your code here
 }
 ?>

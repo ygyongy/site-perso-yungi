@@ -30,7 +30,7 @@ class Menu {
     }
     
     //L'affectation du dernier paramètre directement dans la déclaration permet de le rendre optionnel...
-    public function setMenu($oListeMenu, $oLangue, $oDb, $oCategorieParent, $nom_categorie, $listeArray, $oSousCategorieParent = 0, $oPaginator = 0)
+    public function setMenu($oListeMenu, Languages $oLangue, DataBase $oDb, Categories $oCategorieParent, $nom_categorie, array $listeArray = null, SousCategories $oSousCategorieParent = null, Paginator $oPaginator = null)
     {
         $tmp = $listeArray; // attribution du tableau de résultat à une variable
         $nb_items = count($tmp); //stock le nombre d'entrées pour chaque menu

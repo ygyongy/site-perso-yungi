@@ -11,6 +11,13 @@
     $myDbLink = $myDb->getLink();
     
     $myUser = new User();
+    $oUser = serialize($myUser);
+    $fUser = array(
+        'type' => 'hidden',
+        'name' => 'oUser',
+        'id' => 'oUser',
+        'value' => $oUser
+    );  
     
 //détection de la langue
     $myLanguage = new Languages($langue);
@@ -58,6 +65,7 @@
         $myFormContent = $myForm->getFormatedContent($dataToAdmin, $myDb, $sous_categorie, 'sauver', 'annuler');
         $t->assign('title', 'Edition des utilisateurs');
         $t->assign('pages', $myFormContent);
+        $t->assign('fUser', $fUser);
         $t->display('form.tpl');
     }else{
         return false;

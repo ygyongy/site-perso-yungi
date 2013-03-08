@@ -44,4 +44,28 @@ root
         border: 1px red solid;
         background-color: #eee;
     }
+    
+    
+    
+    .default_admin_form label
+    {
+        font-size: 0.8em;
+    }
+    
+    .default_admin_form input
+    {
+        width: 30em;
+        padding: 0.2em;
+        -moz-border-radius: 0.3em;
+        -webkit-border-radius: 0.3em;
+        color: steelblue;
+    }
+    
+    .default_admin_form input:focus
+    {
+        padding: 0.5em;
+        font-size: 1em;
+        font-style: italic;
+        font-weight: 600;
+    }
 
