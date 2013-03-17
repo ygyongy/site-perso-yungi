@@ -11,7 +11,7 @@
                     >
                           {include file="elements_form/input.tpl" field=$fUser}
 
-                          {section loop=$pages.contenu.fields name=section_fields}
+                        {section loop=$pages.contenu.fields name=section_fields}
                               
                             {if isset($pages.contenu.fields[section_fields].type) && $pages.contenu.fields[section_fields].type !== 'submit' && $pages.contenu.fields[section_fields].type != 'reset'}
                                 <div class="label_wrapper">
@@ -22,7 +22,7 @@
                              {/if}
                              
                                  <!-- Ici choix des champs à afficher en fonction du type du champ -->
-                                 {if isset($pages.contenu.fields[section_fields].type) && $pages.contenu.fields[section_fields].type == 'submit'}
+                                 {if isset($pages.contenu.fields[section_fields].type) && $pages.contenu.fields[section_fields].type === 'submit'}
                                      <hr>
                                  {/if}
                                  <div class="field_wrapper {$pages.contenu.fields[section_fields].class}">                                    

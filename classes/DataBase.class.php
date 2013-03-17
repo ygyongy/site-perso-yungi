@@ -107,7 +107,6 @@ class DataBase {
 //echo $query."<br><br><br><br><br><br>";
         try{
             $res = $bdd->prepare($query);
-            var_dump($res);
             $res = $bdd->query($query);
             $res->setFetchMode(PDO::FETCH_OBJ);            
         }  catch (Exception $e){

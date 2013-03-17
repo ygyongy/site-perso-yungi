@@ -95,7 +95,7 @@ root
     
     hr
     {
-        border: 1px #838383 solid;
+        border-top: 1px dodgerblue solid;
         margin-top: 0.5em;
         margin-bottom: 0.5em;
         height: 1px;
