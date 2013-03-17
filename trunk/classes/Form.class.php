@@ -111,7 +111,7 @@ class Form {
             $tableau_retour['contenu']['id'] = $this->id_form;
             $tableau_retour['contenu']['name_form'] = $this->name_form;
             $tableau_retour['contenu']['evenement_form'] = $this->evenement_form; 
-            $tableau_retour['contenu']['class'] = $this->class_form;
+            $tableau_retour['contenu']['class'] = $this->class_form;           
             
             foreach($aForm as $key => $liste_fields)
             {
@@ -138,6 +138,7 @@ class Form {
                 //des tables. Le compteur "$i" me permet de tourner dans le tableau de type de champ
                 $field_tmp = null;
                 $value_liste = null;
+                $tmp_name = null;
                 $i = 0;
                 
                 foreach($form_array[$key] as $name_field => $field)
@@ -150,6 +151,11 @@ class Form {
                             ; break;
                         
                         case 'varchar':
+                            //gestion du mot de passe
+                            $tmp_name = explode('_', $name_field);
+                            
+                            if($tmp_name[0] !== 'pwd')
+                            {
                                 if($field_restriction[$i][1] <= '100')
                                 {
                                     $field_tmp[$name_field]['template'] = 'input';
@@ -157,7 +163,11 @@ class Form {
                                 }else{
                                     $field_tmp[$name_field]['template'] = 'textarea';
                                     $field_tmp[$name_field]['type'] = 'text';
-                                }                     
+                                }
+                            }else{
+                                $field_tmp[$name_field]['template'] = 'input';
+                                $field_tmp[$name_field]['type'] = 'password';
+                            }
                             ; break;
                         
                         case 'longtext':
@@ -207,11 +217,12 @@ class Form {
                                                         'value_liste' => $value_liste,
                                                         'value' => $field
                                                     );
-                    
+
                     $i++;
                 }
             }
 
+            
             if(count($tableau_retour) !== 0)
             {
                 return $tableau_retour;
