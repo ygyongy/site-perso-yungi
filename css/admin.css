@@ -45,14 +45,16 @@ root
         background-color: #eee;
     }
     
-    
+    /*
+    // mise en page des formulaires
+    */
     
     .default_admin_form label
     {
         font-size: 0.8em;
     }
     
-    .default_admin_form input
+    .default_admin_form input, .default_admin_form select
     {
         width: 30em;
         padding: 0.2em;
@@ -61,11 +63,41 @@ root
         color: steelblue;
     }
     
+        .default_admin_form input[type=submit], .default_admin_form input[type=reset], .default_admin_form input[type=button]
+        {
+            width: 10.2em;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-right: 1.1em;
+        }
+        
+        .default_admin_form input[type=submit]
+        {
+            border-color: #008000;
+            background-color: #e5ffce;
+            color: #008000;
+        }
+        
+        .default_admin_form input[type=reset]
+        {
+            border-color: #CC0000;
+            background-color: blanchedalmond;
+            color: #CC0000;            
+        }
+    
     .default_admin_form input:focus
     {
         padding: 0.5em;
         font-size: 1em;
         font-style: italic;
         font-weight: 600;
+    }
+    
+    hr
+    {
+        border: 1px #838383 solid;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        height: 1px;
     }
 

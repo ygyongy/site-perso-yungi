@@ -10,9 +10,9 @@
             <!-- Fin Header des listes -->
             
             <!-- Début de l'affichage de la grille -->
-            {section loop=$pages name=section_liste_utilisateur}                
+            {section loop=$pages name=section_liste_datagrid}                
                     <tr class="datagrid">
-                        {foreach from=$pages[section_liste_utilisateur] item=value name=values key=label}
+                        {foreach from=$pages[section_liste_datagrid] item=value name=values key=label}
                             {if is_array($value)}
                                 <td>
                                     {include file=menu_array.tpl menu_liste=$value}

@@ -104,7 +104,7 @@
             $myVue->setContents($myCategorie->setIdCategorie($categorie, $myIdLanguage, $myDb), $myIdLanguage, $myDb, $myUser, $mySousCategorie->setIdSousCategorie($sous_categorie, $myIdLanguage, $myDb), $article);
             $myVue->setTitleHtml($myCategorie->setIdCategorie($categorie, $myIdLanguage, $myDb), $myIdLanguage, $myDb);
         }
-
+        var_dump($categorie);
     //récupération des données pour le référencement
         $myInfosWebsiteTitle = $myVue->getTitreHtml();
 

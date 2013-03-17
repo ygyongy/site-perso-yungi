@@ -22,6 +22,9 @@
                              {/if}
                              
                                  <!-- Ici choix des champs à afficher en fonction du type du champ -->
+                                 {if isset($pages.contenu.fields[section_fields].type) && $pages.contenu.fields[section_fields].type == 'submit'}
+                                     <hr>
+                                 {/if}
                                  <div class="field_wrapper {$pages.contenu.fields[section_fields].class}">                                    
                                      {include file=elements_form/`$pages.contenu.fields[section_fields].template`.tpl field=$pages.contenu.fields[section_fields]}
                                      

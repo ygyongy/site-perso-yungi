@@ -60,13 +60,18 @@
     
     if($id_article && !empty($id_article))
     {
-        $myForm = new Form();
-        $myForm = $myForm->setProperties($dataToAdmin, $myDb, $sous_categorie, 'sauver', 'annuler');
-        $myFormContent = $myForm->getFormatedContent($dataToAdmin, $myDb, $sous_categorie, 'sauver', 'annuler');
-        $t->assign('title', 'Edition des utilisateurs');
-        $t->assign('pages', $myFormContent);
-        $t->assign('fUser', $fUser);
-        $t->display('form.tpl');
+        if(!is_null($dataToAdmin))
+        {
+            $myForm = new Form();
+            $myForm = $myForm->setProperties($dataToAdmin, $myDb, $sous_categorie, 'sauver', 'annuler');
+            $myFormContent = $myForm->getFormatedContent($dataToAdmin, $myDb, $sous_categorie, 'sauver', 'annuler');
+            $t->assign('title', 'Edition des utilisateurs');
+            $t->assign('pages', $myFormContent);
+            $t->assign('fUser', $fUser);
+            $t->display('form.tpl');            
+        }else{
+            return false;
+        }
     }else{
         return false;
     }
