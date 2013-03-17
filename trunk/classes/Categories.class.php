@@ -88,13 +88,7 @@ class Categories {
         
         if(count($record) === 1)
         {
-            if(is_int($record[0]['id_categorie']))
-            {
-                $this->id_categorie = (int)$record[0]['id_categorie'];
-            }else{
-                $this->id_categorie = 1;
-            }
-            
+           $this->id_categorie = (int)$record[0]['id_categorie'];   
         }else{
             $this->id_categorie = 1;
         }
