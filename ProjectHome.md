@@ -1,0 +1,1 @@
+Création d'un site personnel avec PHP-MySQL-Smarty templates. Le but est d'en faire un petit CMS.
